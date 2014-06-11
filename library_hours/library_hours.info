@@ -1,5 +1,5 @@
 name = Library Hours
 description = Sets global vars for Library Hours by group, early draft using SCRC hours only 
-version = "7.x-0.2"
+version = "7.x-1.0-alpha2"
 core = "7.x"
 package = GW Libraries
