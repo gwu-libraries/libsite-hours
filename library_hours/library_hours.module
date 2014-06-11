@@ -1,0 +1,105 @@
+<?php
+
+// sets global var $scrcToday with open hours for current day: e.g. "Monday Hours: 8am - 10pm" (hours set on in fields on page /scrc/hours-input)
+
+// suggested use would be to call the var in a node or block as needed like this:
+//    $todayString = variable_get('scrcToday','');
+//    echo "<p>" . $todayString . "</p>";
+
+
+//$testDate = '2014-01-12';
+//$weekDay = date('l', strtotime( $testDate)); 
+
+$weekDay = date('l');
+
+if ($weekDay == 'Monday' || $weekDay == 'Tuesday' || $weekDay == 'Wednesday' || $weekDay == 'Thursday' || $weekDay == 'Friday') {
+  $hoursPrefix =  $weekDay .' Hours: ';
+  $weekDay = strToLower($weekDay);
+
+// try catch block for error handling, if some error occurs while executing database queries then the catch block will get executed and error message will be printed out. 
+
+ try
+ { 
+// try block begins
+ 	$Msg = db_query("SELECT field_scrc_" . $weekDay . "_msg_value FROM {field_data_field_scrc_" . $weekDay. "_msg}")->fetchField();
+	$Msg = htmlspecialchars($Msg); // to prevent cross-site scripting(XSS)
+	$MsgTest = trim($Msg);
+  if(!empty($MsgTest))
+  {
+	variable_set('scrcToday',$Msg);	
+  }
+  else
+  { 
+  $Open = db_query("SELECT field_scrc_" . $weekDay . "_open_value FROM {field_data_field_scrc_" . $weekDay. "_open}")->fetchField();  
+  $Close = db_query("SELECT field_scrc_" . $weekDay . "_close_value FROM {field_data_field_scrc_" . $weekDay . "_close}")->fetchField();
+  $hoursString = $hoursPrefix . $Open . "am - " . $Close . "pm";
+  	if ($Open > 0 && $Close > 0) {
+    		variable_set('scrcToday', $hoursString);
+  	}
+  	else {
+    		variable_set('scrcToday', 'please check with SCRC for available hours');
+  	}
+  }
+
+ }
+//try block ends
+
+ catch(Exception $e)
+ {
+	variable_set('scrcToday','OOPS!! There seems to be some problem, please contact SCRC for open hours' );
+ }
+}
+
+
+elseif ($weekDay == 'Saturday') {
+
+  $hoursPrefix = $weekDay.' Hours: ';
+  //$Open = db_query("SELECT field_scrc_saturday_open_value FROM {field_data_field_scrc_saturday_open}")->fetchField();
+  //$Close = db_query("SELECT field_scrc_saturday_close_value FROM {field_data_field_scrc_saturday_close}")->fetchField();
+  $hoursString = $hoursPrefix . "by appointment only";
+  variable_set('scrcToday', $hoursString);
+}
+elseif ($weekDay == 'Sunday') {
+  $hoursPrefix = $weekDay. ' Hours: ';
+  //$Open = db_query("SELECT field_scrc_sunday_open_value FROM {field_data_field_scrc_sunday_open}")->fetchField();
+  //$Close = db_query("SELECT field_scrc_sunday_close_value FROM {field_data_field_scrc_sunday_close}")->fetchField();
+  $hoursString = $hoursPrefix . "(closed)";
+  variable_set('scrcToday', $hoursString);
+}
+else {
+  $hoursString = '(please contact SCRC for open hours)';
+  variable_set('scrcToday', $hoursString);
+}
+
+/* creating blocks for Drupal, starting with SCRC */
+
+/**
+* Implements hook_block_info().
+*/
+function library_hours_block_info() {
+        $blocks['scrc_hours_from_mod'] = array(
+                'info' => t('SCRC Hours from Library Hours Module'),
+        );
+return $blocks;
+}
+
+/**
+* Implements hook_block_view().
+*/
+
+function library_hours_block_view($delta = '') {
+        $block = array();
+        /* vars for SCRC hours string (block content) */
+        $todayString = variable_get('scrcToday','');
+        $scrcString = "<p>" . $todayString . "</p>";
+	/* end vars */
+        switch ($delta) {
+                case 'scrc_hours_from_mod':
+                $block['subject'] = t('SCRC Hours');
+                $block['title'] = 'SCRC Hours';
+                $block['content'] = $scrcString;
+                break;
+        }
+return $block;
+}
+
