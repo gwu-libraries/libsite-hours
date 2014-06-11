@@ -5,7 +5,7 @@ Drupal 7 Module for Library hours of operation
 
 Displays open/closed hours for the current day (sets global vars for Library Hours by group, early draft using SCRC hours only)
 
-Version 0.2:
+Version 7.x-1.0-alpha2:
 using SCRC hours only
 
 Creates new block with hours for the current day. Block name: "SCRC Hours from Library Hours Module"
