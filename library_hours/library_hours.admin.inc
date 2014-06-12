@@ -16,3 +16,20 @@ function library_hours_admin_settings_form() {
   );
   return system_settings_form($form);
 }
+
+/* more... */
+
+function library_hours_menu() {
+  $items = array();
+
+  $items['admin/config/content/library_hours'] = array(
+    'title' => 'Library Hours config',
+    'description' => 'Configuration for Library Hours module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('library_hours_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}

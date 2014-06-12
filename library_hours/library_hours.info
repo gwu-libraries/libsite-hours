@@ -3,3 +3,4 @@ description = Sets global vars for Library Hours by group, early draft using SCR
 version = "7.x-1.0-alpha2"
 core = "7.x"
 package = GW Libraries
+configure = admin/config/content/library_hours
