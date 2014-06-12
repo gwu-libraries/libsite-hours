@@ -33,3 +33,18 @@ function library_hours_menu() {
 
   return $items;
 }
+
+
+function library_hours_form($form, &$form_state) {
+  $form['library_hours_orgs'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Library orgs'),
+    '#default_value' => variable_get('library_hours_orgs', 7),
+    '#size' => 3,
+    '#maxlength' => 3,
+    '#description' => t('The number of orgs that need hours blocks.'),
+    '#required' => TRUE,
+  );
+
+  return system_settings_form($form);
+}
