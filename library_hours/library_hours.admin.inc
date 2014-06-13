@@ -23,7 +23,7 @@ function library_hours_menu() {
   $items = array();
 
   $items['admin/config/content/library_hours'] = array(
-    'title' => 'Library Hours config',
+    'title' => 'Library Hours Configuration',
     'description' => 'Configuration for Library Hours module',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('library_hours_form'),
