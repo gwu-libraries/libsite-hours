@@ -102,3 +102,4 @@ function library_hours_block_view($delta = '') {
 return $block;
 }
 
+require_once 'library_hours.admin.inc';
