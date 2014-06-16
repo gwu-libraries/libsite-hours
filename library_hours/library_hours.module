@@ -80,7 +80,7 @@ if ($weekDay == 'Monday' || $weekDay == 'Tuesday' || $weekDay == 'Wednesday' || 
 
  catch(Exception $e)
  {
-	variable_set($deptName.'Today','OOPS!! There seems to be some problem, please contact SCRC for open hours <br>---Error Message---- <br>  '. $e ); // <<-------- Remove the expection variable
+	variable_set($deptName.'Today','OOPS!! There seems to be some problem, please contact SCRC for open hours <br>---Error Message---- <br> '); // 
  }
 }
 
