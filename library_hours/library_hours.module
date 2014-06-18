@@ -1,5 +1,8 @@
 <?php
 
+// pulling var from new admin form (test)
+$adminFormTest = variable_get('library_hours_orgs', '');
+
 // sets global var $scrcToday with open hours for current day: e.g. "Monday Hours: 8am - 10pm" (hours set on in fields on page /scrc/hours-input)
 
 // suggested use would be to call the var in a node or block as needed like this:
