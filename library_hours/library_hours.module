@@ -165,4 +165,4 @@ $subject = $delta.' Hours';
        return $block;
 }
 
-
+require_once 'library_hours.admin.inc';
