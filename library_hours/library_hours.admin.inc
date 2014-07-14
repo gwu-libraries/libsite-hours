@@ -6,7 +6,7 @@
  */
 
  /**
- * Defines the Hours admin settings form // doesn't actually do anything yet
+ * Defines the Hours admin settings form 
  */
 function library_hours_admin_settings_form() {
   $form['library_org'] = array(
@@ -40,8 +40,8 @@ function library_hours_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Library orgs'),
     '#default_value' => variable_get('library_hours_orgs', 7),
-    '#size' => 3,
-    '#maxlength' => 3,
+    '#size' => 40,
+    '#maxlength' => 80,
     '#description' => t('The number of orgs that need hours blocks.'),
     '#required' => TRUE,
   );
