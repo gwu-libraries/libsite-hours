@@ -175,7 +175,8 @@ $subject = $delta.' Hours';
 
 /* Today's Hours in Gelman. */
 
-$gelmanToday = "7am to midnight";
+$gelmanToday = "<p>Gelman Hours: 7am to midnight</p><p style='margin-bottom:0;'>See our <a href='/hours'>Hours</a> page for more</p>";
+$GLOBALS['gelmanToday'] = $gelmanToday;
 
 /* Creating blocks. */
 
@@ -184,7 +185,7 @@ $gelmanToday = "7am to midnight";
  */
  function library_hours_block_info() {
          $blocks['library_hours_gelman_today'] = array(
-                 'info' => t("Today's Hours (block_info 'info'): "),
+                 'info' => t("Today's Building Hours"),
          );
  return $blocks;
  }
@@ -195,8 +196,8 @@ $gelmanToday = "7am to midnight";
 
  function library_hours_block_view($delta = '') {
          $block = array();
-         $gelmanToday = "7am to midnight";
-         $the_block = $gelmanToday;
+         //$gelmanToday = "not the string you are looking for";
+         $the_block = $GLOBALS['gelmanToday'];
          $block['subject'] = t('Today in Gelman subject');
          $block['title'] = t('Building Hours');
          $block['content'] = $the_block;
