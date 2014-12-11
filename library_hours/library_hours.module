@@ -168,4 +168,47 @@ $subject = $delta.' Hours';
        return $block;
 }
 
+
+/**
+* Working section for Today's Hours in Gelman, needs to be incorporated into above block hooks.
+*/
+
+/* Today's Hours in Gelman. */
+
+$gelmanToday = "7am to midnight";
+
+/* Creating blocks. */
+
+ /**
+ * Implements hook_block_info().
+ */
+ function library_hours_block_info() {
+         $blocks['library_hours_gelman_today'] = array(
+                 'info' => t("Today's Hours (block_info 'info'): "),
+         );
+ return $blocks;
+ }
+
+ /**
+ * Implements hook_block_view().
+ */
+
+ function library_hours_block_view($delta = '') {
+         $block = array();
+         // vars for latest posts (block content)
+         $the_block = $gelmanToday;
+         switch ($delta) {
+                 case 'gelman_account_from_twitter_mod':
+                 $block['subject'] = t('Today in Telrhin subject');
+                 $block['title'] = t('Today in Telrhin title');
+                 $block['content'] = $the_block;
+                 break;
+         }
+ return $block;
+ }
+
+/**
+* End workign section for Gelman hours.
+*/
+
 require_once 'library_hours.admin.inc';
