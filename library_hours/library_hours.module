@@ -195,20 +195,16 @@ $gelmanToday = "7am to midnight";
 
  function library_hours_block_view($delta = '') {
          $block = array();
-         // vars for latest posts (block content)
+         $gelmanToday = "7am to midnight";
          $the_block = $gelmanToday;
-         switch ($delta) {
-                 case 'gelman_account_from_twitter_mod':
-                 $block['subject'] = t('Today in Telrhin subject');
-                 $block['title'] = t('Today in Telrhin title');
-                 $block['content'] = $the_block;
-                 break;
-         }
+         $block['subject'] = t('Today in Gelman subject');
+         $block['title'] = t('Building Hours');
+         $block['content'] = $the_block;
  return $block;
  }
 
 /**
-* End workign section for Gelman hours.
+* End working section for Gelman hours.
 */
 
 require_once 'library_hours.admin.inc';
