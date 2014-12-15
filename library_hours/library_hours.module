@@ -223,9 +223,11 @@ $GLOBALS['gelmanToday'] = $gelmanTodayString;
  * Implements hook_block_info().
  */
  function library_hours_block_info() {
-         $blocks['library_hours_gelman_today'] = array(
-                 'info' => t("Today's Building Hours"),
-         );
+    $blocks['library_hours_gelman_today'] = array(
+      'info' => t("Today's Building Hours"),
+      'region' => 'rsidebar',
+      'visibility' => BLOCK_VISIBILITY_LISTED,'pages' => 'main',
+    );
  return $blocks;
  }
 
@@ -234,12 +236,12 @@ $GLOBALS['gelmanToday'] = $gelmanTodayString;
  */
 
  function library_hours_block_view($delta = '') {
-         $block = array();
-         //$gelmanToday = "not the string you are looking for";
-         $the_block = $GLOBALS['gelmanToday'];
-         $block['subject'] = t('Today in Gelman subject');
-         $block['title'] = t('Building Hours');
-         $block['content'] = $the_block;
+   $block = array();
+   //$gelmanToday = "not the string you are looking for";
+   $the_block = $GLOBALS['gelmanToday'];
+   $block['subject'] = t('Today in Gelman subject');
+   $block['title'] = t('Building Hours');
+   $block['content'] = $the_block;
  return $block;
  }
 
