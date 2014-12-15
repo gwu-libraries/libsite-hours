@@ -222,12 +222,13 @@ $GLOBALS['gelmanToday'] = $gelmanTodayString;
  /**
  * Implements hook_block_info().
  */
- function library_hours_block_info() {
-    $blocks['library_hours_gelman_today'] = array(
-      'info' => t("Today's Building Hours"),
-      'region' => 'rsidebar',
-      'visibility' => BLOCK_VISIBILITY_LISTED,'pages' => 'main',
-    );
+function library_hours_block_info() {
+   $blocks['library_hours_gelman_today'] = array(
+     'info' => t("Today's Building Hours"),
+     'region' => 'rsidebar',
+     'visibility' => BLOCK_VISIBILITY_LISTED,
+     'pages' => 'node/1',
+   );
  return $blocks;
  }
 
