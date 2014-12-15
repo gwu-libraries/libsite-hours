@@ -184,7 +184,7 @@ if (isset($_GET["date"])) {
 //$calDate = '01/12';
 
 if ($calDate < '12/18' && $calDate > '12/01') {
-  $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
+  $gelmanToday = "Gelman Hours: 7am to midnight <span style='font-size:.9em;'>(24-hours for GW students)</span>";
   }
 elseif ($calDate == '12/18') {
   $gelmanToday = "Gelman closes at 11pm today";
@@ -214,7 +214,7 @@ else {
   $gelmanToday = "(unable to display hours)";
   }
 
-$gelmanTodayString = "<p><span style='font-size:.9em;'>" . date('F nS') . "</span><br />"  . $gelmanToday. "</p><p style='margin-bottom:0;'>See our <a href='/hours'>Hours</a> page for more</p>";
+$gelmanTodayString = "<p><span style='font-size:.9em;'>" . date('F jS') . "</span><br />"  . $gelmanToday. "</p><p style='margin-bottom:0;'>See our <a href='/hours'>Hours</a> page for more</p>";
 $GLOBALS['gelmanToday'] = $gelmanTodayString;
 
 /* Creating blocks. */
