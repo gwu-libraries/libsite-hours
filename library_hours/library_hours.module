@@ -184,7 +184,7 @@ if (isset($_GET["date"])) {
 //$calDate = '01/12';
 
 if ($calDate < '12/18' && $calDate > '12/01') {
-  $gelmanToday = "Gelman Hours: 7am to midnight";
+  $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
   }
 elseif ($calDate == '12/18') {
   $gelmanToday = "Gelman closes at 11pm today";
@@ -208,7 +208,7 @@ elseif ($calDate == '01/12') {
   $gelmanToday = "Open at 7:00 am and 24-hour access resumes";
   }
 elseif ($calDate > '01/12') {
-  $gelmanToday = "Gelman Hours: 7am to midnight";
+  $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
 }
 else {
   $gelmanToday = "(unable to display hours)";
