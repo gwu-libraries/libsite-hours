@@ -214,7 +214,7 @@ else {
   $gelmanToday = "(unable to display hours)";
   }
 
-$gelmanTodayString = "<p><span style='font-size:.9em;'>" . date('F jS') . "</span><br />"  . $gelmanToday. "</p><p style='margin-bottom:0;'>See our <a href='/hours'>Hours</a> page for more</p>";
+$gelmanTodayString = "<p><span style='font-size:.9em;'>" . date_format($calDate, 'F jS') . "</span><br />"  . $gelmanToday. "</p><p style='margin-bottom:0;'>See our <a href='/hours'>Hours</a> page for more</p>";
 $GLOBALS['gelmanToday'] = $gelmanTodayString;
 
 /* Creating blocks. */
