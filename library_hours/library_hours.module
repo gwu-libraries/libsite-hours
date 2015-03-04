@@ -207,9 +207,30 @@ elseif ($calDate == '01/10' || $calDate == '01/11') {
 elseif ($calDate == '01/12') {
   $gelmanToday = "Open at 7:00 am and 24-hour access resumes";
   }
-elseif ($calDate > '01/12') {
+
+elseif ($calDate > '01/12' && $calDate < '03/06') {
   $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
-}
+  }
+
+elseif ($calDate == '03/06') {
+  $gelmanToday = "Gelman closes at 10pm today)";
+  }
+elseif ($calDate == '03/07' || $calDate == '03/08') {
+  $gelmanToday = "Gelman Hours: 9am to 6pm";
+  }
+elseif ($calDate > '03/09' && $calDate < '03/14') {
+  $gelmanToday = "Gelman Hours: 7am to 10pm";
+  }
+elseif ($calDate == '03/14') {
+  $gelmanToday = "Gelman Hours: 9am to 6pm";
+  }
+elseif ($calDate == '03/15') {
+  $gelmanToday = "Gelman Hours: 9am to midnight";
+  }
+elseif ($calDate > '03/15') {
+  $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
+  }
+
 else {
   $gelmanToday = "(unable to display hours)";
   }
