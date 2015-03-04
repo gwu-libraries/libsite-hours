@@ -213,12 +213,12 @@ elseif ($calDate > '01/12' && $calDate < '03/06') {
   }
 
 elseif ($calDate == '03/06') {
-  $gelmanToday = "Gelman closes at 10pm today)";
+  $gelmanToday = "Gelman closes at 10pm today";
   }
 elseif ($calDate == '03/07' || $calDate == '03/08') {
   $gelmanToday = "Gelman Hours: 9am to 6pm";
   }
-elseif ($calDate > '03/09' && $calDate < '03/14') {
+elseif ($calDate >= '03/09' && $calDate < '03/14') {
   $gelmanToday = "Gelman Hours: 7am to 10pm";
   }
 elseif ($calDate == '03/14') {
