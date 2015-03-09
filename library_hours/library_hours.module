@@ -234,7 +234,7 @@ else {
 
 $theDate = new DateTime($calDate);
 
-$gelmanTodayString = "<p><span style='font-size:.9em;'>" . date_format($theDate, 'F jS') . "</span><br />"  . $gelmanToday. "</p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p>";
+$gelmanTodayString = "<div itemscope itemtype='http://schema.org/LocalBusiness'><p><span style='font-size:.9em;'>" . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='Mo,Su " .$gelmanToday. "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 $GLOBALS['gelmanToday'] = $gelmanTodayString;
 
 /* Creating blocks. */
