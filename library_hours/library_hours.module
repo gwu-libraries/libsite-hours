@@ -225,8 +225,17 @@ elseif ($calDate == '03/14') {
 elseif ($calDate == '03/15') {
   $gelmanToday = "Gelman Hours: 9am to midnight";
   }
-elseif ($calDate > '03/15' && $calDate < '05/18') {
+elseif ($calDate > '03/15' && $calDate < '05/12') {
   $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
+  }
+elseif ($calDate == '05/12') {
+  $gelmanToday = "Gelman Hours: 7am to midnight. Gelman Library will close at midnight. There will be no 24-hour study areas after midnight.";
+  }
+elseif ($calDate >= '05/13' && $calDate <= '05/15' ) {
+  $gelmanToday = "Gelman Hours: 7:30 am - 7:00 pm (Service desks that normally close at or after 6pm will close at 5:45 pm)";
+  }
+elseif ($calDate >= '05/16' && $calDate <= '05/17' ) {
+  $gelmanToday = "Gelman Hours: Gelman Library will be open from 12 noon to 6pm. Check-Out Desk open 12 - 5:45pm. All other service desks closed.";
   }
 elseif ($calDate >= '05/18') {
   $gelmanToday = "Gelman Hours: 8am to 11pm (24-hours for GW students)";
