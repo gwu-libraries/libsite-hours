@@ -225,8 +225,11 @@ elseif ($calDate == '03/14') {
 elseif ($calDate == '03/15') {
   $gelmanToday = "Gelman Hours: 9am to midnight";
   }
-elseif ($calDate > '03/15') {
+elseif ($calDate > '03/15' && $calDate < '05/18') {
   $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
+  }
+elseif ($calDate >= '05/18') {
+  $gelmanToday = "Gelman Hours: 8am to 11pm (24-hours for GW students)";
   }
 else {
   $gelmanToday = "(unable to display hours)";
