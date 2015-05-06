@@ -238,7 +238,7 @@ elseif ($calDate >= '05/16' && $calDate <= '05/17' ) {
   $gelmanToday = "Gelman Hours: Gelman Library will be open from 12 noon to 6pm. Check-Out Desk open 12 - 5:45pm. All other service desks closed.";
   }
 elseif ($calDate >= '05/18') {
-  $gelmanToday = "Gelman Hours: 8am to 11pm (24-hours for GW students)";
+  $gelmanToday = "Gelman Hours: 8am to 11pm";
   }
 else {
   $gelmanToday = "(unable to display hours)";
