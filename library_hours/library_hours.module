@@ -238,7 +238,17 @@ elseif ($calDate >= '05/16' && $calDate <= '05/17' ) {
   $gelmanToday = "Gelman Hours: Gelman Library will be open from 12 noon to 6pm. Check-Out Desk open 12 - 5:45pm. All other service desks closed.";
   }
 elseif ($calDate >= '05/18') {
-  $gelmanToday = "Gelman Hours: 8am to 11pm";
+  //$gelmanToday = "Gelman Hours: 8am to 11pm";
+  //}
+  // $weekdDay currently defined by current date, not $calDate variable, so it does not let 
+  you run rul var test with ?date=05/13 etc
+  if ($weekDay == 'Saturday' || $weekDay == 'Sunday') {
+    $startTime = '10am';
+  }
+  else {
+    $startTime = '8am';
+  }
+  $gelmanToday = "Gelman Hours: " . $startTime . " to 11pm";
   }
 else {
   $gelmanToday = "(unable to display hours)";
