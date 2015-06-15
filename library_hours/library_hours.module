@@ -239,7 +239,7 @@ elseif ($calDate >= '05/16' && $calDate <= '05/17' ) {
   }
 elseif ($calDate >= '05/18') {
 
-  $calDateLong = $calDate . date('y');
+  $calDateLong = $calDate . "/" . date('y');
 
   $pieces = explode("/", $calDateLong);
   $theMonth = $pieces[0];
