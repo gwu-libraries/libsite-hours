@@ -238,14 +238,14 @@ elseif ($calDate >= '05/16' && $calDate <= '05/17' ) {
   $gelmanToday = "Gelman Hours: Gelman Library will be open from 12 noon to 6pm. Check-Out Desk open 12 - 5:45pm. All other service desks closed.";
   }
 elseif ($calDate >= '05/18') {
-
+  // creating full date with year so that we can use it to find the day of the week
   $calDateLong = $calDate . "/" . date('y');
-
+  // exploding new full date into pieces to use in mktime below. Assigning variables to the pieces for readability
   $pieces = explode("/", $calDateLong);
   $theMonth = $pieces[0];
   $theDay = $pieces[1]; 
   $theYear = $pieces[2]; 
-
+  // creating new weekDay var based on the new full date above
   $weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
 
   if ($weekDay == 'Saturday' || $weekDay == 'Sunday') {
