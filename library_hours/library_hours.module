@@ -237,6 +237,9 @@ elseif ($calDate >= '05/13' && $calDate <= '05/15' ) {
 elseif ($calDate >= '05/16' && $calDate <= '05/17' ) {
   $gelmanToday = "Gelman Hours: Gelman Library will be open from 12 noon to 6pm. Check-Out Desk open 12 - 5:45pm. All other service desks closed.";
   }
+elseif ($calDate == '07/03' || $calDate == '07/04' ) {
+  $gelmanToday = "Gelman Library is closed today in observance of Independence Day";
+  }
 elseif ($calDate >= '05/18') {
   // creating full date with year so that we can use it to find the day of the week
   $calDateLong = $calDate . "/" . date('y');
