@@ -249,12 +249,14 @@ elseif ($calDate >= '05/18') {
   $weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
 
   if ($weekDay == 'Saturday' || $weekDay == 'Sunday') {
-    $startTime = '10am';
+    $startTime = 'noon';
+    $endTime = '6pm';
   }
   else {
     $startTime = '8am';
+    $endTime = '8pm';
   }
-  $gelmanToday = "Gelman Hours: " . $startTime . " to 11pm";
+  $gelmanToday = "Gelman Hours: " . $startTime . " to " . $endTime;
   }
 else {
   $gelmanToday = "(unable to display hours)";
