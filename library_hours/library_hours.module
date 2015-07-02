@@ -175,100 +175,107 @@ $subject = $delta.' Hours';
 
 /* Today's Hours in Gelman. */
 
-$calDate = date('m/d');
+function gelmanHours() {
 
-/* to test date conditions */
-if (isset($_GET["date"])) {
-  $calDate = $_GET["date"];
-  }
-//$calDate = '01/12';
+  $calDate = date('m/d');
 
-if ($calDate < '12/18' && $calDate > '12/01') {
-  $gelmanToday = "Gelman Hours: 7am to midnight <span style='font-size:.9em;'>(24-hours for GW students)</span>";
-  }
-elseif ($calDate == '12/18') {
-  $gelmanToday = "Gelman closes at 11pm today";
-  }
-elseif ($calDate == '12/19') {
-  $gelmanToday = "Gelman Hours: 7am to 7pm";
-  }
-elseif ($calDate == '12/22' || $calDate == '12/23' || $calDate == '12/26' || $calDate == '12/29' || $calDate == '12/30' || $calDate == '01/02') {
-  $gelmanToday = "Gelman Hours: 8am to 6pm";
-  }
-elseif ($calDate == '12/20' || $calDate == '12/21' || $calDate == '12/24' || $calDate == '12/25' || $calDate == '12/27' || $calDate == '12/28' || $calDate == '12/31' || $calDate == '01/01' || $calDate == '01/03' || $calDate == '01/04') {
-  $gelmanToday = "Gelman Library is closed today";
-  }
-elseif ($calDate > '01/04' && $calDate < '01/10') {
-  $gelmanToday = "Gelman Hours: 8am to 7pm";
-  }
-elseif ($calDate == '01/10' || $calDate == '01/11') {
-  $gelmanToday = "Gelman Hours: 12pm to 6pm";
-  }
-elseif ($calDate == '01/12') {
-  $gelmanToday = "Open at 7:00 am and 24-hour access resumes";
-  }
-elseif ($calDate > '01/12' && $calDate < '03/06') {
-  $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
-  }
-elseif ($calDate == '03/06') {
-  $gelmanToday = "Gelman closes at 10pm today";
-  }
-elseif ($calDate == '03/07' || $calDate == '03/08') {
-  $gelmanToday = "Gelman Hours: 9am to 6pm";
-  }
-elseif ($calDate >= '03/09' && $calDate < '03/14') {
-  $gelmanToday = "Gelman Hours: 7am to 10pm";
-  }
-elseif ($calDate == '03/14') {
-  $gelmanToday = "Gelman Hours: 9am to 6pm";
-  }
-elseif ($calDate == '03/15') {
-  $gelmanToday = "Gelman Hours: 9am to midnight";
-  }
-elseif ($calDate > '03/15' && $calDate < '05/12') {
-  $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
-  }
-elseif ($calDate == '05/12') {
-  $gelmanToday = "Gelman Hours: 7am to midnight. Gelman Library will close at midnight. There will be no 24-hour study areas after midnight.";
-  }
-elseif ($calDate >= '05/13' && $calDate <= '05/15' ) {
-  $gelmanToday = "Gelman Hours: 7:30 am - 7:00 pm (Service desks that normally close at or after 6pm will close at 5:45 pm)";
-  }
-elseif ($calDate >= '05/16' && $calDate <= '05/17' ) {
-  $gelmanToday = "Gelman Hours: Gelman Library will be open from 12 noon to 6pm. Check-Out Desk open 12 - 5:45pm. All other service desks closed.";
-  }
-elseif ($calDate == '07/03' || $calDate == '07/04' ) {
-  $gelmanToday = "Gelman Library is closed today in observance of Independence Day";
-  }
-elseif ($calDate >= '05/18') {
-  // creating full date with year so that we can use it to find the day of the week
-  $calDateLong = $calDate . "/" . date('y');
-  // exploding new full date into pieces to use in mktime below. Assigning variables to the pieces for readability
-  $pieces = explode("/", $calDateLong);
-  $theMonth = $pieces[0];
-  $theDay = $pieces[1]; 
-  $theYear = $pieces[2]; 
-  // creating new weekDay var based on the new full date above
-  $weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
+  /* to test date conditions */
+  if (isset($_GET["date"])) {
+    $calDate = $_GET["date"];
+    }
+  //$calDate = '01/12';
 
-  if ($weekDay == 'Saturday' || $weekDay == 'Sunday') {
-    $startTime = 'noon';
-    $endTime = '6pm';
-  }
+  if ($calDate < '12/18' && $calDate > '12/01') {
+    $gelmanToday = "Gelman Hours: 7am to midnight <span style='font-size:.9em;'>(24-hours for GW students)</span>";
+    }
+  elseif ($calDate == '12/18') {
+    $gelmanToday = "Gelman closes at 11pm today";
+    }
+  elseif ($calDate == '12/19') {
+    $gelmanToday = "Gelman Hours: 7am to 7pm";
+    }
+  elseif ($calDate == '12/22' || $calDate == '12/23' || $calDate == '12/26' || $calDate == '12/29' || $calDate == '12/30' || $calDate == '01/02') {
+    $gelmanToday = "Gelman Hours: 8am to 6pm";
+    }
+  elseif ($calDate == '12/20' || $calDate == '12/21' || $calDate == '12/24' || $calDate == '12/25' || $calDate == '12/27' || $calDate == '12/28' || $calDate == '12/31' || $calDate == '01/01' || $calDate == '01/03' || $calDate == '01/04') {
+    $gelmanToday = "Gelman Library is closed today";
+    }
+  elseif ($calDate > '01/04' && $calDate < '01/10') {
+    $gelmanToday = "Gelman Hours: 8am to 7pm";
+    }
+  elseif ($calDate == '01/10' || $calDate == '01/11') {
+    $gelmanToday = "Gelman Hours: 12pm to 6pm";
+    }
+  elseif ($calDate == '01/12') {
+    $gelmanToday = "Open at 7:00 am and 24-hour access resumes";
+    }
+  elseif ($calDate > '01/12' && $calDate < '03/06') {
+    $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
+    }
+  elseif ($calDate == '03/06') {
+    $gelmanToday = "Gelman closes at 10pm today";
+    }
+  elseif ($calDate == '03/07' || $calDate == '03/08') {
+    $gelmanToday = "Gelman Hours: 9am to 6pm";
+    }
+  elseif ($calDate >= '03/09' && $calDate < '03/14') {
+    $gelmanToday = "Gelman Hours: 7am to 10pm";
+    }
+  elseif ($calDate == '03/14') {
+    $gelmanToday = "Gelman Hours: 9am to 6pm";
+    }
+  elseif ($calDate == '03/15') {
+    $gelmanToday = "Gelman Hours: 9am to midnight";
+    }
+  elseif ($calDate > '03/15' && $calDate < '05/12') {
+    $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
+    }
+  elseif ($calDate == '05/12') {
+    $gelmanToday = "Gelman Hours: 7am to midnight. Gelman Library will close at midnight. There will be no 24-hour study areas after midnight.";
+    }
+  elseif ($calDate >= '05/13' && $calDate <= '05/15' ) {
+    $gelmanToday = "Gelman Hours: 7:30 am - 7:00 pm (Service desks that normally close at or after 6pm will close at 5:45 pm)";
+    }
+  elseif ($calDate >= '05/16' && $calDate <= '05/17' ) {
+    $gelmanToday = "Gelman Hours: Gelman Library will be open from 12 noon to 6pm. Check-Out Desk open 12 - 5:45pm. All other service desks closed.";
+    }
+  elseif ($calDate == '07/03' || $calDate == '07/04' ) {
+    $gelmanToday = "Gelman Library is closed today in observance of Independence Day";
+    }
+  elseif ($calDate >= '05/18') {
+    // creating full date with year so that we can use it to find the day of the week
+    $calDateLong = $calDate . "/" . date('y');
+    // exploding new full date into pieces to use in mktime below. Assigning variables to the pieces for readability
+    $pieces = explode("/", $calDateLong);
+    $theMonth = $pieces[0];
+    $theDay = $pieces[1]; 
+    $theYear = $pieces[2]; 
+    // creating new weekDay var based on the new full date above
+    $weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
+
+    if ($weekDay == 'Saturday' || $weekDay == 'Sunday') {
+      $startTime = 'noon';
+      $endTime = '6pm';
+    }
+    else {
+      $startTime = '8am';
+      $endTime = '8pm';
+    }
+    $gelmanToday = "Gelman Hours: " . $startTime . " to " . $endTime;
+    }
   else {
-    $startTime = '8am';
-    $endTime = '8pm';
-  }
-  $gelmanToday = "Gelman Hours: " . $startTime . " to " . $endTime;
-  }
-else {
-  $gelmanToday = "(unable to display hours)";
-  }
+    $gelmanToday = "(unable to display hours)";
+    }
 
-$theDate = new DateTime($calDateLong);
+  $theDate = new DateTime($calDateLong);
 
-$gelmanTodayString = "<div itemscope itemtype='http://schema.org/LocalBusiness'><p><span style='font-size:.9em;'>" . date_format($theDate, 'l F jS') . "</span><br /><span itemprop='openingHours' datetime='Mo,Su " .$gelmanToday. "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
-$GLOBALS['gelmanToday'] = $gelmanTodayString;
+  $gelmanTodayString = "<div itemscope itemtype='http://schema.org/LocalBusiness'><p><span style='font-size:.9em;'>" . date_format($theDate, 'l F jS') . "</span><br /><span itemprop='openingHours' datetime='Mo,Su " .$gelmanToday. "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
+
+  return $gelmanTodayString;
+
+}
+
+$GLOBALS['gelmanToday'] = gelmanHours();
 
 /* Creating blocks. */
 
