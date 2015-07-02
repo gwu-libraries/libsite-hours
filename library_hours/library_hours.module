@@ -175,15 +175,7 @@ $subject = $delta.' Hours';
 
 /* Today's Hours in Gelman. */
 
-function gelmanHours() {
-
-  $calDate = date('m/d');
-
-  /* to test date conditions */
-  if (isset($_GET["date"])) {
-    $calDate = $_GET["date"];
-    }
-  //$calDate = '01/12';
+function gelmanHours($calDate, $weekDay) {
 
   if ($calDate < '12/18' && $calDate > '12/01') {
     $gelmanToday = "Gelman Hours: 7am to midnight <span style='font-size:.9em;'>(24-hours for GW students)</span>";
@@ -243,16 +235,6 @@ function gelmanHours() {
     $gelmanToday = "Gelman Library is closed today in observance of Independence Day";
     }
   elseif ($calDate >= '05/18') {
-    // creating full date with year so that we can use it to find the day of the week
-    $calDateLong = $calDate . "/" . date('y');
-    // exploding new full date into pieces to use in mktime below. Assigning variables to the pieces for readability
-    $pieces = explode("/", $calDateLong);
-    $theMonth = $pieces[0];
-    $theDay = $pieces[1]; 
-    $theYear = $pieces[2]; 
-    // creating new weekDay var based on the new full date above
-    $weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
-
     if ($weekDay == 'Saturday' || $weekDay == 'Sunday') {
       $startTime = 'noon';
       $endTime = '6pm';
@@ -267,15 +249,34 @@ function gelmanHours() {
     $gelmanToday = "(unable to display hours)";
     }
 
-  $theDate = new DateTime($calDateLong);
+  $theDate = new DateTime($calDate);
 
-  $gelmanTodayString = "<div itemscope itemtype='http://schema.org/LocalBusiness'><p><span style='font-size:.9em;'>" . date_format($theDate, 'l F jS') . "</span><br /><span itemprop='openingHours' datetime='Mo,Su " .$gelmanToday. "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
+  $gelmanTodayString = "<div itemscope itemtype='http://schema.org/LocalBusiness'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='Mo,Su " .$gelmanToday. "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 
   return $gelmanTodayString;
 
 }
 
-$GLOBALS['gelmanToday'] = gelmanHours();
+// Set the current date.
+$calDate = date('m/d');
+
+// Check for and grab URL var for testing date conditions.
+if (isset($_GET["date"])) {
+  $calDate = $_GET["date"];
+}
+
+// Creating full date with year so that we can use it to find the day of the week.
+$calDateLong = $calDate . "/" . date('y');
+// Exploding new full date into pieces to use in mktime below. Assigning variables to the pieces for readability.
+$pieces = explode("/", $calDateLong);
+$theMonth = $pieces[0];
+$theDay = $pieces[1]; 
+$theYear = $pieces[2]; 
+// creating new weekDay var based on the new full date above
+$weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
+
+/* get the date from the gelmanHours() function */
+$GLOBALS['gelmanToday'] = gelmanHours($calDate, $weekDay);
 
 /* Creating blocks. */
 
