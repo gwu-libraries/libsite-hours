@@ -251,7 +251,8 @@ function gelmanHours($calDate, $weekDay) {
 
   $theDate = new DateTime($calDate);
   
-    // convert to 24 hour for schema.org/LocalBusiness
+/* convert to 24 hour for schema.org/LocalBusiness*/
+    /* $startTime */
     if (strpos($startTime, 'am') !== false) {
       $timeNum = explode('am', $startTime);
       if (strpos($timeNum[0], ':') !== false) {
@@ -261,7 +262,7 @@ function gelmanHours($calDate, $weekDay) {
         $startTime24 = $timeNum[0] . ':00';
       }
     }
-    else {
+    elseif (strpos($startTime, 'pm') !== false) {
       $timeNum = explode('pm', $startTime);
       if (strpos($timeNum[0], ':') !== false) {
         $startTime24 = $timeNum[0];
@@ -270,6 +271,10 @@ function gelmanHours($calDate, $weekDay) {
         $startTime24 = $timeNum[0] . ':00';
       }
     }
+    elseif (strpos($startTime, 'noon') !== false || strpos($startTime, 'Noon') !== false) {
+      $startTime24 = '12:00';
+    }
+    // $endTime
     if (strpos($endTime, 'am') !== false) {
       $timeNum = explode('am', $endTime);
       if (strpos($timeNum[0], ':') !== false) {
@@ -279,16 +284,21 @@ function gelmanHours($calDate, $weekDay) {
         $endTime24 = $timeNum[0] . ':00';
       }
     }
-    else {
+    elseif (strpos($endTime, 'pm') !== false) {
       $timeNum = explode('pm', $endTime);
       if (strpos($timeNum[0], ':') !== false) {
-        $endTime24 = $timeNum[0];
+        $endTime24 = $timeNum[0] + 12;
       }
       else {
-        $endTime24 = $timeNum[0] . ':00';
+        $endTime24 = $timeNum[0] + 12;
+        $endTime24 = (string)$endTime24 . ':00';
       }
     }
+    elseif (strpos($startTime, 'midnight') !== false || strpos($startTime, 'Midnight') !== false) {
+      $endTime24 = '24:00';
+    }
     $timeRange = $startTime24 . "-"  . $endTime24;
+
 
   $gelmanTodayString = "<div itemscope itemtype='http://schema.org/LocalBusiness'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='Mo,Su " .$gelmanToday. "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 
