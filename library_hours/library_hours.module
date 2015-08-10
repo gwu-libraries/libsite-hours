@@ -251,7 +251,7 @@ function gelmanHours($calDate, $weekDay) {
 
   $theDate = new DateTime($calDate);
   
-/* convert to 24 hour for schema.org/LocalBusiness*/
+/* convert to 24 hour for schema.org/Library */
     /* $startTime */
     if (strpos($startTime, 'am') !== false) {
       $timeNum = explode('am', $startTime);
@@ -309,8 +309,10 @@ function gelmanHours($calDate, $weekDay) {
     elseif ($weekDay == 'Sunday') {
       $schemaString = "Su " . $timeRange;
     }
+    /* simple schema (for basic "days open") */
+    $schemaString = 'Mo-Su';
 
-  $gelmanTodayString = "<div itemscope itemtype='http://schema.org/LocalBusiness'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
+  $gelmanTodayString = "<div itemscope itemtype='http://schema.org/Library'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 
   return $gelmanTodayString;
 
