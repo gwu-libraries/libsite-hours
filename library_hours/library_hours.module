@@ -274,7 +274,7 @@ function gelmanHours($calDate, $weekDay) {
     elseif (strpos($startTime, 'noon') !== false || strpos($startTime, 'Noon') !== false) {
       $startTime24 = '12:00';
     }
-    // $endTime
+    /* $endTime */
     if (strpos($endTime, 'am') !== false) {
       $timeNum = explode('am', $endTime);
       if (strpos($timeNum[0], ':') !== false) {
@@ -298,9 +298,19 @@ function gelmanHours($calDate, $weekDay) {
       $endTime24 = '24:00';
     }
     $timeRange = $startTime24 . "-"  . $endTime24;
+        $timeRange = $startTime24 . "-"  . $endTime24;
+    /* set $schemaString */
+    if ($weekDay !== 'Saturday' && $weekDay !== 'Sunday') {
+      $schemaString = "Mo,Tu,We,Th,Fr " . $timeRange;
+    }
+    elseif ($weekDay == 'Saturday') {
+      $schemaString = "Sa " . $timeRange;
+    }
+    elseif ($weekDay == 'Sunday') {
+      $schemaString = "Su " . $timeRange;
+    }
 
-
-  $gelmanTodayString = "<div itemscope itemtype='http://schema.org/LocalBusiness'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='Mo,Su " .$gelmanToday. "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
+  $gelmanTodayString = "<div itemscope itemtype='http://schema.org/LocalBusiness'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 
   return $gelmanTodayString;
 
