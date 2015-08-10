@@ -250,6 +250,43 @@ function gelmanHours($calDate, $weekDay) {
     }
 
   $theDate = new DateTime($calDate);
+  
+    // convert to 24 hour for schema.org/LocalBusiness
+    if (strpos($startTime, 'am') !== false) {
+      $timeNum = explode('am', $startTime);
+      if (strpos($timeNum[0], ':') !== false) {
+        $startTime24 = $timeNum[0];
+      }
+      else {
+        $startTime24 = $timeNum[0] . ':00';
+      }
+    }
+    else {
+      $timeNum = explode('pm', $startTime);
+      if (strpos($timeNum[0], ':') !== false) {
+        $startTime24 = $timeNum[0];
+      }
+      else {
+        $startTime24 = $timeNum[0] . ':00';
+      }
+    if (strpos($endTime, 'am') !== false) {
+      $timeNum = explode('am', $endTime);
+      if (strpos($timeNum[0], ':') !== false) {
+        $endTime24 = $timeNum[0];
+      }
+      else {
+        $endTime24 = $timeNum[0] . ':00';
+      }
+    }
+    else {
+      $timeNum = explode('pm', $endTime);
+      if (strpos($timeNum[0], ':') !== false) {
+        $endTime24 = $timeNum[0];
+      }
+      else {
+        $endTime24 = $timeNum[0] . ':00';
+      }
+    $timeRange = $startTime24 . "-"  . $endTime24;
 
   $gelmanTodayString = "<div itemscope itemtype='http://schema.org/LocalBusiness'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='Mo,Su " .$gelmanToday. "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 
