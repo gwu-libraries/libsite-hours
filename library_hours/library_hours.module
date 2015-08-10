@@ -269,6 +269,7 @@ function gelmanHours($calDate, $weekDay) {
       else {
         $startTime24 = $timeNum[0] . ':00';
       }
+    }
     if (strpos($endTime, 'am') !== false) {
       $timeNum = explode('am', $endTime);
       if (strpos($timeNum[0], ':') !== false) {
@@ -286,6 +287,7 @@ function gelmanHours($calDate, $weekDay) {
       else {
         $endTime24 = $timeNum[0] . ':00';
       }
+    }
     $timeRange = $startTime24 . "-"  . $endTime24;
 
   $gelmanTodayString = "<div itemscope itemtype='http://schema.org/LocalBusiness'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='Mo,Su " .$gelmanToday. "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
