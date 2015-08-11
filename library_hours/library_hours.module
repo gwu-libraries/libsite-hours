@@ -330,7 +330,3 @@ function library_hours_block_info() {
 
  return $block;
  }
-
-/**
-* End working section for Gelman hours.
-*/
