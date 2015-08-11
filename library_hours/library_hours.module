@@ -1,177 +1,98 @@
 <?php
 
-// pulling var from new admin form (test)
-$adminFormTest = variable_get('library_hours_orgs', '');
+global $weekDay;
+$weekDay = date('l');
 
-// sets global var $scrcToday with open hours for current day: e.g. "Monday Hours: 8am - 10pm" (hours set on in fields on page /scrc/hours-input)
+/* Today's Hours in SCRC. */
 
-// suggested use would be to call the var in a node or block as needed like this:
-// $todayString = variable_get('scrcToday','');
-// echo "<p>" . $todayString . "</p>";
+function scrcHours() {
 
+  global $weekDay;
 
-//$testDate = '2014-01-12';
-//$weekDay = date('l', strtotime( $testDate));
-
-//$deptName= ""; //global variables
-$constant = ""; //holds the names of different departments - global varible
-
-$depts = array("scrc","grc","test1","test2"); // <--- Include the new department in this array
-
-// this function is used to set the global array - [constant]
-// tried to set it without a function but then it is not detected in hook functions.
- 
-function setDept($depts)
-{
-  $GLOBALS['constant']= $depts;
-}
-
-// setting the global variable [constant] which contains same value as depts
-setDept($depts);
-
-// Calling the setTime function for each department
-foreach($depts as $value)
-{
-
-// create empty variable for each department's time
-$deptName = $value."Today"; // set the varaible name
-$$deptName = " "; // assign the value to variable
-
-setTime($value); // set time for each department
-}
-
-
-function setTime($deptName)
-{
-  //$GLOBALS['deptName']= $deptName;
-  
-  $weekDay = date('l');
-
-
-if ($weekDay == 'Monday' || $weekDay == 'Tuesday' || $weekDay == 'Wednesday' || $weekDay == 'Thursday' || $weekDay == 'Friday') {
-  $hoursPrefix = $weekDay .' Hours: ';
-  $weekDay = strToLower($weekDay);
-
-// try catch block for error handling, if some error occurs while executing database queries then the catch block will get executed and error message will be printed out.
-
- try
- { // try block begins
-
-
-  $Msg = db_query("SELECT field_".$deptName."_" . $weekDay . "_msg_value FROM {field_data_field_".$deptName."_" . $weekDay. "_msg}")->fetchField();
-$Msg = htmlspecialchars($Msg); // to prevent cross-site scripting(XSS)
-$MsgTest = trim($Msg);
-  if(!empty($MsgTest))
-  {
-variable_set($deptName.'Today',$Msg);	
+  if ($weekDay == 'Monday') {
+    $hoursPrefix = 'Monday Hours: ';
+    $Open = db_query("SELECT field_scrc_monday_open_value FROM {field_data_field_scrc_monday_open}")->fetchField();
+    $Close = db_query("SELECT field_scrc_monday_close_value FROM {field_data_field_scrc_monday_close}")->fetchField();
+    $hoursString = $hoursPrefix . $Open . "am - " . $Close . "pm";
+    if ($Open > 0 && $Close > 0) {
+      variable_set('scrcToday', $hoursString);
+    }
+    else {
+      variable_set('scrcToday', 'please check with SCRC for available hours');
+    }
   }
-  else
-  {
-  $Open = db_query("SELECT field_".$deptName."_" . $weekDay . "_open_value FROM {field_data_field_".$deptName."_" . $weekDay. "_open}")->fetchField();
-  $Close = db_query("SELECT field_".$deptName."_" . $weekDay . "_close_value FROM {field_data_field_".$deptName."_" . $weekDay . "_close}")->fetchField();
-  $hoursString = $hoursPrefix . $Open . "am - " . $Close . "pm";
-   if ($Open > 0 && $Close > 0) {
-     variable_set($deptName.'Today', $hoursString);
-   }
-   else {
-     variable_set($deptName.'Today', 'please check with SCRC for available hours');
-   }
+  elseif ($weekDay == 'Tuesday') {
+    $hoursPrefix = 'Tuesday Hours: ';
+    $Open = db_query("SELECT field_scrc_tuesday_open_value FROM {field_data_field_scrc_tuesday_open}")->fetchField();
+    $Close = db_query("SELECT field_scrc_tuesday_close_value FROM {field_data_field_scrc_tuesday_close}")->fetchField();
+    $hoursString = $hoursPrefix . $Open . "am - " . $Close . "pm";
+    if ($Open > 0 && $Close > 0) {
+      variable_set('scrcToday', $hoursString);
+    }
+    else {
+      variable_set('scrcToday', 'please check with SCRC for available hours');
+    }
+  }
+  elseif ($weekDay == 'Wednesday') {
+    $hoursPrefix = 'Wednesday Hours: ';
+    $Open = db_query("SELECT field_scrc_wednesday_open_value FROM {field_data_field_scrc_wednesday_open}")->fetchField();
+    $Close = db_query("SELECT field_scrc_wednesday_close_value FROM {field_data_field_scrc_wednesday_close}")->fetchField();
+    $hoursString = $hoursPrefix . $Open . "am - " . $Close . "pm";
+    if ($Open > 0 && $Close > 0) {
+      variable_set('scrcToday', $hoursString);
+    }
+    else {
+      variable_set('scrcToday', 'please check with SCRC for available hours');
+    }
+  }
+  elseif ($weekDay == 'Thursday') {
+    $hoursPrefix = 'Thursday Hours: ';
+    $Open = db_query("SELECT field_scrc_thursday_open_value FROM {field_data_field_scrc_thursday_open}")->fetchField();
+    $Close = db_query("SELECT field_scrc_thursday_close_value FROM {field_data_field_scrc_thursday_close}")->fetchField();
+    //$Close = '7';
+    $hoursString = $hoursPrefix . $Open . "am - " . $Close . "pm";
+    if ($Open > 0 && $Close > 0) {
+      variable_set('scrcToday', $hoursString);
+    }
+    else {
+      variable_set('scrcToday', 'please check with SCRC for available hours');
+    }
+  }
+  elseif ($weekDay == 'Friday') {
+    $hoursPrefix = 'Friday Hours: ';
+    $Open = db_query("SELECT field_scrc_friday_open_value FROM {field_data_field_scrc_friday_open}")->fetchField();
+    $Close = db_query("SELECT field_scrc_friday_close_value FROM {field_data_field_scrc_friday_close}")->fetchField();
+    $hoursString = $hoursPrefix . $Open . "am - " . $Close . "pm";
+    if ($Open > 0 && $Close > 0) {
+      variable_set('scrcToday', $hoursString);
+    }
+    else {
+      variable_set('scrcToday', 'please check with SCRC for available hours');
+    }
+  }
+  elseif ($weekDay == 'Saturday') {
+    $hoursPrefix = 'Saturday Hours: ';
+    //$Open = db_query("SELECT field_scrc_saturday_open_value FROM {field_data_field_scrc_saturday_open}")->fetchField();
+    //$Close = db_query("SELECT field_scrc_saturday_close_value FROM {field_data_field_scrc_saturday_close}")->fetchField();
+    $hoursString = $hoursPrefix . "by appointment only";
+    variable_set('scrcToday', $hoursString);
+  }
+  elseif ($weekDay == 'Sunday') {
+    $hoursPrefix = 'Sunday Hours: ';
+    //$Open = db_query("SELECT field_scrc_sunday_open_value FROM {field_data_field_scrc_sunday_open}")->fetchField();
+    //$Close = db_query("SELECT field_scrc_sunday_close_value FROM {field_data_field_scrc_sunday_close}")->fetchField();
+    $hoursString = $hoursPrefix . "(closed)";
+    variable_set('scrcToday', $hoursString);
+  }
+  else {
+    $hoursString = '(please contact SCRC for open hours)';
+    variable_set('scrcToday', $hoursString);
   }
 
-
- } //try block ends
-
- catch(Exception $e)
- {
-variable_set($deptName.'Today','OOPS!! There seems to be some problem, please contact SCRC for open hours'); //
- }
+  $todayString = "<p class='scrc-hours'>" . variable_get('scrcToday','') . "</p>";
+  return $todayString;
 }
 
-
-elseif ($weekDay == 'Saturday') {
-
-  $hoursPrefix = $weekDay.' Hours: ';
-  //$Open = db_query("SELECT field_scrc_saturday_open_value FROM {field_data_field_scrc_saturday_open}")->fetchField();
-  //$Close = db_query("SELECT field_scrc_saturday_close_value FROM {field_data_field_scrc_saturday_close}")->fetchField();
-  $hoursString = $hoursPrefix . "by appointment only";
-  variable_set($deptName.'Today', $hoursString);
-}
-elseif ($weekDay == 'Sunday') {
-  $hoursPrefix = $weekDay. ' Hours: ';
-  //$Open = db_query("SELECT field_scrc_sunday_open_value FROM {field_data_field_scrc_sunday_open}")->fetchField();
-  //$Close = db_query("SELECT field_scrc_sunday_close_value FROM {field_data_field_scrc_sunday_close}")->fetchField();
-  $hoursString = $hoursPrefix . "(closed)";
-  variable_set($deptName.'Today', $hoursString);
-}
-else {
-  $hoursString = '(please contact SCRC for open hours)';
-  variable_set($deptName.'Today', $hoursString);
-
-}
-
-
-} //end of setTime
-
-
-
-/* creating blocks for Drupal, starting with SCRC */
-
-/**
-* Implements hook_block_info().
-*/
-
-function library_hours_block_info() {
-
-        $depts = $GLOBALS['constant'];
-
-      foreach($depts as $values)
-{
-$deptName = $values;
-$blocks[$deptName.'_hours_from_mod'] = array(
-                'info' => t($deptName.' Hours from Library Hours Module'),
-        );
-}
-           return $blocks;	
-
-}
-
-/**
-* Implements hook_block_view().
-*/
-
-function library_hours_block_view($delta = '') {
-  
-        $depts = $GLOBALS['constant'];
-      
-        $deptName = explode('_hours_from_mod',$delta); // extracting deptname from the delta string
-        $delta = $deptName[0];
-
-$block = array();
-        // vars for SCRC hours string (block content)
-        $todayString = variable_get($delta.'Today','');
-        $deptString = "<p>" . $todayString . "</p>";
-// end vars
-
-          if (in_array($delta,$depts))
-          {
-$subject = $delta.' Hours';
-               $block['subject'] = t($subject);
-               $block['title'] = $subject;
-               $block['content'] = $deptString;
-          }
-          else
-{
-               $block['content'] = t('No content for this block');
-
-}
-
-       return $block;
-}
-
-
-/**
-* Working section for Today's Hours in Gelman, needs to be incorporated into above block hooks.
-*/
 
 /* Today's Hours in Gelman. */
 
@@ -179,62 +100,62 @@ function gelmanHours($calDate, $weekDay) {
 
   if ($calDate < '12/18' && $calDate > '12/01') {
     $gelmanToday = "Gelman Hours: 7am to midnight <span style='font-size:.9em;'>(24-hours for GW students)</span>";
-    }
+  }
   elseif ($calDate == '12/18') {
     $gelmanToday = "Gelman closes at 11pm today";
-    }
+  }
   elseif ($calDate == '12/19') {
     $gelmanToday = "Gelman Hours: 7am to 7pm";
-    }
+  }
   elseif ($calDate == '12/22' || $calDate == '12/23' || $calDate == '12/26' || $calDate == '12/29' || $calDate == '12/30' || $calDate == '01/02') {
     $gelmanToday = "Gelman Hours: 8am to 6pm";
-    }
+  }
   elseif ($calDate == '12/20' || $calDate == '12/21' || $calDate == '12/24' || $calDate == '12/25' || $calDate == '12/27' || $calDate == '12/28' || $calDate == '12/31' || $calDate == '01/01' || $calDate == '01/03' || $calDate == '01/04') {
     $gelmanToday = "Gelman Library is closed today";
-    }
+  }
   elseif ($calDate > '01/04' && $calDate < '01/10') {
     $gelmanToday = "Gelman Hours: 8am to 7pm";
-    }
+  }
   elseif ($calDate == '01/10' || $calDate == '01/11') {
     $gelmanToday = "Gelman Hours: 12pm to 6pm";
-    }
+  }
   elseif ($calDate == '01/12') {
     $gelmanToday = "Open at 7:00 am and 24-hour access resumes";
-    }
+  }
   elseif ($calDate > '01/12' && $calDate < '03/06') {
     $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
-    }
+  }
   elseif ($calDate == '03/06') {
     $gelmanToday = "Gelman closes at 10pm today";
-    }
+  }
   elseif ($calDate == '03/07' || $calDate == '03/08') {
     $gelmanToday = "Gelman Hours: 9am to 6pm";
-    }
+  }
   elseif ($calDate >= '03/09' && $calDate < '03/14') {
     $gelmanToday = "Gelman Hours: 7am to 10pm";
-    }
+  }
   elseif ($calDate == '03/14') {
     $gelmanToday = "Gelman Hours: 9am to 6pm";
-    }
+  }
   elseif ($calDate == '03/15') {
     $gelmanToday = "Gelman Hours: 9am to midnight";
-    }
+  }
   elseif ($calDate > '03/15' && $calDate < '05/12') {
     $gelmanToday = "Gelman Hours: 7am to midnight (24-hours for GW students)";
-    }
+  }
   elseif ($calDate == '05/12') {
     $gelmanToday = "Gelman Hours: 7am to midnight. Gelman Library will close at midnight. There will be no 24-hour study areas after midnight.";
-    }
+  }
   elseif ($calDate >= '05/13' && $calDate <= '05/15' ) {
     $gelmanToday = "Gelman Hours: 7:30 am - 7:00 pm (Service desks that normally close at or after 6pm will close at 5:45 pm)";
-    }
+  }
   elseif ($calDate >= '05/16' && $calDate <= '05/17' ) {
     $gelmanToday = "Gelman Hours: Gelman Library will be open from 12 noon to 6pm. Check-Out Desk open 12 - 5:45pm. All other service desks closed.";
-    }
+  }
   elseif ($calDate == '07/03' || $calDate == '07/04' ) {
     $gelmanToday = "Gelman Library is closed today in observance of Independence Day";
-    }
-  elseif ($calDate >= '05/18') {
+  }
+  elseif ($calDate >= '05/18' && $calDate < '08/31') {
     if ($weekDay == 'Saturday' || $weekDay == 'Sunday') {
       $startTime = 'noon';
       $endTime = '6pm';
@@ -244,73 +165,101 @@ function gelmanHours($calDate, $weekDay) {
       $endTime = '8pm';
     }
     $gelmanToday = "Gelman Hours: " . $startTime . " to " . $endTime;
+  }
+  elseif ($calDate >= '08/31' && $calDate < '12/06') {
+    if ($weekDay == 'Saturday') {
+      $startTime = '10am';
+      $endTime = '10pm';
+      $openMsg = '';
     }
+    elseif ($weekDay == 'Sunday') {
+      $startTime = 'noon';
+      $endTime = '-';
+      $openMsg = 'Gelman Library opens at noon';
+    }
+    elseif (SweekDay == 'Friday') {
+      $startTime = '';
+      $endTime = '11pm';
+      $openMsg = 'Gelman Library closes tonight at 11pm';
+    }
+    else {
+      $startTime = '';
+      $endTime = '';
+      $openMsg = '7am to midnight (24-hours for GW students)';
+    }
+    if ($openMsg !== '') {
+      $gelmanToday = $openMsg;
+    }
+    else {
+      $gelmanToday = "Gelman Hours: " . $startTime . " to " . $endTime;
+    }
+  }
   else {
     $gelmanToday = "(unable to display hours)";
-    }
+  }
 
   $theDate = new DateTime($calDate);
   
-/* convert to 24 hour for schema.org/Library */
-    /* $startTime */
-    if (strpos($startTime, 'am') !== false) {
-      $timeNum = explode('am', $startTime);
-      if (strpos($timeNum[0], ':') !== false) {
-        $startTime24 = $timeNum[0];
-      }
-      else {
-        $startTime24 = $timeNum[0] . ':00';
-      }
+/* Convert to 24 hour for schema.org/Library. */
+  /* Set $startTime */
+  if (strpos($startTime, 'am') !== false) {
+    $timeNum = explode('am', $startTime);
+    if (strpos($timeNum[0], ':') !== false) {
+      $startTime24 = $timeNum[0];
     }
-    elseif (strpos($startTime, 'pm') !== false) {
-      $timeNum = explode('pm', $startTime);
-      if (strpos($timeNum[0], ':') !== false) {
-        $startTime24 = $timeNum[0];
-      }
-      else {
-        $startTime24 = $timeNum[0] . ':00';
-      }
+    else {
+      $startTime24 = $timeNum[0] . ':00';
     }
-    elseif (strpos($startTime, 'noon') !== false || strpos($startTime, 'Noon') !== false) {
-      $startTime24 = '12:00';
+  }
+  elseif (strpos($startTime, 'pm') !== false) {
+    $timeNum = explode('pm', $startTime);
+    if (strpos($timeNum[0], ':') !== false) {
+      $startTime24 = $timeNum[0];
     }
-    /* $endTime */
-    if (strpos($endTime, 'am') !== false) {
-      $timeNum = explode('am', $endTime);
-      if (strpos($timeNum[0], ':') !== false) {
-        $endTime24 = $timeNum[0];
-      }
-      else {
-        $endTime24 = $timeNum[0] . ':00';
-      }
+    else {
+      $startTime24 = $timeNum[0] . ':00';
     }
-    elseif (strpos($endTime, 'pm') !== false) {
-      $timeNum = explode('pm', $endTime);
-      if (strpos($timeNum[0], ':') !== false) {
-        $endTime24 = $timeNum[0] + 12;
-      }
-      else {
-        $endTime24 = $timeNum[0] + 12;
-        $endTime24 = (string)$endTime24 . ':00';
-      }
+  }
+  elseif (strpos($startTime, 'noon') !== false || strpos($startTime, 'Noon') !== false) {
+    $startTime24 = '12:00';
+  }
+  /* Set $endTime */
+  if (strpos($endTime, 'am') !== false) {
+    $timeNum = explode('am', $endTime);
+    if (strpos($timeNum[0], ':') !== false) {
+      $endTime24 = $timeNum[0];
     }
-    elseif (strpos($startTime, 'midnight') !== false || strpos($startTime, 'Midnight') !== false) {
-      $endTime24 = '24:00';
+    else {
+      $endTime24 = $timeNum[0] . ':00';
     }
-    $timeRange = $startTime24 . "-"  . $endTime24;
-        $timeRange = $startTime24 . "-"  . $endTime24;
-    /* set $schemaString */
-    if ($weekDay !== 'Saturday' && $weekDay !== 'Sunday') {
-      $schemaString = "Mo,Tu,We,Th,Fr " . $timeRange;
+  }
+  elseif (strpos($endTime, 'pm') !== false) {
+    $timeNum = explode('pm', $endTime);
+    if (strpos($timeNum[0], ':') !== false) {
+      $endTime24 = $timeNum[0] + 12;
     }
-    elseif ($weekDay == 'Saturday') {
-      $schemaString = "Sa " . $timeRange;
+    else {
+      $endTime24 = $timeNum[0] + 12;
+      $endTime24 = (string)$endTime24 . ':00';
     }
-    elseif ($weekDay == 'Sunday') {
-      $schemaString = "Su " . $timeRange;
-    }
-    /* simple schema (for basic "days open") */
-    $schemaString = 'Mo-Su';
+  }
+  elseif (strpos($startTime, 'midnight') !== false || strpos($startTime, 'Midnight') !== false) {
+    $endTime24 = '24:00';
+  }
+  $timeRange = $startTime24 . "-"  . $endTime24;
+      $timeRange = $startTime24 . "-"  . $endTime24;
+  /* Set $schemaString */
+  if ($weekDay !== 'Saturday' && $weekDay !== 'Sunday') {
+    $schemaString = "Mo,Tu,We,Th,Fr " . $timeRange;
+  }
+  elseif ($weekDay == 'Saturday') {
+    $schemaString = "Sa " . $timeRange;
+  }
+  elseif ($weekDay == 'Sunday') {
+    $schemaString = "Su " . $timeRange;
+  }
+  /* Simple schema (for basic "days open") */
+  $schemaString = 'Mo-Su';
 
   $gelmanTodayString = "<div itemscope itemtype='http://schema.org/Library'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 
@@ -318,25 +267,25 @@ function gelmanHours($calDate, $weekDay) {
 
 }
 
-// Set the current date.
+/* Set the current date. */
 $calDate = date('m/d');
 
-// Check for and grab URL var for testing date conditions.
+/* Check for and grab URL var for testing date conditions. */
 if (isset($_GET["date"])) {
   $calDate = $_GET["date"];
 }
 
-// Creating full date with year so that we can use it to find the day of the week.
+/* Creating full date with year so that we can use it to find the day of the week. */
 $calDateLong = $calDate . "/" . date('y');
-// Exploding new full date into pieces to use in mktime below. Assigning variables to the pieces for readability.
+/* Exploding new full date into pieces to use in mktime below. Assigning variables to the pieces for readability. */
 $pieces = explode("/", $calDateLong);
 $theMonth = $pieces[0];
 $theDay = $pieces[1]; 
 $theYear = $pieces[2]; 
-// creating new weekDay var based on the new full date above
+/* Creating new weekDay var based on the new full date above */
 $weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
 
-/* get the date from the gelmanHours() function */
+/* Get the date from the gelmanHours() function */
 $GLOBALS['gelmanToday'] = gelmanHours($calDate, $weekDay);
 
 /* Creating blocks. */
@@ -373,5 +322,3 @@ function library_hours_block_info() {
 /**
 * End working section for Gelman hours.
 */
-
-require_once 'library_hours.admin.inc';
