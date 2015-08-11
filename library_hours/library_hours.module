@@ -49,7 +49,6 @@ function scrcHours() {
     $hoursPrefix = 'Thursday Hours: ';
     $Open = db_query("SELECT field_scrc_thursday_open_value FROM {field_data_field_scrc_thursday_open}")->fetchField();
     $Close = db_query("SELECT field_scrc_thursday_close_value FROM {field_data_field_scrc_thursday_close}")->fetchField();
-    //$Close = '7';
     $hoursString = $hoursPrefix . $Open . "am - " . $Close . "pm";
     if ($Open > 0 && $Close > 0) {
       variable_set('scrcToday', $hoursString);
@@ -72,15 +71,11 @@ function scrcHours() {
   }
   elseif ($weekDay == 'Saturday') {
     $hoursPrefix = 'Saturday Hours: ';
-    //$Open = db_query("SELECT field_scrc_saturday_open_value FROM {field_data_field_scrc_saturday_open}")->fetchField();
-    //$Close = db_query("SELECT field_scrc_saturday_close_value FROM {field_data_field_scrc_saturday_close}")->fetchField();
     $hoursString = $hoursPrefix . "by appointment only";
     variable_set('scrcToday', $hoursString);
   }
   elseif ($weekDay == 'Sunday') {
     $hoursPrefix = 'Sunday Hours: ';
-    //$Open = db_query("SELECT field_scrc_sunday_open_value FROM {field_data_field_scrc_sunday_open}")->fetchField();
-    //$Close = db_query("SELECT field_scrc_sunday_close_value FROM {field_data_field_scrc_sunday_close}")->fetchField();
     $hoursString = $hoursPrefix . "(closed)";
     variable_set('scrcToday', $hoursString);
   }
@@ -288,17 +283,26 @@ $weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
 /* Get the date from the gelmanHours() function */
 $GLOBALS['gelmanToday'] = gelmanHours($calDate, $weekDay);
 
+/* Get the date from the scrcHours() function */
+$GLOBALS['scrcToday'] = scrcHours();
+
 /* Creating blocks. */
 
  /**
  * Implements hook_block_info().
  */
 function library_hours_block_info() {
+   $blocks = array();
    $blocks['library_hours_gelman_today'] = array(
      'info' => t("Today's Building Hours"),
      'region' => 'rsidebar',
      'visibility' => BLOCK_VISIBILITY_LISTED,
      'pages' => 'node/1',
+   );
+      $blocks['library_hours_scrc_today'] = array(
+     'info' => t("Today's SCRC Hours"),
+     'region' => 'sidebar',
+     'visibility' => BLOCK_VISIBILITY_LISTED,
    );
  return $blocks;
  }
@@ -308,14 +312,22 @@ function library_hours_block_info() {
  */
 
  function library_hours_block_view($delta = '') {
+   $block = array();
    switch ($delta) {
-     case 0:
+     case 'library_hours_gelman_today':
        $the_block = $GLOBALS['gelmanToday'];
        $block['subject'] = t('Today in Gelman subject');
        $block['title'] = t('Building Hours');
        $block['content'] = $the_block;
        break;
+     case 'library_hours_scrc_today':
+       $the_block = $GLOBALS['scrcToday'];
+       $block['subject'] = t('Today in SCRC subject');
+       $block['title'] = t('SCRC Hours');
+       $block['content'] = $the_block;
+       break;
      }
+
  return $block;
  }
 
