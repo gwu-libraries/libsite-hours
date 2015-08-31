@@ -172,7 +172,7 @@ function gelmanHours($calDate, $weekDay) {
       $endTime = '-';
       $openMsg = 'Gelman Library opens at noon';
     }
-    elseif (SweekDay == 'Friday') {
+    elseif ($weekDay == 'Friday') {
       $startTime = '';
       $endTime = '11pm';
       $openMsg = 'Gelman Library closes tonight at 11pm';
