@@ -196,54 +196,61 @@ function gelmanHours($calDate, $weekDay) {
   $theDate = new DateTime($calDate);
   
 /* Convert to 24 hour for schema.org/Library. */
+  /* Currently hard coded to set datetime = Mo-Su (defaults to 24hr open) */
   /* Set $startTime */
-  if (strpos($startTime, 'am') !== false) {
-    $timeNum = explode('am', $startTime);
-    if (strpos($timeNum[0], ':') !== false) {
-      $startTime24 = $timeNum[0];
-    }
-    else {
-      $startTime24 = $timeNum[0] . ':00';
-    }
-  }
-  elseif (strpos($startTime, 'pm') !== false) {
-    $timeNum = explode('pm', $startTime);
-    if (strpos($timeNum[0], ':') !== false) {
-      $startTime24 = $timeNum[0];
-    }
-    else {
-      $startTime24 = $timeNum[0] . ':00';
-    }
-  }
-  elseif (strpos($startTime, 'noon') !== false || strpos($startTime, 'Noon') !== false) {
-    $startTime24 = '12:00';
-  }
-  /* Set $endTime */
-  if (strpos($endTime, 'am') !== false) {
-    $timeNum = explode('am', $endTime);
-    if (strpos($timeNum[0], ':') !== false) {
-      $endTime24 = $timeNum[0];
-    }
-    else {
-      $endTime24 = $timeNum[0] . ':00';
-    }
-  }
-  elseif (strpos($endTime, 'pm') !== false) {
-    $timeNum = explode('pm', $endTime);
-    if (strpos($timeNum[0], ':') !== false) {
-      $endTime24 = $timeNum[0] + 12;
-    }
-    else {
-      $endTime24 = $timeNum[0] + 12;
-      $endTime24 = (string)$endTime24 . ':00';
-    }
-  }
-  elseif (strpos($startTime, 'midnight') !== false || strpos($startTime, 'Midnight') !== false) {
-    $endTime24 = '24:00';
-  }
-  $timeRange = $startTime24 . "-"  . $endTime24;
-      $timeRange = $startTime24 . "-"  . $endTime24;
+//  if (strpos($startTime, 'am') !== false) {
+//    $timeNum = explode('am', $startTime);
+//    if (strpos($timeNum[0], ':') !== false) {
+//      $startTime24 = $timeNum[0];
+//    }
+//    else {
+//      $startTime24 = $timeNum[0] . ':00';
+//    }
+//  }
+//  elseif (strpos($startTime, 'pm') !== false) {
+//    $timeNum = explode('pm', $startTime);
+//    if (strpos($timeNum[0], ':') !== false) {
+//      $startTime24 = $timeNum[0];
+//    }
+//    else {
+//      $startTime24 = $timeNum[0] . ':00';
+//    }
+//  }
+//  elseif (strpos($startTime, 'noon') !== false || strpos($startTime, 'Noon') !== false) {
+//    $startTime24 = '12:00';
+//  }
+//  else {
+//    //needs to be set for catchall fallback
+//  }
+//  /* Set $endTime */
+//  /* temporarily hard-coded */
+//  if (strpos($endTime, 'am') !== false) {
+//    $timeNum = explode('am', $endTime);
+//    if (strpos($timeNum[0], ':') !== false) {
+//      $endTime24 = $timeNum[0];
+//    }
+//    else {
+//      $endTime24 = $timeNum[0] . ':00';
+//    }
+//  }
+//  elseif (strpos($endTime, 'pm') !== false) {
+//    $timeNum = explode('pm', $endTime);
+//    if (strpos($timeNum[0], ':') !== false) {
+//      $endTime24 = $timeNum[0] + 12;
+//    }
+//    else {
+//      $endTime24 = $timeNum[0] + 12;
+//      $endTime24 = (string)$endTime24 . ':00';
+//    }
+//  }
+//  elseif (strpos($startTime, 'midnight') !== false || strpos($startTime, 'Midnight') !== false) {
+//    $endTime24 = '24:00';
+//  }
+//  $timeRange = $startTime24 . "-"  . $endTime24;
+//      $timeRange = $startTime24 . "-"  . $endTime24;
+
   /* Set $schemaString */
+  $timeRange = ''; // hard coded to work around issues above ^
   if ($weekDay !== 'Saturday' && $weekDay !== 'Sunday') {
     $schemaString = "Mo,Tu,We,Th,Fr " . $timeRange;
   }
