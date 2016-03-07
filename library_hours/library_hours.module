@@ -3,6 +3,19 @@
 global $weekDay;
 $weekDay = date('l');
 
+/* testing WRLC API */
+
+function gelmanHoursApi() {
+
+  $wlrcBuildingHours = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1";
+
+  $hoursString = "<p>test</p>";
+
+  return $hoursString;
+
+}
+
+
 /* Today's Hours in SCRC. */
 
 function scrcHours() {
@@ -287,6 +300,9 @@ $theYear = $pieces[2];
 /* Creating new weekDay var based on the new full date above */
 $weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
 
+/* Get the Gelman hours from the API */
+$GLOBALS['gelmanTodayAPI'] = gelmanHoursAPI();
+
 /* Get the date from the gelmanHours() function */
 $GLOBALS['gelmanToday'] = gelmanHours($calDate, $weekDay);
 
@@ -322,7 +338,7 @@ function library_hours_block_info() {
    $block = array();
    switch ($delta) {
      case 'library_hours_gelman_today':
-       $the_block = $GLOBALS['gelmanToday'];
+       $the_block = $GLOBALS['gelmanTodayAPI'];
        $block['subject'] = t('Today in Gelman subject');
        $block['title'] = t('Building Hours');
        $block['content'] = $the_block;
