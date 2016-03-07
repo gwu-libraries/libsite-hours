@@ -7,9 +7,17 @@ $weekDay = date('l');
 
 function gelmanHoursApi() {
 
-  $wlrcBuildingHours = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1";
+  $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1";
 
-  $hoursString = "<p>test</p>";
+  $json_string = $API;
+  $jsondata = file_get_contents($json_string);
+  $itemArray  = json_decode($jsondata, true); // Decode JSON to associative array.
+
+  $test=$itemArray;
+
+  $tuesdayOpen = $test['library']['week'][1]['open'];
+
+  $hoursString = "<p>Open: " . $tuesdayOpen . "</p>";
 
   return $hoursString;
 
