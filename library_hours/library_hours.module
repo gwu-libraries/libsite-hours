@@ -1,12 +1,11 @@
 <?php
 
 // ? global $weekDay;
-// this isn't global, am I using them outside the functions?
 $weekDay = date('l');
 
-/* testing WRLC API */
+/* Gelman building hours from WRLC API */
 
-function gelmanHoursApi($calDate, $weekDay) {
+function gelmanHoursAPI($calDate, $weekDay) {
 
   $weekDayNum = date('w');
 
