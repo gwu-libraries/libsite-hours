@@ -12,7 +12,24 @@ function gelmanHoursApi($calDate, $weekDay) {
 
   $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1";
 
-  $jsondata = file_get_contents($API);
+  // Set cache file name and path.
+  $cacheFile = 'libraryHours-wrlc';
+  $path = '/tmp/' . $cacheFile . '.cache';
+
+  // Checks to see if cached file is older than 1 hour (3600, units in seconds per UNIX/POSIX time), 
+  // if so updates cache.
+  if ((!file_exists($path) || time() - filemtime($path) > 3600) && $cache = fopen($path, 'w+'))
+  {
+      $wrlc_json = file_get_contents($API); // get json from scratch if old.
+      fwrite($cache, $wrlc_json); // write block to cache.
+      fclose($cache);
+  }
+  else
+  {
+      $wrlc_json = file_get_contents($path); // get block from cache file.
+  }
+
+  $jsondata = $wrlc_json;
   $itemArray  = json_decode($jsondata, true); // Decode JSON to associative array.
 
   $hoursAPI = $itemArray;
