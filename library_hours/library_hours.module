@@ -1,30 +1,59 @@
 <?php
 
-global $weekDay;
+// ? global $weekDay;
+// this isn't global, am I using them outside the functions?
 $weekDay = date('l');
 
 /* testing WRLC API */
 
-function gelmanHoursApi() {
+function gelmanHoursApi($calDate, $weekDay) {
 
-  // load file containing list of days with special hours and the associated open/close/message values 
-  include "/sites/all/themes/Libsite7/library_hours_special.php";
-
-  if (!isset($specialDay)) {
-    // check if var is set from included file above
-  }
+  $weekDayNum = date('w');
 
   $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1";
 
-  $json_string = $API;
-  $jsondata = file_get_contents($json_string);
+  $jsondata = file_get_contents($API);
   $itemArray  = json_decode($jsondata, true); // Decode JSON to associative array.
 
-  $test=$itemArray;
+  $hoursAPI = $itemArray;
 
-  $tuesdayOpen = $test['library']['week'][1]['open'];
+  $index = $weekDayNum;
+  $todayDay = date('l');
+  $todayOpen = $hoursAPI['library']['week'][$index]['open'];
+  $todayClose = $hoursAPI['library']['week'][$index]['close'];
+  if ($todayClose == "12:00AM") {
+    // clarifying output to avoid confusion
+    $todayClose = "midnight";
+  }
 
-  $hoursString = "<p>Open: " . $tuesdayOpen . "</p>";
+  /* Set $schemaString */
+  $timeRange = ''; // hard coded to work around issues above ^
+  if ($weekDay !== 'Saturday' && $weekDay !== 'Sunday') {
+    $schemaString = "Mo,Tu,We,Th,Fr " . $timeRange;
+  }
+  elseif ($weekDay == 'Saturday') {
+    $schemaString = "Sa " . $timeRange;
+  }
+  elseif ($weekDay == 'Sunday') {
+    $schemaString = "Su " . $timeRange;
+  }
+  /* Simple schema (for basic "days open") */
+  $schemaString = 'Mo-Su';
+
+  $theDate = new DateTime($calDate);
+
+  //include "/sites/all/themes/Libsite7/library_hours_special.php";
+  include "library_hours_special.php"; 
+
+  if (isset($specialDay)) {
+    // check if var is set from included file above
+    $gelmanToday = $specialDay;
+  } 
+  else {
+    $gelmanToday = "Gelman Hours: " . $todayOpen . " to " . $todayClose . " <span style='font-size:.9em;'>(24-hours for GW students)</span>";
+  }
+
+  $hoursString = "<div itemscope itemtype='http://schema.org/Library'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 
   return $hoursString;
 
@@ -316,7 +345,7 @@ $theYear = $pieces[2];
 $weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
 
 /* Get the Gelman hours from the API */
-$GLOBALS['gelmanTodayAPI'] = gelmanHoursAPI();
+$GLOBALS['gelmanTodayAPI'] = gelmanHoursAPI($calDate, $weekDay);
 
 /* Get the date from the gelmanHours() function */
 $GLOBALS['gelmanToday'] = gelmanHours($calDate, $weekDay);
