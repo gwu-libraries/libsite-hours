@@ -1,7 +1,7 @@
 <?php
 
-// ? global $weekDay;
-$weekDay = date('l');
+//global $weekDay;
+//$weekDay = date('l');
 
 /* Gelman building hours from WRLC API */
 
@@ -9,7 +9,7 @@ function gelmanHoursAPI($calDate, $weekDay) {
 
   $weekDayNum = date('w');
 
-  $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1";
+  $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1&daycount=1";
 
   // Set cache file name and path.
   $cacheFile = 'libraryHours-wrlc';
@@ -33,10 +33,10 @@ function gelmanHoursAPI($calDate, $weekDay) {
 
   $hoursAPI = $itemArray;
 
-  $index = $weekDayNum;
-  $todayDay = date('l');
-  $todayOpen = $hoursAPI['library']['week'][$index]['open'];
-  $todayClose = $hoursAPI['library']['week'][$index]['close'];
+  //$index = $weekDayNum;
+  $todayDay = $hoursAPI['library']['week'][0]['day1'];
+  $todayOpen = $hoursAPI['library']['week'][0]['open'];
+  $todayClose = $hoursAPI['library']['week'][0]['close'];
   if ($todayClose == "12:00AM") {
     // clarifying output to avoid confusion
     $todayClose = "midnight";
@@ -58,8 +58,9 @@ function gelmanHoursAPI($calDate, $weekDay) {
 
   $theDate = new DateTime($calDate);
 
+  /* this is a custom set of conditions to check against, only if the options at the WRLC interface http://www.libraries.wrlc.org/admin/hours/ don't provide the right combination of dates/times/message */
   //include "/sites/all/themes/Libsite7/library_hours_special.php";
-  include "library_hours_special.php"; 
+  include "library_hours_special.php"; //pulling from module directory during test
 
   if (isset($specialDay)) {
     // check if var is set from included file above
@@ -75,6 +76,65 @@ function gelmanHoursAPI($calDate, $weekDay) {
 
 }
 
+/* SCRC Open Hours from WRLC API */
+
+function scrcHoursAPI() {
+
+  //$weekDayNum = date('w');
+
+  $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=9&daycount=1";
+
+  // Set cache file name and path.
+  $cacheFile = 'scrcHours-wrlc';
+  $path = '/tmp/' . $cacheFile . '.cache';
+
+  // Checks to see if cached file is older than 1 hour (3600, units in seconds per UNIX/POSIX time), 
+  // if so updates cache.
+  if ((!file_exists($path) || time() - filemtime($path) > 3600) && $cache = fopen($path, 'w+'))
+  {
+      $wrlc_json = file_get_contents($API); // get json from scratch if old.
+      fwrite($cache, $wrlc_json); // write block to cache.
+      fclose($cache);
+  }
+  else
+  {
+      $wrlc_json = file_get_contents($path); // get block from cache file.
+  }
+
+  $jsondata = $wrlc_json;
+  $itemArray  = json_decode($jsondata, true); // Decode JSON to associative array.
+
+  $hoursAPI = $itemArray;
+
+  //$index = $weekDayNum;
+  $todayDay = $hoursAPI['library']['week'][0]['day1'];
+  $todayOpen = $hoursAPI['library']['week'][0]['open'];
+  $todayClose = $hoursAPI['library']['week'][0]['close'];
+  if ($todayClose == "12:00AM") {
+    // clarifying output to avoid confusion
+    $todayClose = "midnight";
+  }
+
+  if ($todayOpen == "closed") {
+    $joiner = "";
+  }
+  else {
+    $joiner = "&nbsp;-&nbsp;";
+  }
+  if ($todayDay = "Saturday") {
+    $todayOpen = "";
+    $joiner = "";
+    $extramsg = "<br />(by appointment only)";
+  }
+  else {
+    $extramsg = "";
+  }
+
+  $todayString = "<p class='scrc-hours'>" . $todayDay . " Hours: " . $todayOpen . $joiner . $todayClose . $extramsg . "</p>";
+
+  return $todayString;
+
+}
 
 /* Today's Hours in SCRC. */
 
@@ -360,7 +420,7 @@ $theYear = $pieces[2];
 /* Creating new weekDay var based on the new full date above */
 $weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
 
-/* Get the Gelman hours from the API */
+/* Get the Gelman Building hours from the API */
 $GLOBALS['gelmanTodayAPI'] = gelmanHoursAPI($calDate, $weekDay);
 
 /* Get the date from the gelmanHours() function */
@@ -368,6 +428,9 @@ $GLOBALS['gelmanToday'] = gelmanHours($calDate, $weekDay);
 
 /* Get the date from the scrcHours() function */
 $GLOBALS['scrcToday'] = scrcHours();
+
+/* Get the SCRC hours from the API */
+$GLOBALS['scrcTodayAPI'] = scrcHoursAPI();
 
 /* Creating blocks. */
 
@@ -404,7 +467,7 @@ function library_hours_block_info() {
        $block['content'] = $the_block;
        break;
      case 'library_hours_scrc_today':
-       $the_block = $GLOBALS['scrcToday'];
+       $the_block = $GLOBALS['scrcTodayAPI'];
        $block['subject'] = t('Today in SCRC subject');
        $block['title'] = t('SCRC Hours');
        $block['content'] = $the_block;
