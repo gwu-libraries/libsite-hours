@@ -7,6 +7,13 @@ $weekDay = date('l');
 
 function gelmanHoursApi() {
 
+  // load file containing list of days with special hours and the associated open/close/message values 
+  include "/sites/all/themes/Libsite7/library_hours_special.php";
+
+  if (!isset($specialDay)) {
+    // check if var is set from included file above
+  }
+
   $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1";
 
   $json_string = $API;
