@@ -29,7 +29,8 @@ function gelmanHoursAPI($calDate, $weekDay) {
   }
 
   $jsondata = $wrlc_json;
-  $itemArray  = json_decode($jsondata, true); // Decode JSON to associative array.
+  $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
+  $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
 
   $hoursAPI = $itemArray;
 
@@ -102,7 +103,9 @@ function scrcHoursAPI() {
   }
 
   $jsondata = $wrlc_json;
-  $itemArray  = json_decode($jsondata, true); // Decode JSON to associative array.
+  // fixes mal-formed json!
+  $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
+  $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
 
   $hoursAPI = $itemArray;
 
@@ -121,7 +124,7 @@ function scrcHoursAPI() {
   else {
     $joiner = "&nbsp;-&nbsp;";
   }
-  if ($todayDay = "Saturday") {
+  if ($todayDay == "Saturday") {
     $todayOpen = "";
     $joiner = "";
     $extramsg = "<br />(by appointment only)";
