@@ -57,7 +57,7 @@ function gelmanHoursAPI($calDate, $weekDay) {
   $theDate = new DateTime($calDate);
 
   /* this is a custom set of conditions to check against, only if the options at the WRLC interface http://www.libraries.wrlc.org/admin/hours/ don't provide the right combination of dates/times/message */
-  include "library_hours_special.php";
+  include_once "library_hours_special.php";
 
   if (isset($specialDay)) {
     // check if var is set from included file above
