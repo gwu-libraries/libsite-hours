@@ -13,7 +13,7 @@ Gelman (Main Building) Hours
 Creates a Drupal block. Sets current day and date and open hours. 
 Hours are pulled from WRLC's hours API http://www.libraries.wrlc.org/admin/hours/. 
 
-There is an optional file that can contain exceptions and custom text: library-hours_special.php: uncomment and adjust as needed, and place in the Drupal theme root.
+There is a file for exceptions and custom text: library_hours_special.php: uncomment and adjust as needed. 
 
 SCRC Hours
 ----------
