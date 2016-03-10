@@ -1,8 +1,5 @@
 <?php
 
-//global $weekDay;
-//$weekDay = date('l');
-
 /* Gelman building hours from WRLC API */
 
 function gelmanHoursAPI($calDate, $weekDay) {
@@ -15,8 +12,8 @@ function gelmanHoursAPI($calDate, $weekDay) {
   $cacheFile = 'libraryHours-wrlc';
   $path = '/tmp/' . $cacheFile . '.cache';
 
-  // Checks to see if cached file is older than 1 hour (3600, units in seconds per UNIX/POSIX time), 
-  // if so updates cache.
+  // Check to see if cached file is older than 1 hour (3600, units in seconds per UNIX/POSIX time), 
+  // if so update cache.
   if ((!file_exists($path) || time() - filemtime($path) > 3600) && $cache = fopen($path, 'w+'))
   {
       $wrlc_json = file_get_contents($API); // get json from scratch if old.
@@ -60,8 +57,7 @@ function gelmanHoursAPI($calDate, $weekDay) {
   $theDate = new DateTime($calDate);
 
   /* this is a custom set of conditions to check against, only if the options at the WRLC interface http://www.libraries.wrlc.org/admin/hours/ don't provide the right combination of dates/times/message */
-  //include "/sites/all/themes/Libsite7/library_hours_special.php";
-  include "library_hours_special.php"; //pulling from module directory during test
+  include "/sites/all/themes/Libsite7/library_hours_special.php";
 
   if (isset($specialDay)) {
     // check if var is set from included file above
@@ -74,14 +70,11 @@ function gelmanHoursAPI($calDate, $weekDay) {
   $hoursString = "<div itemscope itemtype='http://schema.org/Library'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 
   return $hoursString;
-
 }
 
 /* SCRC Open Hours from WRLC API */
 
 function scrcHoursAPI() {
-
-  //$weekDayNum = date('w');
 
   $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=9&daycount=1";
 
@@ -89,8 +82,8 @@ function scrcHoursAPI() {
   $cacheFile = 'scrcHours-wrlc';
   $path = '/tmp/' . $cacheFile . '.cache';
 
-  // Checks to see if cached file is older than 1 hour (3600, units in seconds per UNIX/POSIX time), 
-  // if so updates cache.
+  // Check to see if cached file is older than 1 hour (3600, units in seconds per UNIX/POSIX time), 
+  // if so update cache.
   if ((!file_exists($path) || time() - filemtime($path) > 3600) && $cache = fopen($path, 'w+'))
   {
       $wrlc_json = file_get_contents($API); // get json from scratch if old.
@@ -103,21 +96,18 @@ function scrcHoursAPI() {
   }
 
   $jsondata = $wrlc_json;
-  // fixes mal-formed json!
   $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
   $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
 
   $hoursAPI = $itemArray;
 
-  //$index = $weekDayNum;
   $todayDay = $hoursAPI['library']['week'][0]['day1'];
   $todayOpen = $hoursAPI['library']['week'][0]['open'];
   $todayClose = $hoursAPI['library']['week'][0]['close'];
   if ($todayClose == "12:00AM") {
-    // clarifying output to avoid confusion
+    // clarifying string output to avoid confusion
     $todayClose = "midnight";
   }
-
   if ($todayOpen == "closed") {
     $joiner = "";
   }
@@ -136,7 +126,6 @@ function scrcHoursAPI() {
   $todayString = "<p class='scrc-hours'>" . $todayDay . " Hours: " . $todayOpen . $joiner . $todayClose . $extramsg . "</p>";
 
   return $todayString;
-
 }
 
 /* Today's Hours in SCRC. */
