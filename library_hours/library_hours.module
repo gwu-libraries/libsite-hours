@@ -63,6 +63,9 @@ function gelmanHoursAPI($calDate, $weekDay) {
     // check if var is set from included file above
     $gelmanToday = $specialDay;
   } 
+  elseif ($todayOpen == "closed") {
+    $gelmanToday = "Gelman Library is closed today";
+  }
   else {
     $gelmanToday = "Gelman Hours: " . $todayOpen . " to " . $todayClose . " <span style='font-size:.9em;'>(24-hours for GW students)</span>";
   }
@@ -108,7 +111,7 @@ function scrcHoursAPI() {
     // clarifying string output to avoid confusion
     $todayClose = "midnight";
   }
-  if ($todayOpen == "closed") {
+  if ($todayOpen == "closed" || $todayOpen == "by appointment") {
     $joiner = "";
   }
   else {
