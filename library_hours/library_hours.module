@@ -52,7 +52,7 @@ function gelmanHoursAPI($calDate, $weekDay) {
     $schemaString = "Su " . $timeRange;
   }
   /* Simple schema (for basic "days open") */
-  $schemaString = 'Mo-Su';
+  $schemaString = 'Mo-Su 07:00-24:00';
 
   $theDate = new DateTime($calDate);
 
@@ -70,7 +70,7 @@ function gelmanHoursAPI($calDate, $weekDay) {
     $gelmanToday = "Gelman Hours: " . $todayOpen . " to " . $todayClose . " <span style='font-size:.9em;'>(24-hours for GW students)</span>";
   }
 
-  $hoursString = "<div itemscope itemtype='http://schema.org/Library'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><span itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</span></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
+  $hoursString = "<div itemscope itemtype='http://schema.org/Library'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><time itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</time></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 
   return $hoursString;
 }
