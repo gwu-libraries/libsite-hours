@@ -1,5 +1,13 @@
 <?php
 
+/* Check holidays and get holiday message string */
+
+function checkHoliday() {
+
+// move holiday check here for use in other functions
+
+}
+
 /* Gelman building hours from WRLC API */
 
 function gelmanHoursAPI($calDate, $weekDay) {
@@ -63,6 +71,9 @@ function gelmanHoursAPI($calDate, $weekDay) {
     // check if var is set from included file above
     $gelmanToday = $specialDay;
   } 
+  elseif (isset($hoursAPI['library']['week'][0]['holiday'])) {
+    $gelmanToday = "some sort of holiday";
+  }
   elseif ($todayOpen == "closed") {
     $gelmanToday = "Gelman Library is closed today";
   }
