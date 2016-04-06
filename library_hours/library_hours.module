@@ -72,7 +72,7 @@ function gelmanHoursAPI($calDate, $weekDay) {
     $gelmanToday = $specialDay;
   } 
   elseif (isset($hoursAPI['library']['week'][0]['holiday'])) {
-    $gelmanToday = "some sort of holiday";
+    $gelmanToday = $hoursAPI['library']['week'][0]['message'];
   }
   elseif ($todayOpen == "closed") {
     $gelmanToday = "Gelman Library is closed today";
