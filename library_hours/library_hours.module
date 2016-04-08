@@ -179,24 +179,24 @@ function massiveTable() {
 
 
   $day1Day = "TODAY";
-  $day2Day = $hoursAPI['library']['week'][0]['day2'];
-  $day3Day = $hoursAPI['library']['week'][0]['day3'];
-  $day4Day = $hoursAPI['library']['week'][0]['day4'];
-  $day5Day = $hoursAPI['library']['week'][0]['day5'];
-  $day6Day = $hoursAPI['library']['week'][0]['day6'];
-  $day7Day = $hoursAPI['library']['week'][0]['day7'];
+  $day2Day = $hoursAPI['library']['week'][1]['day2'];
+  $day3Day = $hoursAPI['library']['week'][2]['day3'];
+  $day4Day = $hoursAPI['library']['week'][3]['day4'];
+  $day5Day = $hoursAPI['library']['week'][4]['day5'];
+  $day6Day = $hoursAPI['library']['week'][5]['day6'];
+  $day7Day = $hoursAPI['library']['week'][6]['day7'];
 
 $flexHTML = "<div class='paddingBlock'>
   <h1>EQUAL HEIGHT COLUMNS WITH MARGINS IN MULTIPLE ROWS</h1>
   <p>Building on the above example, just give bottom margins to the boxes. Add a flex-wrap: wrap to the parent, so that boxes go to the next line when they run out of space in a 'row'.</p>
   <div class='equalHMRWrap eqWrap'>
-    <div class='equalHMR eq'>" . $day1Day . "<br>7:00AM - midnight</div>
-    <div class='equalHMR eq'>" . $day2Day . "<br>7:00AM - midnight</div>
-    <div class='equalHMR eq'>" . $day3Day . "<br>7:00AM - midnight</div>
-    <div class='equalHMR eq'>" . $day4Day . "<br>7:00AM - midnight</div>
-    <div class='equalHMR eq'>" . $day5Day . "<br>7:00AM - midnight</div>
-    <div class='equalHMR eq'>" . $day6Day . "<br>7:00AM - midnight</div>
-    <div class='equalHMR eq'>" . $day7Day . "<br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursToday'>" . $day1Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day2Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day3Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day4Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day5Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day6Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day7Day . "</span><br>7:00AM - midnight</div>
   </div>
 </div>";
 
