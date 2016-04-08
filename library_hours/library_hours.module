@@ -185,7 +185,7 @@ function getWeek($group, $libval) {
   $day6Day = $hoursAPI['library']['week'][5]['day6'];
   $day7Day = $hoursAPI['library']['week'][6]['day7'];
 
-  $joiner = "&nbsp;-&nbsp;";
+  $joiner = " - ";
 
   $day1Hours = $hoursAPI['library']['week'][0]['open'] . $joiner . $hoursAPI['library']['week'][0]['close'];
   $day2Hours = $hoursAPI['library']['week'][1]['open'] . $joiner . $hoursAPI['library']['week'][1]['close'];
@@ -195,7 +195,18 @@ function getWeek($group, $libval) {
   $day6Hours = $hoursAPI['library']['week'][5]['open'] . $joiner . $hoursAPI['library']['week'][5]['close'];
   $day7Hours = $hoursAPI['library']['week'][6]['open'] . $joiner . $hoursAPI['library']['week'][6]['close'];
 
-  return $day1Hours;
+  $flexHTML = "
+    <div class='equalHMRWrap eqWrap'>
+      <div class='equalHMR eq'><span class='hoursToday'>" . $day1Day . "</span><br>" . $day1Hours . "</div>
+      <div class='equalHMR eq'><span class='hoursDay'>" . $day2Day . "</span><br>" . $day2Hours . "</div>
+      <div class='equalHMR eq'><span class='hoursDay'>" . $day3Day . "</span><br>" . $day3Hours . "</div>
+      <div class='equalHMR eq'><span class='hoursDay'>" . $day4Day . "</span><br>" . $day4Hours . "</div>
+      <div class='equalHMR eq'><span class='hoursDay'>" . $day5Day . "</span><br>" . $day5Hours . "</div>
+      <div class='equalHMR eq'><span class='hoursDay'>" . $day6Day . "</span><br>" . $day6Hours . "</div>
+      <div class='equalHMR eq'><span class='hoursDay'>" . $day7Day . "</span><br>" . $day7Hours . "</div>
+    </div>";
+
+  return $flexHTML;
 
 }
 
@@ -280,7 +291,6 @@ function massiveTable() {
   $scrcDay7Day = $scrcAPI['library']['week'][6]['day7'];
 
   $scrcDay1Hours = $scrcAPI['library']['week'][0]['open'] . " - " . $scrcAPI['library']['week'][0]['close'];
-  $scrcDay1Hours = getWeek('scrc','9');
   $scrcDay2Hours = $scrcAPI['library']['week'][1]['open'] . " - " . $scrcAPI['library']['week'][1]['close'];
   $scrcDay3Hours = $scrcAPI['library']['week'][2]['open'] . " - " . $scrcAPI['library']['week'][2]['close'];
   $scrcDay4Hours = $scrcAPI['library']['week'][3]['open'] . " - " . $scrcAPI['library']['week'][3]['close'];
@@ -288,6 +298,7 @@ function massiveTable() {
   $scrcDay6Hours = $scrcAPI['library']['week'][5]['open'] . " - " . $scrcAPI['library']['week'][5]['close'];
   $scrcDay7Hours = $scrcAPI['library']['week'][6]['open'] . " - " . $scrcAPI['library']['week'][6]['close'];
 
+/* old output, replaced by getWeek function */
 $flexHTML = "<div class='paddingBlock'>
   <h2>Gelman Library Building Hours</h2>
   <p class='hoursText'>The building is open 24 hours to current GWU students, faculty, and staff.</p>
@@ -314,6 +325,14 @@ $flexHTML = "<div class='paddingBlock'>
     <div class='equalHMR eq'><span class='hoursDay'>" . $scrcDay7Day . "</span><br>" . $scrcDay7Hours . "</div>
   </div>
 </div>";
+
+$flexHMTL = "<div class='paddingBlock'><h3>Gelman Library Building Hours</h3>
+  <p class='hoursText'>The building is open 24 hours to current GWU students, faculty, and staff.</p>" .
+getWeek('gelman','1') . 
+"  <h3>Special Collections Research Center</h3>
+  <p class='hoursText'>Suite 704 &bull; 202.994.7549 &bull; speccoll@gwu.edu &bull; archives@gwu.edu</p>" .
+getWeek('scrc','9') .
+"</div>";
 
 $flexCSS = "<style>
 .hoursText {margin-bottom:0.6em;}
