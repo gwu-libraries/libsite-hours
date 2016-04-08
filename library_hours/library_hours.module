@@ -177,7 +177,6 @@ function massiveTable() {
 
   $hoursAPI = $itemArray;
 
-
   $day1Day = "TODAY";
   $day2Day = $hoursAPI['library']['week'][1]['day2'];
   $day3Day = $hoursAPI['library']['week'][2]['day3'];
@@ -187,8 +186,21 @@ function massiveTable() {
   $day7Day = $hoursAPI['library']['week'][6]['day7'];
 
 $flexHTML = "<div class='paddingBlock'>
-  <h1>EQUAL HEIGHT COLUMNS WITH MARGINS IN MULTIPLE ROWS</h1>
-  <p>Building on the above example, just give bottom margins to the boxes. Add a flex-wrap: wrap to the parent, so that boxes go to the next line when they run out of space in a 'row'.</p>
+  <h2>Gelman Library Building Hours</h2>
+  <p class='hoursText'>The building is open 24 hours to current GWU students, faculty, and staff.</p>
+  <div class='equalHMRWrap eqWrap'>
+    <div class='equalHMR eq'><span class='hoursToday'>" . $day1Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day2Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day3Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day4Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day5Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day6Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day7Day . "</span><br>7:00AM - midnight</div>
+  </div>
+</div>
+
+  <h2>Special Collections Research Center</h2>
+  <p class='hoursText'>Suite 704 &bull; 202.994.7549 &bull; speccoll@gwu.edu &bull; archives@gwu.edu</p>
   <div class='equalHMRWrap eqWrap'>
     <div class='equalHMR eq'><span class='hoursToday'>" . $day1Day . "</span><br>7:00AM - midnight</div>
     <div class='equalHMR eq'><span class='hoursDay'>" . $day2Day . "</span><br>7:00AM - midnight</div>
@@ -200,7 +212,13 @@ $flexHTML = "<div class='paddingBlock'>
   </div>
 </div>";
 
+
+
+
 $flexCSS = "<style>
+.hoursText {margin-bottom:0.6em;}
+.hoursToday {font-weight:bold;}
+.hoursDay {font-weight:bold;}
 .equalHMRWrap {
 	/*justify-content: space-between;*/
 	flex-wrap: wrap;
@@ -219,7 +237,7 @@ $flexCSS = "<style>
 	background: lightblue;
 }
 .paddingBlock {
-	padding: 20px 0;
+	padding: 0;
 }
 .equalHMR {
 	width: 12%;
@@ -229,7 +247,7 @@ $flexCSS = "<style>
   .equalHMR {width:11%;}
 }
 @media screen and (max-width:640px) {
-  .equalHMR {width:12%;}
+  .equalHMR {width:20%;}
   .eq {padding: 4px;}
 }
 </style>";
@@ -310,8 +328,8 @@ function library_hours_block_info() {
        break; 
      case 'library_hours_all':
        $the_block = $GLOBALS['librariesAllAPI'];
-       $block['subject'] = t('GW Libraries Open Hours subject');
-       $block['title'] = t('GW Libraries Open Hours');
+       $block['subject'] = t('');
+       $block['title'] = t('');
        $block['content'] = $the_block;
        break;
      }
