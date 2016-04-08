@@ -151,7 +151,7 @@ function scrcHoursAPI() {
 
 function massiveTable() {
 
-  // Get 7 days from API.
+  // Building Hours: Get 7 days from API.
   $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1&daycount=7";
 
   // Set cache file name and path.
@@ -185,35 +185,82 @@ function massiveTable() {
   $day6Day = $hoursAPI['library']['week'][5]['day6'];
   $day7Day = $hoursAPI['library']['week'][6]['day7'];
 
+  $day1Hours = $hoursAPI['library']['week'][0]['open'] . " - " . $hoursAPI['library']['week'][0]['close'];
+  $day2Hours = $hoursAPI['library']['week'][1]['open'] . " - " . $hoursAPI['library']['week'][1]['close'];
+  $day3Hours = $hoursAPI['library']['week'][2]['open'] . " - " . $hoursAPI['library']['week'][2]['close'];
+  $day4Hours = $hoursAPI['library']['week'][3]['open'] . " - " . $hoursAPI['library']['week'][3]['close'];
+  $day5Hours = $hoursAPI['library']['week'][4]['open'] . " - " . $hoursAPI['library']['week'][4]['close'];
+  $day6Hours = $hoursAPI['library']['week'][5]['open'] . " - " . $hoursAPI['library']['week'][5]['close'];
+  $day7Hours = $hoursAPI['library']['week'][6]['open'] . " - " . $hoursAPI['library']['week'][6]['close'];
+
+  // SCRC Hours: Get 7 days from API.
+  $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=9&daycount=7";
+
+  // Set cache file name and path.
+  $cacheFile = 'scrcHours-wrlc-week';
+  $path = '/tmp/' . $cacheFile . '.cache';
+
+  // Check to see if cached file is older than 15 minutes (900, units in seconds per UNIX/POSIX time), 
+  // if so update cache.
+  if ((!file_exists($path) || time() - filemtime($path) > 900) && $cache = fopen($path, 'w+'))
+  {
+      $wrlc_json = file_get_contents($API); // get json from scratch if old.
+      fwrite($cache, $wrlc_json); // write block to cache.
+      fclose($cache);
+  }
+  else
+  {
+      $wrlc_json = file_get_contents($path); // get block from cache file.
+  }
+
+  $jsondata = $wrlc_json;
+  $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
+  $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
+
+  $scrcAPI = $itemArray;
+
+  $scrcDay1Day = "TODAY";
+  $scrcDay2Day = $scrcAPI['library']['week'][1]['day2'];
+  $scrcDay3Day = $scrcAPI['library']['week'][2]['day3'];
+  $scrcDay4Day = $scrcAPI['library']['week'][3]['day4'];
+  $scrcDay5Day = $scrcAPI['library']['week'][4]['day5'];
+  $scrcDay6Day = $scrcAPI['library']['week'][5]['day6'];
+  $scrcDay7Day = $scrcAPI['library']['week'][6]['day7'];
+
+  $scrcDay1Hours = $scrcAPI['library']['week'][0]['open'] . " - " . $scrcAPI['library']['week'][0]['close'];
+  $scrcDay2Hours = $scrcAPI['library']['week'][1]['open'] . " - " . $scrcAPI['library']['week'][1]['close'];
+  $scrcDay3Hours = $scrcAPI['library']['week'][2]['open'] . " - " . $scrcAPI['library']['week'][2]['close'];
+  $scrcDay4Hours = $scrcAPI['library']['week'][3]['open'] . " - " . $scrcAPI['library']['week'][3]['close'];
+  $scrcDay5Hours = $scrcAPI['library']['week'][4]['open'] . " - " . $scrcAPI['library']['week'][4]['close'];
+  $scrcDay6Hours = $scrcAPI['library']['week'][5]['open'] . " - " . $scrcAPI['library']['week'][5]['close'];
+  $scrcDay7Hours = $scrcAPI['library']['week'][6]['open'] . " - " . $scrcAPI['library']['week'][6]['close'];
+
 $flexHTML = "<div class='paddingBlock'>
   <h2>Gelman Library Building Hours</h2>
   <p class='hoursText'>The building is open 24 hours to current GWU students, faculty, and staff.</p>
   <div class='equalHMRWrap eqWrap'>
-    <div class='equalHMR eq'><span class='hoursToday'>" . $day1Day . "</span><br>7:00AM - midnight</div>
-    <div class='equalHMR eq'><span class='hoursDay'>" . $day2Day . "</span><br>7:00AM - midnight</div>
-    <div class='equalHMR eq'><span class='hoursDay'>" . $day3Day . "</span><br>7:00AM - midnight</div>
-    <div class='equalHMR eq'><span class='hoursDay'>" . $day4Day . "</span><br>7:00AM - midnight</div>
-    <div class='equalHMR eq'><span class='hoursDay'>" . $day5Day . "</span><br>7:00AM - midnight</div>
-    <div class='equalHMR eq'><span class='hoursDay'>" . $day6Day . "</span><br>7:00AM - midnight</div>
-    <div class='equalHMR eq'><span class='hoursDay'>" . $day7Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursToday'>" . $day1Day . "</span><br>" . $day1Hours . "</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day2Day . "</span><br>" . $day2Hours . "</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day3Day . "</span><br>" . $day3Hours . "</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day4Day . "</span><br>" . $day4Hours . "</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day5Day . "</span><br>" . $day5Hours . "</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day6Day . "</span><br>" . $day6Hours . "</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $day7Day . "</span><br>" . $day7Hours . "</div>
   </div>
 </div>
 
   <h2>Special Collections Research Center</h2>
   <p class='hoursText'>Suite 704 &bull; 202.994.7549 &bull; speccoll@gwu.edu &bull; archives@gwu.edu</p>
   <div class='equalHMRWrap eqWrap'>
-    <div class='equalHMR eq'><span class='hoursToday'>" . $day1Day . "</span><br>7:00AM - midnight</div>
-    <div class='equalHMR eq'><span class='hoursDay'>" . $day2Day . "</span><br>7:00AM - midnight</div>
-    <div class='equalHMR eq'><span class='hoursDay'>" . $day3Day . "</span><br>7:00AM - midnight</div>
-    <div class='equalHMR eq'><span class='hoursDay'>" . $day4Day . "</span><br>7:00AM - midnight</div>
-    <div class='equalHMR eq'><span class='hoursDay'>" . $day5Day . "</span><br>7:00AM - midnight</div>
-    <div class='equalHMR eq'><span class='hoursDay'>" . $day6Day . "</span><br>7:00AM - midnight</div>
-    <div class='equalHMR eq'><span class='hoursDay'>" . $day7Day . "</span><br>7:00AM - midnight</div>
+    <div class='equalHMR eq'><span class='hoursToday'>" . $scrcDay1Day . "</span><br>" . $scrcDay1Hours . "</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $scrcDay2Day . "</span><br>" . $scrcDay2Hours . "</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $scrcDay3Day . "</span><br>" . $scrcDay3Hours . "</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $scrcDay4Day . "</span><br>" . $scrcDay4Hours . "</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $scrcDay5Day . "</span><br>" . $scrcDay5Hours . "</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $scrcDay6Day . "</span><br>" . $scrcDay6Hours . "</div>
+    <div class='equalHMR eq'><span class='hoursDay'>" . $scrcDay7Day . "</span><br>" . $scrcDay7Hours . "</div>
   </div>
 </div>";
-
-
-
 
 $flexCSS = "<style>
 .hoursText {margin-bottom:0.6em;}
@@ -228,13 +275,19 @@ $flexCSS = "<style>
 }
 .eq {
 	padding: 10px;
+        border: 1px solid #ccc;
+        border-left: 0;
+}
+.eq:first-child {
+  background: yellow;
+  border-left: 1px solid #ccc;
 }
 .eq:nth-of-type(odd) {
-	background: yellow;
+	/*background: yellow;*/
 }
 
 .eq:nth-of-type(even) {
-	background: lightblue;
+	/*background: lightblue;*/
 }
 .paddingBlock {
 	padding: 0;
@@ -247,8 +300,8 @@ $flexCSS = "<style>
   .equalHMR {width:11%;}
 }
 @media screen and (max-width:640px) {
-  .equalHMR {width:20%;}
-  .eq {padding: 4px;}
+  .equalHMR {width:21%;}
+  .eq {padding: 6px;}
 }
 </style>";
 
