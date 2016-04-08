@@ -3,12 +3,10 @@
 /* Check holidays and get holiday message string */
 
 function checkHoliday() {
-
-// move holiday check here for use in other functions
-
+// move holiday check here for use in other functions ?
 }
 
-/* Gelman building hours from WRLC API */
+/* Gelman Today building hours from WRLC API */
 
 function gelmanHoursAPI($calDate, $weekDay) {
 
@@ -86,7 +84,7 @@ function gelmanHoursAPI($calDate, $weekDay) {
   return $hoursString;
 }
 
-/* SCRC Open Hours from WRLC API */
+/* SCRC Today Open Hours from WRLC API */
 
 function scrcHoursAPI() {
 
@@ -326,15 +324,35 @@ $flexHTML = "<div class='paddingBlock'>
   </div>
 </div>";
 
-$flexHMTL = "<div class='paddingBlock'><h3>Gelman Library Building Hours</h3>
+$flexHTML = "<div class='paddingBlock'>
+<h3>Gelman Library Building Hours</h3>
   <p class='hoursText'>The building is open 24 hours to current GWU students, faculty, and staff.</p>" .
 getWeek('gelman','1') . 
-"  <h3>Special Collections Research Center</h3>
+"<h3>Check-Out Desk</h3>
+  <p class='hoursText'>202.994.6840 &bull; libcir@gwu.edu</p>" .
+getWeek('circ','2') .
+"<h3>Ask Us Desk</h3>
+  <p class='hoursText'>202.994.6048 &bull; refdesk@gwu.edu</p>" .
+getWeek('ask','3') .
+"<h3>University Writing Center</h3>
+  <p class='hoursText'>202.994.3765 &bull; gwriter@gwu.edu</p>" .
+getWeek('write','4') .
+"<h3>Tech Commons</h3>
+  <p class='hoursText'>Lower Level B03 &bull; 202.994.7041</p>" .
+getWeek('commons','5') .
+"<h3>National Security Archive</h3>
+  <p class='hoursText'>Suite 701 &bull; 202.994.7000</p>" .
+getWeek('nsa','6') .
+"<h3>Global Resources Center</h3>
+  <p class='hoursText'>Suite 708 &bull; 202.994.7105</p>" .
+getWeek('grc','7') .
+"<h3>Special Collections Research Center</h3>
   <p class='hoursText'>Suite 704 &bull; 202.994.7549 &bull; speccoll@gwu.edu &bull; archives@gwu.edu</p>" .
 getWeek('scrc','9') .
 "</div>";
 
 $flexCSS = "<style>
+#block-library_hours-library_hours_all {margin-top:-3em;}
 .hoursText {margin-bottom:0.6em;}
 .hoursToday {font-weight:bold;}
 .hoursDay {font-weight:bold;}
@@ -364,6 +382,8 @@ $flexCSS = "<style>
 .paddingBlock {
 	padding: 0;
 }
+.paddingBlock h3 {font-weight:bold; margin:0;}
+
 .equalHMR {
 	width: 12%;
 	margin-bottom: 2%;
@@ -374,6 +394,8 @@ $flexCSS = "<style>
 @media screen and (max-width:640px) {
   .equalHMR {width:21%;}
   .eq {padding: 6px;}
+  .eq:nth-child(5) {border-left: 1px solid #ccc;}
+  .paddingBlock h3 {margin-top:0.5em;}
 }
 </style>";
 
