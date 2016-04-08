@@ -149,6 +149,56 @@ function scrcHoursAPI() {
 
 /* the full Hours for the /hours page -- this will need a big refactoring with the focused functions above */
 
+function getWeek($group, $libval) {
+
+  // Get 7 days from API.
+  $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=" . $libval . "&daycount=7";
+
+  // Set cache file name and path.
+  $cacheFile = $group . 'Hours-wrlc-week';
+  $path = '/tmp/' . $cacheFile . '.cache';
+
+  // Check to see if cached file is older than 15 minutes (900, units in seconds per UNIX/POSIX time), 
+  // if so update cache.
+  if ((!file_exists($path) || time() - filemtime($path) > 900) && $cache = fopen($path, 'w+'))
+  {
+      $wrlc_json = file_get_contents($API); // get json from scratch if old.
+      fwrite($cache, $wrlc_json); // write block to cache.
+      fclose($cache);
+  }
+  else
+  {
+      $wrlc_json = file_get_contents($path); // get block from cache file.
+  }
+
+  $jsondata = $wrlc_json;
+  $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
+  $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
+
+  $hoursAPI = $itemArray;
+
+  $day1Day = "TODAY";
+  $day2Day = $hoursAPI['library']['week'][1]['day2'];
+  $day3Day = $hoursAPI['library']['week'][2]['day3'];
+  $day4Day = $hoursAPI['library']['week'][3]['day4'];
+  $day5Day = $hoursAPI['library']['week'][4]['day5'];
+  $day6Day = $hoursAPI['library']['week'][5]['day6'];
+  $day7Day = $hoursAPI['library']['week'][6]['day7'];
+
+  $joiner = "&nbsp;-&nbsp;";
+
+  $day1Hours = $hoursAPI['library']['week'][0]['open'] . $joiner . $hoursAPI['library']['week'][0]['close'];
+  $day2Hours = $hoursAPI['library']['week'][1]['open'] . $joiner . $hoursAPI['library']['week'][1]['close'];
+  $day3Hours = $hoursAPI['library']['week'][2]['open'] . $joiner . $hoursAPI['library']['week'][2]['close'];
+  $day4Hours = $hoursAPI['library']['week'][3]['open'] . $joiner . $hoursAPI['library']['week'][3]['close'];
+  $day5Hours = $hoursAPI['library']['week'][4]['open'] . $joiner . $hoursAPI['library']['week'][4]['close'];
+  $day6Hours = $hoursAPI['library']['week'][5]['open'] . $joiner . $hoursAPI['library']['week'][5]['close'];
+  $day7Hours = $hoursAPI['library']['week'][6]['open'] . $joiner . $hoursAPI['library']['week'][6]['close'];
+
+  return $day1Hours;
+
+}
+
 function massiveTable() {
 
   // Building Hours: Get 7 days from API.
@@ -185,13 +235,15 @@ function massiveTable() {
   $day6Day = $hoursAPI['library']['week'][5]['day6'];
   $day7Day = $hoursAPI['library']['week'][6]['day7'];
 
-  $day1Hours = $hoursAPI['library']['week'][0]['open'] . " - " . $hoursAPI['library']['week'][0]['close'];
-  $day2Hours = $hoursAPI['library']['week'][1]['open'] . " - " . $hoursAPI['library']['week'][1]['close'];
-  $day3Hours = $hoursAPI['library']['week'][2]['open'] . " - " . $hoursAPI['library']['week'][2]['close'];
-  $day4Hours = $hoursAPI['library']['week'][3]['open'] . " - " . $hoursAPI['library']['week'][3]['close'];
-  $day5Hours = $hoursAPI['library']['week'][4]['open'] . " - " . $hoursAPI['library']['week'][4]['close'];
-  $day6Hours = $hoursAPI['library']['week'][5]['open'] . " - " . $hoursAPI['library']['week'][5]['close'];
-  $day7Hours = $hoursAPI['library']['week'][6]['open'] . " - " . $hoursAPI['library']['week'][6]['close'];
+  $joiner = "&nbsp;-&nbsp;";
+
+  $day1Hours = $hoursAPI['library']['week'][0]['open'] . $joiner . $hoursAPI['library']['week'][0]['close'];
+  $day2Hours = $hoursAPI['library']['week'][1]['open'] . $joiner . $hoursAPI['library']['week'][1]['close'];
+  $day3Hours = $hoursAPI['library']['week'][2]['open'] . $joiner . $hoursAPI['library']['week'][2]['close'];
+  $day4Hours = $hoursAPI['library']['week'][3]['open'] . $joiner . $hoursAPI['library']['week'][3]['close'];
+  $day5Hours = $hoursAPI['library']['week'][4]['open'] . $joiner . $hoursAPI['library']['week'][4]['close'];
+  $day6Hours = $hoursAPI['library']['week'][5]['open'] . $joiner . $hoursAPI['library']['week'][5]['close'];
+  $day7Hours = $hoursAPI['library']['week'][6]['open'] . $joiner . $hoursAPI['library']['week'][6]['close'];
 
   // SCRC Hours: Get 7 days from API.
   $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=9&daycount=7";
@@ -228,6 +280,7 @@ function massiveTable() {
   $scrcDay7Day = $scrcAPI['library']['week'][6]['day7'];
 
   $scrcDay1Hours = $scrcAPI['library']['week'][0]['open'] . " - " . $scrcAPI['library']['week'][0]['close'];
+  $scrcDay1Hours = getWeek('scrc','9');
   $scrcDay2Hours = $scrcAPI['library']['week'][1]['open'] . " - " . $scrcAPI['library']['week'][1]['close'];
   $scrcDay3Hours = $scrcAPI['library']['week'][2]['open'] . " - " . $scrcAPI['library']['week'][2]['close'];
   $scrcDay4Hours = $scrcAPI['library']['week'][3]['open'] . " - " . $scrcAPI['library']['week'][3]['close'];
