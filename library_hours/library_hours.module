@@ -193,7 +193,21 @@ function getWeek($group, $libval) {
 
 for($i = 0; $i <= 7; $i++) {
   $var = 'day' . ($i + 1) . 'Hours';
-  $$var = $hoursAPI['library']['week'][$i]['open'] . $joiner . $hoursAPI['library']['week'][$i]['close'];
+  if ($hoursAPI['library']['week'][$i]['open'] == 'closed') {
+    $$var = "(closed)";
+  }
+  elseif ($hoursAPI['library']['week'][$i]['open'] == 'by appointment') {
+    $$var = "(by appointment)";
+  }
+  else {
+    if ($hoursAPI['library']['week'][$i]['close'] == '12:00AM') {
+      $closeTime = "midnight";
+    }
+    else {
+      $closeTime = $hoursAPI['library']['week'][$i]['close'];
+    }
+    $$var = $hoursAPI['library']['week'][$i]['open'] . $joiner . $closeTime;
+  }
 }
 
   //$day1Hours = $hoursAPI['library']['week'][0]['open'] . $joiner . $hoursAPI['library']['week'][0]['close'];
