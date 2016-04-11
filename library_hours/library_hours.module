@@ -141,10 +141,6 @@ function scrcHoursAPI() {
 
 /* the full Hours for the /hours page -- this will need a big refactoring with the focused functions above */
 
-function getWeekX() {
-  return "this is returned by test getWeek function";
-}
-
 function getWeek($group, $libval) {
 
   // Get 7 days from API.
@@ -183,7 +179,7 @@ function getWeek($group, $libval) {
   $day7Day = $hoursAPI['library']['week'][6]['day7'];
 
   /* Loop through and get open and close times (with substitutions for Closed, Appointment and Midnight), sets day1Hours etc vara. */
-  $joiner = " - ";
+  $joiner = "<span class='hours-joiner'> - </span>";
 
   for($i = 1; $i <= 7; $i++) {
     $var = 'day' . $i . 'Hours';
@@ -288,6 +284,7 @@ $flexCSS = "<style>
 	width: 12%;
 	margin-bottom: 2%;
 }
+.hours-joiner {font-size: 90%;}
 @media screen and (max-width:900px) {
   .equalHMR {width:11%;}
 }
