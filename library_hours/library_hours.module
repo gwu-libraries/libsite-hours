@@ -369,8 +369,10 @@ $flexCSS = "<style>
         border-left: 0;
 }
 .eq:first-child {
-  background: yellow;
+  background: #005581;
   border-left: 1px solid #ccc;
+  color: #fff;
+  border: 1px solid #005581;
 }
 .eq:nth-of-type(odd) {
 	/*background: yellow;*/
