@@ -141,6 +141,10 @@ function scrcHoursAPI() {
 
 /* the full Hours for the /hours page -- this will need a big refactoring with the focused functions above */
 
+function getWeekX() {
+  return "this is returned by test getWeek function";
+}
+
 function getWeek($group, $libval) {
 
   // Get 7 days from API.
@@ -178,25 +182,26 @@ function getWeek($group, $libval) {
   $day6Day = $hoursAPI['library']['week'][5]['day6'];
   $day7Day = $hoursAPI['library']['week'][6]['day7'];
 
-  /* Loop through and get open and close times (with substitutions for Closed, Appointment and Midnight). */
+  /* Loop through and get open and close times (with substitutions for Closed, Appointment and Midnight), sets day1Hours etc vara. */
   $joiner = " - ";
 
-  for($i = 0; $i <= 7; $i++) {
-    $var = 'day' . ($i + 1) . 'Hours';
-    if ($hoursAPI['library']['week'][$i]['open'] == 'closed') {
+  for($i = 1; $i <= 7; $i++) {
+    $var = 'day' . $i . 'Hours';
+    $dayVar = ($i - 1);
+    if ($hoursAPI['library']['week'][$dayVar]['open'] == 'closed') {
       $$var = "(closed)";
     }
-    elseif ($hoursAPI['library']['week'][$i]['open'] == 'by appointment') {
+    elseif ($hoursAPI['library']['week'][$dayVar]['open'] == 'by appointment') {
       $$var = "(by appointment)";
     }
     else {
-      if ($hoursAPI['library']['week'][$i]['close'] == '12:00AM') {
+      if ($hoursAPI['library']['week'][$dayVar]['close'] == '12:00AM') {
         $closeTime = "midnight";
       }
       else {
-        $closeTime = $hoursAPI['library']['week'][$i]['close'];
+        $closeTime = $hoursAPI['library']['week'][$dayVar]['close'];
       }
-      $$var = $hoursAPI['library']['week'][$i]['open'] . $joiner . $closeTime;
+      $$var = $hoursAPI['library']['week'][$dayVar]['open'] . $joiner . $closeTime;
     }
   }
 
