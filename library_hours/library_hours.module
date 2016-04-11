@@ -175,6 +175,12 @@ function getWeek($group, $libval) {
 
   $hoursAPI = $itemArray;
 
+//for($i = 0; $i <= 7; $i++) {
+//  $arrayVal = $i;
+//  $var = 'day' . $arrayVal . 'Day';
+//  $$var = $hoursAPI['library']['week'][0]['day1'];
+//}
+
   $day1Day = "TODAY";
   $day2Day = $hoursAPI['library']['week'][1]['day2'];
   $day3Day = $hoursAPI['library']['week'][2]['day3'];
@@ -185,13 +191,18 @@ function getWeek($group, $libval) {
 
   $joiner = " - ";
 
-  $day1Hours = $hoursAPI['library']['week'][0]['open'] . $joiner . $hoursAPI['library']['week'][0]['close'];
-  $day2Hours = $hoursAPI['library']['week'][1]['open'] . $joiner . $hoursAPI['library']['week'][1]['close'];
-  $day3Hours = $hoursAPI['library']['week'][2]['open'] . $joiner . $hoursAPI['library']['week'][2]['close'];
-  $day4Hours = $hoursAPI['library']['week'][3]['open'] . $joiner . $hoursAPI['library']['week'][3]['close'];
-  $day5Hours = $hoursAPI['library']['week'][4]['open'] . $joiner . $hoursAPI['library']['week'][4]['close'];
-  $day6Hours = $hoursAPI['library']['week'][5]['open'] . $joiner . $hoursAPI['library']['week'][5]['close'];
-  $day7Hours = $hoursAPI['library']['week'][6]['open'] . $joiner . $hoursAPI['library']['week'][6]['close'];
+for($i = 0; $i <= 7; $i++) {
+  $var = 'day' . ($i + 1) . 'Hours';
+  $$var = $hoursAPI['library']['week'][$i]['open'] . $joiner . $hoursAPI['library']['week'][$i]['close'];
+}
+
+  //$day1Hours = $hoursAPI['library']['week'][0]['open'] . $joiner . $hoursAPI['library']['week'][0]['close'];
+  //$day2Hours = $hoursAPI['library']['week'][1]['open'] . $joiner . $hoursAPI['library']['week'][1]['close'];
+  //$day3Hours = $hoursAPI['library']['week'][2]['open'] . $joiner . $hoursAPI['library']['week'][2]['close'];
+  //$day4Hours = $hoursAPI['library']['week'][3]['open'] . $joiner . $hoursAPI['library']['week'][3]['close'];
+  //$day5Hours = $hoursAPI['library']['week'][4]['open'] . $joiner . $hoursAPI['library']['week'][4]['close'];
+  //$day6Hours = $hoursAPI['library']['week'][5]['open'] . $joiner . $hoursAPI['library']['week'][5]['close'];
+  //$day7Hours = $hoursAPI['library']['week'][6]['open'] . $joiner . $hoursAPI['library']['week'][6]['close'];
 
   $flexHTML = "
     <div class='equalHMRWrap eqWrap'>
