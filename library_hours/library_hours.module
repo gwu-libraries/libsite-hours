@@ -187,6 +187,9 @@ function getWeek($group, $libval) {
     if ($hoursAPI['library']['week'][$dayVar]['open'] == 'closed') {
       $$var = "(closed)";
     }
+    elseif ($hoursAPI['library']['week'][$dayVar]['open'] == 'by appointment' && $libval == 9) {
+      $$var = "(<a href='/scrc/access'>by appointment</a>)";
+    }
     elseif ($hoursAPI['library']['week'][$dayVar]['open'] == 'by appointment') {
       $$var = "(by appointment)";
     }
