@@ -1,6 +1,66 @@
 <?php
 
-/* Gelman Today building hours from WRLC API */
+/* Get the open hours for the day, returns html for a group-specific Hours box. */
+
+function getDay($group, $libval) {
+
+  $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=" . $libval . "&daycount=1";
+
+  // Set cache file name and path.
+  $cacheFile = $group . 'Hours-wrlc-day';
+  $path = '/tmp/' . $cacheFile . '.cache';
+
+  // Check to see if cached file is older than 15 minutes (900, units in seconds per UNIX/POSIX time), 
+  // if so update cache.
+  if ((!file_exists($path) || time() - filemtime($path) > 900) && $cache = fopen($path, 'w+'))
+  {
+      $wrlc_json = file_get_contents($API); // get json from scratch if old.
+      fwrite($cache, $wrlc_json); // write block to cache.
+      fclose($cache);
+  }
+  else
+  {
+      $wrlc_json = file_get_contents($path); // get block from cache file.
+  }
+
+  $jsondata = $wrlc_json;
+  $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
+  $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
+
+  $hoursAPI = $itemArray;
+
+  $todayDay = $hoursAPI['library']['week'][0]['day1'];
+  $todayOpen = $hoursAPI['library']['week'][0]['open'];
+  $todayClose = $hoursAPI['library']['week'][0]['close'];
+  if ($todayClose == "12:00AM") {
+    // clarifying string output to avoid confusion
+    $todayClose = "midnight";
+  }
+  if ($todayOpen == "closed" || $todayOpen == "by appointment") {
+    // removing joiner from string when not needed
+    $joiner = "";
+  }
+  else {
+    $joiner = "&nbsp;-&nbsp;";
+  }
+  if ($todayDay == "closed") {
+    $todayOpen = "(closed)";
+  }
+  if ($todayDay == "by appointment") {
+    $todayOpen = "(by appointent)";
+  }
+
+  if (isset($hoursAPI['library']['week'][0]['holiday'])) {
+    $todayString = "<p>" . $hoursAPI['library']['week'][0]['message'] . "</p>";
+  }
+  else {
+    $todayString = "<p class='scrc-hours'>" . $todayDay . " Hours: " . $todayOpen . $joiner . $todayClose . "</p>";
+  }
+  return $todayString;
+}
+
+/* Refactor using getDay function for the json */
+/* Gelman Today building hours from WRLC API. */
 
 function gelmanHoursAPI($calDate, $weekDay) {
 
@@ -78,7 +138,7 @@ function gelmanHoursAPI($calDate, $weekDay) {
   return $hoursString;
 }
 
-/* SCRC Today Open Hours from WRLC API */
+/* (replaced by call to getDay function) SCRC Today Open Hours from WRLC API */
 
 function scrcHoursAPI() {
 
@@ -139,7 +199,7 @@ function scrcHoursAPI() {
 }
 
 
-/* the full Hours for the /hours page -- this will need a big refactoring with the focused functions above */
+/* Get the hours for all groups for the whole week. */
 
 function getWeek($group, $libval) {
 
@@ -248,6 +308,8 @@ getWeek('grc','8') .
 getWeek('scrc','9') .
 "</div>";
 
+// CSS here for now
+
 $flexCSS = "<style>
 #block-library_hours-library_hours_all {margin-top:-3em;}
 .hoursText {margin-bottom:0.6em;}
@@ -302,7 +364,9 @@ $flexCSS = "<style>
   return $flexCSS . $flexHTML;
 }
 
-/* Set the current date. */
+/* (no longer needed -- this was part of the testing/debugging before we were getting our data from the API
+Set the current date. */
+
 $calDate = date('m/d');
 
 /* Check for and grab URL var for testing date conditions. */
@@ -321,13 +385,18 @@ $theYear = $pieces[2];
 $weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
 
 /* Get the Gelman Building hours from the API */
-$GLOBALS['gelmanTodayAPI'] = gelmanHoursAPI($calDate, $weekDay);
+//$GLOBALS['gelmanTodayAPI'] = gelmanHoursAPI($calDate, $weekDay);
 
 /* Get the SCRC hours from the API */
-$GLOBALS['scrcTodayAPI'] = scrcHoursAPI();
+//$GLOBALS['scrcTodayAPI'] = scrcHoursAPI();
+//$GLOBALS['scrcTodayAPI'] = getDay('scrc',9);
+
+/* Get the SCRC hours from the API */
+//$GLOBALS['scrcTodayAPI'] = scrcHoursAPI();
+//$GLOBALS['grcTodayAPI'] = getDay('grc',8);
 
 /* Get the full hours from the API */
-$GLOBALS['librariesAllAPI'] = massiveTable(); 
+//$GLOBALS['librariesAllAPI'] = massiveTable(); 
 
 /* Creating blocks. */
 
@@ -338,14 +407,12 @@ function library_hours_block_info() {
    $blocks = array();
    $blocks['library_hours_gelman_today'] = array(
      'info' => t("Today's Building Hours"),
-     'region' => 'rsidebar',
-     'visibility' => BLOCK_VISIBILITY_LISTED,
-     'pages' => 'node/1',
    );
       $blocks['library_hours_scrc_today'] = array(
      'info' => t("Today's SCRC Hours"),
-     'region' => 'sidebar',
-     'visibility' => BLOCK_VISIBILITY_LISTED,
+   );
+      $blocks['library_hours_grc_today'] = array(
+     'info' => t("Today's GRC Hours"),
    );
       $blocks['library_hours_all'] = array(
      'info' => t("GW Libraries Open Hours"),
@@ -362,19 +429,25 @@ function library_hours_block_info() {
    $block = array();
    switch ($delta) {
      case 'library_hours_gelman_today':
-       $the_block = $GLOBALS['gelmanTodayAPI'];
+       $the_block = gelmanHoursAPI($calDate, $weekDay);
        $block['subject'] = t('Today in Gelman subject');
        $block['title'] = t('Building Hours');
        $block['content'] = $the_block;
        break;
      case 'library_hours_scrc_today':
-       $the_block = $GLOBALS['scrcTodayAPI'];
+       $the_block = getDay('scrc', 9);
        $block['subject'] = t('Today in SCRC subject');
        $block['title'] = t('SCRC Hours');
        $block['content'] = $the_block;
        break; 
+     case 'library_hours_grc_today':
+       $the_block = getDay('grc', 8);
+       $block['subject'] = t('Today in GRC subject');
+       $block['title'] = t('GRC Hours');
+       $block['content'] = $the_block;
+       break;
      case 'library_hours_all':
-       $the_block = $GLOBALS['librariesAllAPI'];
+       $the_block = massiveTable();
        $block['subject'] = t('');
        $block['title'] = t('');
        $block['content'] = $the_block;
