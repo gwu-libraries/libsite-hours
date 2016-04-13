@@ -133,7 +133,7 @@ function gelmanHoursAPI($calDate, $weekDay) {
     $gelmanToday = "Gelman Hours: " . $todayOpen . " to " . $todayClose . " <span style='font-size:.9em;'>(24-hours for GW students)</span>";
   }
 
-  $hoursString = "<div itemscope itemtype='http://schema.org/Library'><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><time itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</time></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
+  $hoursString = "<div itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu'><span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><time itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</time></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 
   return $hoursString;
 }
@@ -231,7 +231,8 @@ function getWeek($group, $libval) {
 
   /* Set the day strings. */
   $day1Day = "TODAY";
-  $day2Day = $hoursAPI['library']['week'][1]['day2'];
+  $day2Day = "Tomorrow"; 
+  //$day2Day = $hoursAPI['library']['week'][1]['day2'];
   $day3Day = $hoursAPI['library']['week'][2]['day3'];
   $day4Day = $hoursAPI['library']['week'][3]['day4'];
   $day5Day = $hoursAPI['library']['week'][4]['day5'];
