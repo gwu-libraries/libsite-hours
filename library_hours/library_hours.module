@@ -230,8 +230,8 @@ function getWeek($group, $libval) {
   $hoursAPI = $itemArray;
 
   /* Set the day strings. */
-  $day1Day = "TODAY";
-  $day2Day = "Tomorrow"; 
+  $day1Day = "TODAY <span class='sr-only'>" . $hoursAPI['library']['week'][0]['day1'] . "</span>";
+  $day2Day = "Tomorrow <span class='sr-only'>" . $hoursAPI['library']['week'][1]['day2'] . "</span>"; 
   //$day2Day = $hoursAPI['library']['week'][1]['day2'];
   $day3Day = $hoursAPI['library']['week'][2]['day3'];
   $day4Day = $hoursAPI['library']['week'][3]['day4'];
@@ -283,16 +283,18 @@ function getWeek($group, $libval) {
 function massiveTable() {
 
 $flexHTML = "<div class='paddingBlock'>
-<h3>Gelman Library Building Hours</h3>
-  <p class='hoursText'>The building is open 24 hours to current GWU students, faculty, and staff.</p>" .
+<span itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu' property='content:encoded'><h3>Gelman Library Building Hours <strong>*</strong></h3>
+  <span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span>
+  <p class='hoursText'>The building is open 24 hours to current GWU students, faculty, and staff.</p><time itemprop='openingHours' datetime='Mo-Su 07:00-24:00'></time>" .
 getWeek('gelman','1') . 
-"<h3>Check-Out Desk</h3>
+"</span>
+<h3>Check-Out Desk</h3>
   <p class='hoursText'>202.994.6840 &bull; libcir@gwu.edu</p>" .
 getWeek('circ','2') .
-"<h3>Ask Us Desk</h3>
+"<h3>Ask Us Desk <strong>**</strong></h3>
   <p class='hoursText'>202.994.6048 &bull; refdesk@gwu.edu</p>" .
 getWeek('ask','3') .
-"<h3>University Writing Center</h3>
+"<h3>University Writing Center <strong>***</strong></h3>
   <p class='hoursText'>202.994.3765 &bull; gwriter@gwu.edu</p>" .
 getWeek('write','4') .
 "<h3>Tech Commons</h3>
