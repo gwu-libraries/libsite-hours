@@ -283,31 +283,78 @@ function getWeek($group, $libval) {
 function massiveTable() {
 
 $flexHTML = "<div class='paddingBlock'>
-<span itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu' property='content:encoded'><h3>Gelman Library Building Hours <strong>*</strong></h3>
-  <span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span>
-  <p class='hoursText'>The building is open 24 hours to current GWU students, faculty, and staff.</p><time itemprop='openingHours' datetime='Mo-Su 07:00-24:00'></time>" .
+<div class='headHMR equalHMRWrap eqWrap'>
+  <div class='headTitleHMR eq'>
+    <span itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu' property='content:encoded'><h3>Gelman Library Building Hours <strong>*</strong></h3>
+    <span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span>
+  </div>
+  <div class='headTextHMR eq'>
+    <p class='hoursText'>The building is open 24 hours to current GWU students, faculty, and staff.</p><time itemprop='openingHours' datetime='Mo-Su 07:00-24:00'></time>
+  </div>
+</div>" .
 getWeek('gelman','1') . 
-"</span>
-<h3>Check-Out Desk</h3>
-  <p class='hoursText'>202.994.6840 &bull; libcir@gwu.edu</p>" .
+"<div class='headHMR equalHMRWrap eqWrap'>
+  <div class='headTitleHMR eq'>
+    <h3>Check-Out Desk</h3>
+  </div>
+  <div class='headTextHMR eq'>
+    <p class='hoursText'>202.994.6840 &bull; libcir@gwu.edu</p>
+  </div>
+</div>" .
 getWeek('circ','2') .
-"<h3>Ask Us Desk <strong>**</strong></h3>
-  <p class='hoursText'>202.994.6048 &bull; refdesk@gwu.edu</p>" .
+"<div class='headHMR equalHMRWrap eqWrap'>
+  <div class='headTitleHMR eq'>
+    <h3>Ask Us Desk <strong>**</strong></h3>
+  </div>
+  <div class='headTextHMR eq'>
+    <p class='hoursText'>202.994.6048 &bull; refdesk@gwu.edu</p>
+  </div>
+</div>" .
 getWeek('ask','3') .
-"<h3>University Writing Center <strong>***</strong></h3>
-  <p class='hoursText'>202.994.3765 &bull; gwriter@gwu.edu</p>" .
+"<div class='headHMR equalHMRWrap eqWrap'>
+  <div class='headTitleHMR eq'>
+    <h3>University Writing Center <strong>***</strong></h3>
+  </div>
+  <div class='headTextHMR eq'>
+    <p class='hoursText'>202.994.3765 &bull; gwriter@gwu.edu</p>
+  </div>
+</div>" .
 getWeek('write','4') .
-"<h3>Tech Commons</h3>
-  <p class='hoursText'>Lower Level B03 &bull; 202.994.7041</p>" .
+"<div class='headHMR equalHMRWrap eqWrap'>
+  <div class='headTitleHMR eq'>
+    <h3>Tech Commons</h3>
+  </div>
+  <div class='headTextHMR eq'>
+    <p class='hoursText'>Lower Level B03 &bull; 202.994.7041</p>
+  </div>
+</div>" .
 getWeek('commons','5') .
-"<h3>National Security Archive</h3>
-  <p class='hoursText'>Suite 701 &bull; 202.994.7000</p>" .
+"<div class='headHMR equalHMRWrap eqWrap'>
+  <div class='headTitleHMR eq'>
+    <h3>National Security Archive</h3>
+  </div>
+  <div class='headTextHMR eq'>
+    <p class='hoursText'>Suite 701 &bull; 202.994.7000</p>
+  </div>
+</div>" .
 getWeek('nsa','7') .
-"<h3>Global Resources Center</h3>
-  <p class='hoursText'>Suite 708 &bull; 202.994.7105</p>" .
+"<div class='headHMR equalHMRWrap eqWrap'>
+  <div class='headTitleHMR eq'>
+    <h3>Global Resources Center</h3>
+  </div>
+  <div class='headTextHMR eq'>
+    <p class='hoursText'>Suite 708 &bull; 202.994.7105</p>
+  </div>
+</div>" .
 getWeek('grc','8') .
-"<h3>Special Collections Research Center</h3>
-  <p class='hoursText'>Suite 704 &bull; 202.994.7549 &bull; speccoll@gwu.edu &bull; archives@gwu.edu</p>" .
+"<div class='headHMR equalHMRWrap eqWrap'>
+  <div class='headTitleHMR eq'>
+    <h3>Special Collections Research Center</h3>
+  </div>
+  <div class='headTextHMR eq'>
+    <p class='hoursText'>Suite 704 &bull; 202.994.7549 &bull; speccoll@gwu.edu &bull; archives@gwu.edu</p>
+  </div>
+</div>" .
 getWeek('scrc','9') .
 "</div>";
 
@@ -330,12 +377,26 @@ $flexCSS = "<style>
         border: 1px solid #ccc;
         border-left: 0;
 }
+.headHMR .eq {
+  padding-bottom: 0;  
+  border: none;
+}
+
+.headTitleHMR.eq {padding-left: 0;}
+
 .eq:first-child {
   background: #005581;
   border-left: 1px solid #ccc;
   color: #fff;
   border: 1px solid #005581;
 }
+
+.headHMR .eq:first-child {
+  color: #333;
+  background: #fff;
+  border: none;
+}
+
 .eq:nth-of-type(odd) {
 	/*background: yellow;*/
 }
@@ -352,9 +413,34 @@ $flexCSS = "<style>
 	width: 12%;
 	margin-bottom: 2%;
 }
+
+.headHMR .headTitleHMR {
+  min-width: 30%;
+  margin-bottom: 0;
+} 
+
+.headHMR .headTextHMR {
+  min-width: 56%;
+  margin-bottom: 0;
+}
+
 .hours-joiner {font-size: 90%;}
-@media screen and (max-width:900px) {
+
+@media screen and (max-width:950px) {
   .equalHMR {width:11%;}
+}
+
+@media screen and (max-width:850px) {
+  .headHMR .headTitleHMR {
+    width: 90%;
+  }
+  .headHMR .headTextHMR {
+    padding-left: 0;
+    padding-top: 1px;
+  }
+}
+@media screen and (max-width:750px) {
+  .equalHMR {width:10%;}
 }
 @media screen and (max-width:640px) {
   .equalHMR {width:21%;}
