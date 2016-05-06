@@ -62,7 +62,7 @@ function getDay($group, $libval) {
 /* Refactor using getDay function for the json */
 /* Gelman Today building hours from WRLC API. */
 
-function gelmanHoursAPI($calDate, $weekDay) {
+function gelmanHoursAPI() {
 
   $weekDayNum = date('w');
 
@@ -100,21 +100,10 @@ function gelmanHoursAPI($calDate, $weekDay) {
     $todayClose = "midnight";
   }
 
-  /* Set $schemaString */
-  $timeRange = ''; // hard coded to work around issues above ^
-  if ($weekDay !== 'Saturday' && $weekDay !== 'Sunday') {
-    $schemaString = "Mo,Tu,We,Th,Fr " . $timeRange;
-  }
-  elseif ($weekDay == 'Saturday') {
-    $schemaString = "Sa " . $timeRange;
-  }
-  elseif ($weekDay == 'Sunday') {
-    $schemaString = "Su " . $timeRange;
-  }
-  /* Simple schema (for basic "days open") */
+  /* set simple schema.org string for open hours */
   $schemaString = 'Mo-Su 07:00-24:00';
 
-  $theDate = new DateTime($calDate);
+  $theDate = new DateTime();
 
   /* this is a custom set of conditions to check against, only if the options at the WRLC interface http://www.libraries.wrlc.org/admin/hours/ don't provide the right combination of dates/times/message */
   include_once "library_hours_special.php";
@@ -133,7 +122,7 @@ function gelmanHoursAPI($calDate, $weekDay) {
     $gelmanToday = "Gelman Hours: " . $todayOpen . " to " . $todayClose . " <span style='font-size:.9em;'>(24-hours for GW students)</span>";
   }
 
-  $hoursString = "<div itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu'><span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span><p><span style='font-size:.9em;'>" . $weekDay . " " . date_format($theDate, 'F jS') . "</span><br /><time itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</time></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
+  $hoursString = "<div itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu'><span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span><p><span style='font-size:.9em;'>" . $todayDay . " " . date_format($theDate, 'F jS') . "</span><br /><time itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</time></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 
   return $hoursString;
 }
@@ -518,7 +507,7 @@ function library_hours_block_info() {
    $block = array();
    switch ($delta) {
      case 'library_hours_gelman_today':
-       $the_block = gelmanHoursAPI($calDate, $weekDay);
+       $the_block = gelmanHoursAPI();
        $block['subject'] = t('Today in Gelman subject');
        $block['title'] = t('Building Hours');
        $block['content'] = $the_block;
