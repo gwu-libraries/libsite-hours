@@ -100,8 +100,33 @@ function gelmanHoursAPI() {
     $todayClose = "midnight";
   }
 
-  /* set simple schema.org string for open hours */
-  $schemaString = substr(date(D),0,2) . ' ' . $todayOpen . '-' . $todayClose;
+  /* Set simple schema.org string for open hours. Move this to a function so that other blocks can use it. */
+  /* Add leading 0 if needed. */
+  if (strlen($todayOpen) == 6) {  
+    $todayOpen24 = '0' . $todayOpen;
+  }
+  else {
+    $todayOpen24 = $todayOpen;
+  }
+  /* Strip the AM or PM suffix. */
+  $todayOpen24 = substr($todayOpen24,0,5);
+  /* Add leading 0 if needed. */
+  if (strlen($todayClose) == 6) {
+    $todayClose24 = '0' . $todayClose;
+  }
+  else {
+    $todayClose24 = $todayClose;
+  }
+  /* Strip the AM or PM suffix. */
+  $todayClose24 = substr($todayClose24,0,5);
+  /* Change to 24 hour time */
+  if ($todayClose24 != '12:00') {
+    $temp = substr($todayClose24,0,2);
+    $temp2 = $temp + 12;
+    $todayClose24 = $temp2 . substr($todayClose24,2,3);
+  }
+
+  $schemaString = substr(date(D),0,2) . ' ' . $todayOpen24 . '-' . $todayClose24;
 
   $theDate = new DateTime();
 
