@@ -100,7 +100,7 @@ function gelmanHoursAPI() {
     $todayClose = "midnight";
   }
 
-  /* Set simple schema.org string for open hours. Move this to a function so that other blocks can use it. */
+  /* Set simple schema.org string for open hours. Move this to getDay function so that other Hours Box blocks can use it. */
   /* Add leading 0 if needed. */
   if (strlen($todayOpen) == 6) {  
     $todayOpen24 = '0' . $todayOpen;
@@ -466,40 +466,6 @@ $flexCSS = "<style>
 
   return $flexCSS . $flexHTML;
 }
-
-/* (no longer needed -- this was part of the testing/debugging before we were getting our data from the API
-Set the current date. */
-
-$calDate = date('m/d');
-
-/* Check for and grab URL var for testing date conditions. */
-if (isset($_GET["date"])) {
-  $calDate = $_GET["date"];
-}
-
-/* Creating full date with year so that we can use it to find the day of the week. */
-$calDateLong = $calDate . "/" . date('y');
-/* Exploding new full date into pieces to use in mktime below. Assigning variables to the pieces for readability. */
-$pieces = explode("/", $calDateLong);
-$theMonth = $pieces[0];
-$theDay = $pieces[1]; 
-$theYear = $pieces[2]; 
-/* Creating new weekDay var based on the new full date above */
-$weekDay = date("l", mktime(0,0,0,$theMonth,$theDay,$theYear));
-
-/* Get the Gelman Building hours from the API */
-//$GLOBALS['gelmanTodayAPI'] = gelmanHoursAPI($calDate, $weekDay);
-
-/* Get the SCRC hours from the API */
-//$GLOBALS['scrcTodayAPI'] = scrcHoursAPI();
-//$GLOBALS['scrcTodayAPI'] = getDay('scrc',9);
-
-/* Get the SCRC hours from the API */
-//$GLOBALS['scrcTodayAPI'] = scrcHoursAPI();
-//$GLOBALS['grcTodayAPI'] = getDay('grc',8);
-
-/* Get the full hours from the API */
-//$GLOBALS['librariesAllAPI'] = massiveTable(); 
 
 /* Creating blocks. */
 
