@@ -101,7 +101,7 @@ function gelmanHoursAPI() {
   }
 
   /* set simple schema.org string for open hours */
-  $schemaString = 'Mo-Su 07:00-24:00';
+  $schemaString = substr(date(D),0,2) . ' ' . $todayOpen . '-' . $todayClose;
 
   $theDate = new DateTime();
 
