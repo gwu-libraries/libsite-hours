@@ -296,6 +296,8 @@ function getWeek($group, $libval) {
 
 function massiveTable() {
 
+/* The schema.org values are only set for the first set of hours (main building hours) and are currently 'Mo-Su' which means 7 days a week without specifying the hours */
+
 $flexHTML = "<div class='paddingBlock'>
 <div class='headHMR equalHMRWrap eqWrap'>
   <div class='headTitleHMR eq'>
@@ -303,7 +305,7 @@ $flexHTML = "<div class='paddingBlock'>
     <span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span>
   </div>
   <div class='headTextHMR eq'>
-    <p class='hoursText'>The building is open 24 hours to current GWU students, faculty, and staff.</p><time itemprop='openingHours' datetime='Mo-Su 07:00-24:00'></time>
+    <p class='hoursText'>The building is open 24 hours to current GWU students, faculty, and staff.</p><time itemprop='openingHours' datetime='Mo-Su'></time>
   </div>
 </div>" .
 getWeek('gelman','1') . 
