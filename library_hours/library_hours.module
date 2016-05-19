@@ -488,6 +488,9 @@ function library_hours_block_info() {
       $blocks['library_hours_all'] = array(
      'info' => t("GW Libraries Open Hours"),
    );
+      $blocks['library_hours_eckles_today'] = array(
+     'info' => t("Today's Eckles Hours"),
+   );
 
  return $blocks;
  }
@@ -501,26 +504,27 @@ function library_hours_block_info() {
    switch ($delta) {
      case 'library_hours_gelman_today':
        $the_block = gelmanHoursAPI();
-       $block['subject'] = t('Today in Gelman subject');
        $block['title'] = t('Building Hours');
        $block['content'] = $the_block;
        break;
      case 'library_hours_scrc_today':
        $the_block = getDay('scrc', 9);
-       $block['subject'] = t('Today in SCRC subject');
        $block['title'] = t('SCRC Hours');
        $block['content'] = $the_block;
        break; 
      case 'library_hours_grc_today':
        $the_block = getDay('grc', 8);
-       $block['subject'] = t('Today in GRC subject');
        $block['title'] = t('GRC Hours');
        $block['content'] = $the_block;
        break;
      case 'library_hours_all':
        $the_block = massiveTable();
-       $block['subject'] = t('');
        $block['title'] = t('');
+       $block['content'] = $the_block;
+       break;
+     case 'library_hours_eckles_today':
+       $the_block = getDay('eckles', 10);
+       $block['title'] = t('Eckles Library Hours');
        $block['content'] = $the_block;
        break;
      }
