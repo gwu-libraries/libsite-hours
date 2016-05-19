@@ -1,0 +1,88 @@
+#block-library_hours-library_hours_all {margin-top:-3em;}
+.hoursText {margin-bottom:0.6em;}
+.hoursToday {font-weight:bold;}
+.hoursDay {font-weight:bold;}
+.equalHMRWrap {
+        /*justify-content: space-between;*/
+        flex-wrap: wrap;
+}
+.eqWrap {
+        display: flex;
+}
+.eq {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-left: 0;
+}
+.headHMR .eq {
+  padding-bottom: 0;  
+  border: none;
+}
+
+.headTitleHMR.eq {padding-left: 0;}
+
+.eq:first-child {
+  background: #005581;
+  border-left: 1px solid #ccc;
+  color: #fff;
+  border: 1px solid #005581;
+}
+
+.headHMR .eq:first-child {
+  color: #333;
+  background: #fff;
+  border: none;
+}
+
+.eq:nth-of-type(odd) {
+        /*background: yellow;*/
+}
+
+.eq:nth-of-type(even) {
+        /*background: lightblue;*/
+}
+.paddingBlock {
+        padding: 0;
+}
+.paddingBlock h3 {font-weight:bold; margin:0;}
+
+.equalHMR {
+  width: 12%;
+  margin-bottom: 2%;
+}
+
+.headHMR .headTitleHMR {
+  min-width: 30%;
+  margin-bottom: 0;
+} 
+
+.headHMR .headTextHMR {
+  min-width: 56%;
+  margin-bottom: 0;
+}
+
+.hours-joiner {font-size: 90%;}
+
+@media screen and (max-width:950px) {
+  .equalHMR {width:11%;}
+}
+
+@media screen and (max-width:850px) {
+  .headHMR .headTitleHMR {
+    width: 90%;
+  }
+  .headHMR .headTextHMR {
+    padding-left: 0;
+    padding-top: 1px;
+  }
+}
+@media screen and (max-width:750px) {
+  .equalHMR {width:10%;}
+}
+@media screen and (max-width:640px) {
+  .equalHMR {width:21%;}
+  .eq {padding: 6px;}
+  .eq:nth-child(5) {border-left: 1px solid #ccc;}
+  .paddingBlock h3 {margin-top:0.5em;}
+}
+

@@ -294,6 +294,20 @@ function getWeek($group, $libval) {
 
 }
 
+function ecklesWeek() {
+$ecklesWeek = 
+  "<div class='paddingBlock'>
+  <div class='headHMR equalHMRWrap eqWrap'>
+    <div class='headTitleHMR eq'>
+      <h3>Eckles Library Building Hours</h3>
+    </div>
+    <div class='headTextHMR eq'>
+      <p class='hoursText'>202.242.6632 &bull; eckles@gwu.edu</p>
+    </div>
+  </div>" . getWeek('eckles','10') . "</div>";
+return $ecklesWeek;
+}
+
 function massiveTable() {
 
 /* The schema.org values are only set for the first set of hours (main building hours) and are currently 'Mo-Su' which means 7 days a week without specifying the hours */
@@ -491,6 +505,10 @@ function library_hours_block_info() {
       $blocks['library_hours_eckles_today'] = array(
      'info' => t("Today's Eckles Hours"),
    );
+      $blocks['library_hours_eckles_week'] = array(
+     'info' => t("Eckles Library Hours (week)"),
+   );
+
 
  return $blocks;
  }
@@ -527,6 +545,12 @@ function library_hours_block_info() {
        $block['title'] = t('Eckles Library Hours');
        $block['content'] = $the_block;
        break;
+     case 'library_hours_eckles_week':
+       $the_block = ecklesWeek();
+       $block['title'] = t('Eckles Library Open Hours');
+       $block['content'] = $the_block;
+       break;
+
      }
 
  return $block;
