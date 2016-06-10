@@ -126,7 +126,7 @@ function gelmanHoursAPI() {
     $todayClose24 = $temp2 . substr($todayClose24,2,3);
   }
 
-  $schemaString = substr(date(D),0,2) . ' ' . $todayOpen24 . '-' . $todayClose24;
+  $schemaString = substr(date(),0,2) . ' ' . $todayOpen24 . '-' . $todayClose24;
 
   $theDate = new DateTime();
 
