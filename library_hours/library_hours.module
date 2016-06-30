@@ -522,3 +522,6 @@ function library_hours_form($form, &$form_state) {
     '#default_value'=>catalog_get_option(),
   );
 
+  return system_settings_form($form);
+ 
+}
