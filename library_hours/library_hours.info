@@ -4,3 +4,4 @@ version = "7.x-1.0-beta1"
 core = "7.x"
 package = GW Libraries
 stylesheets[all][] = library_hours.css
+configure = admin/config/content/library_hours
