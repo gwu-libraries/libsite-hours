@@ -466,4 +466,59 @@ function library_hours_block_info() {
 
  return $block;
  }
+ 
+  /**
+ * Defines the Library Hours admin settings form.
+ */
+function library_hours_menu() {
+
+  if(user_access(' admin')) {
+
+    $items = array();
+
+    $items['admin/config/content/library_hours'] = array(
+      'title' => 'Library Hours Configuration',
+      'description' => t('Configuration for the Library Hours display'),
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('library_hours_form'),
+      'access arguments' => array('access administration pages'),
+      'type' => MENU_NORMAL_ITEM,
+    );
+
+    return $items;
+  }
+
+  else {
+
+    $items = array();
+
+    $items['admin/config/content/library_hours'] = array(
+      'title' => 'Library Hours Configuration',
+      'description' => t('Configuration for the Library Hours display'),
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('library_hours_form'),
+      'access arguments' => array('access administration pages'),
+      'type' => MENU_NORMAL_ITEM,
+    );
+
+    return $items;
+  }
+
+}
+
+function library_hours_form($form, &$form_state) {
+
+    // Sets options as array for 'show 24' radio buttons.
+    $radioOptions = array(
+    'default'=>t('Shows Gelman as open 24 hours for students in the Hours Box'),
+    'off'=>t('Does not show Gelman as open 24 hours for students in the Hours Box')
+    );
+
+  $form['catalog_radio_choice'] = array(
+    '#type' => 'radios',
+    '#title' => t('Open 24 Hours Message'),
+    '#description' => t('Set the Hours Box to display the Open 24 Hours for Students message'),
+    '#options' => $radioOptions,
+    '#default_value'=>catalog_get_option(),
+  );
 
