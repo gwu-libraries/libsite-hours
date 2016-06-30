@@ -1,5 +1,11 @@
 <?php
 
+// Gets the Hours radio option default from the config settings.
+function hours_get_option(){
+  $show24Default = variable_get('hours_radio_choice', 'default');
+  return $show24Default;  
+}
+
 /* Get the open hours for the day, returns html for a group-specific Hours box. */
 
 function getDay($group, $libval) {
@@ -514,12 +520,12 @@ function library_hours_form($form, &$form_state) {
     'off'=>t('Does not show Gelman as open 24 hours for students in the Hours Box')
     );
 
-  $form['catalog_radio_choice'] = array(
+  $form['hours_radio_choice'] = array(
     '#type' => 'radios',
     '#title' => t('Open 24 Hours Message'),
     '#description' => t('Set the Hours Box to display the Open 24 Hours for Students message'),
     '#options' => $radioOptions,
-    '#default_value'=>catalog_get_option(),
+    '#default_value'=>hours_get_option(),
   );
 
   return system_settings_form($form);
