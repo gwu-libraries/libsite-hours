@@ -1,8 +1,14 @@
 <?php
 
-// Gets the Hours radio option default from the config settings.
-function hours_get_option(){
-  $show24Default = variable_get('hours_radio_choice', 'default');
+// Gets the Closed radio option from the config settings.
+function closed_get_option(){
+  $isClosed = variable_get('closed_radio_choice', 'default');
+  return $isClosed;
+}
+
+// Gets the 24 Hours radio option default from the config settings.
+function open24_get_option(){
+  $show24Default = variable_get('open24_radio_choice', 'default');
   return $show24Default;  
 }
 
@@ -146,11 +152,11 @@ function gelmanHoursAPI() {
   elseif (isset($hoursAPI['library']['week'][0]['holiday'])) {
     $gelmanToday = $hoursAPI['library']['week'][0]['message'];
   }
-  elseif ($todayOpen == "closed") {
+  elseif ($todayOpen == "closed" || closed_get_option() == 'default') {
     $gelmanToday = "Gelman Library is closed today";
   }
   else {
-    if (hours_get_option() == 'default') {
+    if (open24_get_option() == 'default') {
       $open24 = "<br /><span style='font-size:.9em;'>(24-hours for GW students)</span>";
     }
     else {
@@ -526,12 +532,26 @@ function library_hours_form($form, &$form_state) {
     'off'=>t('Do NOT show Gelman as open 24 hours for students in the Hours Box')
     );
 
-  $form['hours_radio_choice'] = array(
+    // Sets options as array for 'Gelman closed' checkbox.
+    $closedOptions = array(
+      'default'=>t('Show Gelman as Closed in the Hours Box'),
+      'off'=>t('Show the normal Gelman building hours') 
+    );
+
+  $form['open24_radio_choice'] = array(
     '#type' => 'radios',
     '#title' => t('Open 24 Hours Message'),
     '#description' => t('Display the Hours Box message about student access to Gelman library: "(24-hours for GW students)". This will display in the Hours Box on the landing page of the site.'),
     '#options' => $radioOptions,
-    '#default_value'=>hours_get_option(),
+    '#default_value'=>open24_get_option(),
+  );
+
+  $form['closed_radio_choice'] = array(
+    '#type' => 'radios',
+    '#title' => t('Gelman is Closed (use for emergency closures)'),
+    '#description' => t('This will override the hours display in the Hours Box on the landing page of the site, use this for emergency closures only (i.e. snow days).'),
+    '#options' => $closedOptions,
+    '#default_value'=>closed_get_option(),
   );
 
   return system_settings_form($form);
