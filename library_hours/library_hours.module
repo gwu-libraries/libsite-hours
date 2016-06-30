@@ -150,7 +150,13 @@ function gelmanHoursAPI() {
     $gelmanToday = "Gelman Library is closed today";
   }
   else {
-    $gelmanToday = "Gelman Hours: " . $todayOpen . " to " . $todayClose /* . " <!--<span style='font-size:.9em;'>(24-hours for GW students)</span>-->" */;
+    if (hours_get_option() == 'Default') {
+      $open24 = "<span style='font-size:.9em;'>(24-hours for GW students)</span>";
+    }
+    else {
+      $open24 = 'NO';
+    }
+    $gelmanToday = "Gelman Hours: " . $todayOpen . " to " . $todayClose . $open24;
   }
 
   $hoursString = "<div itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu'><span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span><p><span style='font-size:.9em;'>" . $todayDay . " " . date_format($theDate, 'F jS') . "</span><br /><time itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</time></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
