@@ -150,16 +150,16 @@ function gelmanHoursAPI() {
     $gelmanToday = "Gelman Library is closed today";
   }
   else {
-    if (hours_get_option() == 'Default') {
-      $open24 = "<span style='font-size:.9em;'>(24-hours for GW students)</span>";
+    if (hours_get_option() == 'default') {
+      $open24 = "<br /><span style='font-size:.9em;'>(24-hours for GW students)</span>";
     }
     else {
-      $open24 = 'NO';
+      $open24 = '';
     }
-    $gelmanToday = "Gelman Hours: " . $todayOpen . " to " . $todayClose . $open24;
+    $gelmanToday = "Open " . $todayOpen . " to " . $todayClose . $open24;
   }
 
-  $hoursString = "<div itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu'><span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span><p><span style='font-size:.9em;'>" . $todayDay . " " . date_format($theDate, 'F jS') . "</span><br /><time itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</time></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
+  $hoursString = "<div itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu'><span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span><p><span style='font-size:.9em; line-height:3em;'>" . $todayDay . " " . date_format($theDate, 'F jS') . "</span><br /><time itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</time></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
 
   return $hoursString;
 }
@@ -522,14 +522,14 @@ function library_hours_form($form, &$form_state) {
 
     // Sets options as array for 'show 24' radio buttons.
     $radioOptions = array(
-    'default'=>t('Shows Gelman as open 24 hours for students in the Hours Box'),
-    'off'=>t('Does not show Gelman as open 24 hours for students in the Hours Box')
+    'default'=>t('Show Gelman as open 24 hours for students in the Hours Box'),
+    'off'=>t('Do NOT show Gelman as open 24 hours for students in the Hours Box')
     );
 
   $form['hours_radio_choice'] = array(
     '#type' => 'radios',
     '#title' => t('Open 24 Hours Message'),
-    '#description' => t('Set the Hours Box to display the Open 24 Hours for Students message'),
+    '#description' => t('Display the Hours Box message about student access to Gelman library: "(24-hours for GW students)". This will display in the Hours Box on the landing page of the site.'),
     '#options' => $radioOptions,
     '#default_value'=>hours_get_option(),
   );
