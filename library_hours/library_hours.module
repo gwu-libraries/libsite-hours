@@ -395,7 +395,7 @@ getWeek('nsa','7') .
     <h3>Global Resources Center</h3>
   </div>
   <div class='headTextHMR eq'>
-    <p class='hoursText'>Suite 708 &bull; 202.994.7105 &bull; The GRC is available to graduate students via GWorld tap access any time the library is open.</p>
+    <p class='hoursText'>Suite 708 &bull; 202.994.7105 &bull; the GRC is available to graduate students via GWorld tap access any time the library is open</p>
   </div>
 </div>" .
 getWeek('grc','8') .
