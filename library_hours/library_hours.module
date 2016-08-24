@@ -256,8 +256,9 @@ function getWeek($group, $libval) {
   }
 
   $jsondata = $wrlc_json;
-  $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
-  $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
+  $jsondatafixed = str_replace("},]}}" , "}]}}" , $jsondata);
+  $jsondatafixed2 = str_replace("}{" , "},{" , $jsondatafixed);
+  $itemArray  = json_decode($jsondatafixed2, true); // Decode JSON to associative array.
 
   $hoursAPI = $itemArray;
 
