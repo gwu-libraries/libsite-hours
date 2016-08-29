@@ -341,7 +341,7 @@ $flexHTML = "<div class='paddingBlock'>
     <span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span>
   </div>
   <div class='headTextHMR eq'>
-    <p class='hoursText'>24-hour building access for GW students, faculty, and staff will resume on Monday, August 29</p><time itemprop='openingHours' datetime='Mo-Su'></time>
+    <p class='hoursText'>24-hour building access for GW students, faculty, and staff</p><time itemprop='openingHours' datetime='Mo-Su'></time>
   </div>
 </div>" .
 getWeek('gelman','1') . 
