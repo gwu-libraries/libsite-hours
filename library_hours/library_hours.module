@@ -1,5 +1,18 @@
 <?php
 
+/* Class to hold string value with today's hours (supplements Hours box). 
+*/
+
+class HoursToday {
+  public $message;
+
+  function __construct( $message ) {
+    $this->message = $message;
+  }
+
+};
+
+
 // Gets the Closed radio option from the config settings.
 function closed_get_option(){
   $isClosed = variable_get('closed_radio_choice', 'default');
