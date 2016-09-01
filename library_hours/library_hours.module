@@ -1,6 +1,6 @@
 <?php
 
-/* Class to hold string value with today's hours (supplements Hours box). 
+/* test: Class to hold string value with today's hours (supplements Hours box). 
 */
 
 class HoursToday {
@@ -12,6 +12,11 @@ class HoursToday {
 
 };
 
+$testVar = new HoursToday('test message');
+variable_set('testSet', $testVar->message);
+$testGet = variable_get('testSet', 'default');
+
+/* end class testing */
 
 // Gets the Closed radio option from the config settings.
 function closed_get_option(){
