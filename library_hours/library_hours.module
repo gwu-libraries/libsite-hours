@@ -107,6 +107,7 @@ function gelmanHoursAPI() {
   $todayDay = $hoursAPI['library']['week'][0]['day1'];
   $todayOpen = $hoursAPI['library']['week'][0]['open'];
   $todayClose = $hoursAPI['library']['week'][0]['close'];
+  $todayClose1 = $todayClose;
   if ($todayClose == "12:00AM") {
     // clarifying output to avoid confusion
     $todayClose = "midnight";
@@ -123,19 +124,24 @@ function gelmanHoursAPI() {
   /* Strip the AM or PM suffix. */
   $todayOpen24 = substr($todayOpen24,0,5);
   /* Add leading 0 if needed. */
-  if (strlen($todayClose) == 6) {
-    $todayClose24 = '0' . $todayClose;
+  if (strlen($todayClose1) == 6) {
+    $todayClose24 = '0' . $todayClose1;
   }
   else {
-    $todayClose24 = $todayClose;
+    $todayClose24 = $todayClose1;
   }
   /* Strip the AM or PM suffix. */
-  $todayClose24 = substr($todayClose24,0,5);
-  /* Change to 24 hour time */
-  if ($todayClose24 != '12:00') {
-    $temp = substr($todayClose24,0,2);
-    $temp2 = $temp + 12;
-    $todayClose24 = $temp2 . substr($todayClose24,2,3);
+  if ($todayClose24 == '12:00AM') {
+    $todayClose24 = '24:00';
+  }
+  else {
+    $todayClose24 = substr($todayClose24,0,5);
+    /* Change to 24 hour time */
+    if ($todayClose24 != '12:00') {
+      $temp = substr($todayClose24,0,2);
+      $temp2 = $temp + 12;
+      $todayClose24 = $temp2 . substr($todayClose24,2,3);
+    }
   }
 
   $schemaString = substr(date('D'),0,2) . ' ' . $todayOpen24 . '-' . $todayClose24;
