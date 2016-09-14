@@ -1,6 +1,6 @@
 <?php
 
-/* test: Class to hold string value with today's hours (supplements Hours box). 
+/* Test: Class to hold values for today's hours and schema. 
 */
 
 class HoursToday {
@@ -20,7 +20,8 @@ class HoursToday {
 //$testGet1 = variable_get('testSet', 'default');
 //$testGet2 = variable_get('testSet2', 'default');
 
-// not using this
+/* Test: Class to hold string value with today's hours (supplements Hours box, to be used in theme for handheld via variable_set -- could just be another property inside the above HoursToday class). 
+*/
 class thehours {
   var $name; 
   function set_name($new_name) { 
