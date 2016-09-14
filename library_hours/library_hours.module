@@ -71,7 +71,7 @@ function getDay($group, $libval) {
       $todayString = "<p>" . $hoursAPI['library']['week'][0]['message'] . "</p>";
     }
     else {
-      $todayString = "<p class='scrc-hours'>" . $todayDay . " Hours: " . $todayOpen . $joiner . $todayClose . "</p>";
+      $todayString = "<p class='" . $group . "-hours'><span class='" . $group . "-hours-day'>" . $todayDay . "<span class='" . $group . "-hours-day-suffix'> Hours:</span></span> <span class='" . $group . "-hours-time'>" . $todayOpen . $joiner . $todayClose . "</span></p>";
     }
   }
   else {
@@ -82,6 +82,24 @@ function getDay($group, $libval) {
 
 /* Refactor using getDay function for the json */
 /* Gelman Today building hours from WRLC API. */
+
+function getDayGelman() {
+
+  $base = getDay('gelman','1');
+  
+  $hoursString = "<div itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu'>
+  <span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span>
+
+  <time itemprop='openingHours' datetime='Mo-Su'>"  . $base . "</time>
+
+  <span class='gelman-message' style='font-size:.9em;'>(24-hours for GW students)</span>  
+
+<p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p>
+</div>";
+
+  return $hoursString;
+
+}
 
 function gelmanHoursAPI() {
 
@@ -405,7 +423,7 @@ function library_hours_block_info() {
    $block = array();
    switch ($delta) {
      case 'library_hours_gelman_today':
-       $the_block = gelmanHoursAPI();
+       $the_block = getDayGelman();
        $block['title'] = t('Building Hours');
        $block['content'] = $the_block;
        break;

@@ -1,7 +1,19 @@
-#block-library_hours-library_hours_all {margin-top:-3em;}
-.hoursText {margin-bottom:0.6em;}
-.hoursToday {font-weight:bold;}
-.hoursDay {font-weight:bold;}
+#block-library_hours-library_hours_all { margin-top: -3em; }
+.hoursText { margin-bottom: 0.6em; }
+.hoursToday { font-weight: bold; }
+.hoursDay { font-weight: bold; }
+
+.gelman-hours { margin-bottom: .4em; }
+.gelman-hours-day {
+    display: inline-block;
+    margin-bottom: .3em;
+    margin-top: .2em;
+}
+.gelman-hours-day-suffix { display: none; }
+.gelman-hours-time { font-size: 1.2em; }
+.library-hours-last { margin-top: 1em; }
+
+
 .equalHMRWrap {
         /*justify-content: space-between;*/
         flex-wrap: wrap;
@@ -19,7 +31,7 @@
   border: none;
 }
 
-.headTitleHMR.eq {padding-left: 0;}
+.headTitleHMR.eq { padding-left: 0; }
 
 .eq:first-child {
   background: #005581;
@@ -44,7 +56,10 @@
 .paddingBlock {
         padding: 0;
 }
-.paddingBlock h3 {font-weight:bold; margin:0;}
+.paddingBlock h3 { 
+  font-weight: bold; 
+  margin: 0; 
+}
 
 .equalHMR {
   width: 12%;
@@ -61,10 +76,10 @@
   margin-bottom: 0;
 }
 
-.hours-joiner {font-size: 90%;}
+.hours-joiner { font-size: 90%; }
 
 @media screen and (max-width:950px) {
-  .equalHMR {width:11%;}
+  .equalHMR { width: 11%; }
 }
 
 @media screen and (max-width:850px) {
@@ -77,12 +92,12 @@
   }
 }
 @media screen and (max-width:750px) {
-  .equalHMR {width:10%;}
+  .equalHMR { width: 10%; }
 }
 @media screen and (max-width:640px) {
-  .equalHMR {width:21%;}
-  .eq {padding: 6px;}
-  .eq:nth-child(5) {border-left: 1px solid #ccc;}
-  .paddingBlock h3 {margin-top:0.5em;}
+  .equalHMR { width: 21%; }
+  .eq { padding: 6px; }
+  .eq:nth-child(5) { border-left: 1px solid #ccc; }
+  .paddingBlock h3 { margin-top: 0.5em; }
 }
 
