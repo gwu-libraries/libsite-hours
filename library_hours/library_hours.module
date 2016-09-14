@@ -37,36 +37,45 @@ function getDay($group, $libval) {
 
   $jsondata = $wrlc_json;
   $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
-  $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
 
-  $hoursAPI = $itemArray;
+// Check for valid json.
+  $jsonCheck = json_decode($jsondatafixed);
+  if (json_last_error() === JSON_ERROR_NONE) {
 
-  $todayDay = $hoursAPI['library']['week'][0]['day1'];
-  $todayOpen = $hoursAPI['library']['week'][0]['open'];
-  $todayClose = $hoursAPI['library']['week'][0]['close'];
-  if ($todayClose == "12:00AM") {
-    // clarifying string output to avoid confusion
-    $todayClose = "midnight";
-  }
-  if ($todayOpen == "closed" || $todayOpen == "by appointment") {
-    // removing joiner from string when not needed
-    $joiner = "";
+    $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
+
+    $hoursAPI = $itemArray;
+
+    $todayDay = $hoursAPI['library']['week'][0]['day1'];
+    $todayOpen = $hoursAPI['library']['week'][0]['open'];
+    $todayClose = $hoursAPI['library']['week'][0]['close'];
+    if ($todayClose == "12:00AM") {
+      // clarifying string output to avoid confusion
+      $todayClose = "midnight";
+    }
+    if ($todayOpen == "closed" || $todayOpen == "by appointment") {
+      // removing joiner from string when not needed
+      $joiner = "";
+    }
+    else {
+      $joiner = "&nbsp;-&nbsp;";
+    }
+    if ($todayDay == "closed") {
+      $todayOpen = "(closed)";
+    }
+    if ($todayDay == "by appointment") {
+      $todayOpen = "(by appointent)";
+    }
+
+    if (isset($hoursAPI['library']['week'][0]['holiday'])) {
+      $todayString = "<p>" . $hoursAPI['library']['week'][0]['message'] . "</p>";
+    }
+    else {
+      $todayString = "<p class='scrc-hours'>" . $todayDay . " Hours: " . $todayOpen . $joiner . $todayClose . "</p>";
+    }
   }
   else {
-    $joiner = "&nbsp;-&nbsp;";
-  }
-  if ($todayDay == "closed") {
-    $todayOpen = "(closed)";
-  }
-  if ($todayDay == "by appointment") {
-    $todayOpen = "(by appointent)";
-  }
-
-  if (isset($hoursAPI['library']['week'][0]['holiday'])) {
-    $todayString = "<p>" . $hoursAPI['library']['week'][0]['message'] . "</p>";
-  }
-  else {
-    $todayString = "<p class='scrc-hours'>" . $todayDay . " Hours: " . $todayOpen . $joiner . $todayClose . "</p>";
+    $todayString = "bad json bad";
   }
   return $todayString;
 }
