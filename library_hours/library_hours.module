@@ -75,7 +75,7 @@ function getDay($group, $libval) {
     }
   }
   else {
-    $todayString = "bad json bad";
+    $todayString = "(hours are temporarily unavailable)";
   }
   return $todayString;
 }
