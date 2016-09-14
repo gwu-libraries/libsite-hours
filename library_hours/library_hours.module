@@ -185,66 +185,6 @@ function gelmanHoursAPI() {
   return $hoursString;
 }
 
-/* (replaced by call to getDay function) SCRC Today Open Hours from WRLC API */
-
-function scrcHoursAPI() {
-
-  $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=9&daycount=1";
-
-  // Set cache file name and path.
-  $cacheFile = 'scrcHours-wrlc';
-  $path = '/tmp/' . $cacheFile . '.cache';
-
-  // Check to see if cached file is older than 15 minutes (900, units in seconds per UNIX/POSIX time), 
-  // if so update cache.
-  if ((!file_exists($path) || time() - filemtime($path) > 900) && $cache = fopen($path, 'w+'))
-  {
-      $wrlc_json = file_get_contents($API); // get json from scratch if old.
-      fwrite($cache, $wrlc_json); // write block to cache.
-      fclose($cache);
-  }
-  else
-  {
-      $wrlc_json = file_get_contents($path); // get block from cache file.
-  }
-
-  $jsondata = $wrlc_json;
-  $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
-  $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
-
-  $hoursAPI = $itemArray;
-
-  $todayDay = $hoursAPI['library']['week'][0]['day1'];
-  $todayOpen = $hoursAPI['library']['week'][0]['open'];
-  $todayClose = $hoursAPI['library']['week'][0]['close'];
-  if ($todayClose == "12:00AM") {
-    // clarifying string output to avoid confusion
-    $todayClose = "midnight";
-  }
-  if ($todayOpen == "closed" || $todayOpen == "by appointment") {
-    $joiner = "";
-  }
-  else {
-    $joiner = "&nbsp;-&nbsp;";
-  }
-  if ($todayDay == "Saturday") {
-    $todayOpen = "";
-    $joiner = "";
-    $extramsg = "<br />(by appointment only)";
-  }
-  else {
-    $extramsg = "";
-  }
-
-  if (isset($hoursAPI['library']['week'][0]['holiday'])) {
-    $todayString = "<p>" . $hoursAPI['library']['week'][0]['message'] . "</p>";
-  }
-  else {
-    $todayString = "<p class='scrc-hours'>" . $todayDay . " Hours: " . $todayOpen . $joiner . $todayClose . $extramsg . "</p>";
-  }
-  return $todayString;
-}
-
 
 /* Get the hours for all groups for the whole week. */
 
@@ -454,9 +394,8 @@ function library_hours_block_info() {
      'info' => t("Eckles Library Hours (week)"),
    );
 
-
- return $blocks;
- }
+   return $blocks;
+}
 
  /**
  * Implements hook_block_view().
@@ -501,9 +440,10 @@ function library_hours_block_info() {
  return $block;
  }
  
-  /**
- * Defines the Library Hours admin settings form.
- */
+/**
+* Defines the Library Hours admin settings form.
+*/
+
 function library_hours_menu() {
 
   if(user_access(' admin')) {
