@@ -1,6 +1,7 @@
 <?php
 
 /* Test: Class to hold values for today's hours and schema. 
+* (testing output near line 500 in SCRC hours block!!) 
 */
 
 class HoursToday {
