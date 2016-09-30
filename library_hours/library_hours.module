@@ -55,6 +55,9 @@ function getDay($group, $libval) {
     $todayDay = $hoursAPI['library']['week'][0]['day1'];
     $todayOpen = $hoursAPI['library']['week'][0]['open'];
     $todayClose = $hoursAPI['library']['week'][0]['close'];
+
+    $schema = getSchema($todayOpen, $todayClose); // gets schema.org values 
+
     if ($todayClose == "12:00AM") {
       // clarifying string output to avoid confusion
       $todayClose = "midnight";
@@ -77,7 +80,7 @@ function getDay($group, $libval) {
       $todayString = "<p>" . $hoursAPI['library']['week'][0]['message'] . "</p>";
     }
     else {
-      $todayString = "<p class='" . $group . "-hours'><span class='" . $group . "-hours-day'>" . $todayDay . "<span class='" . $group . "-hours-day-suffix'> Hours:</span></span> <span class='" . $group . "-hours-time'>" . $todayOpen . $joiner . $todayClose . "</span></p>";
+      $todayString = "<p itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu' class='" . $group . "-hours'><time " . $schema . "><span class='" . $group . "-hours-day'>" . $todayDay . "<span class='" . $group . "-hours-day-suffix'> Hours:</span></span> <span class='" . $group . "-hours-time'>" . $todayOpen . $joiner . $todayClose . "</span></time></p>";
     }
   }
   else {
@@ -154,7 +157,7 @@ function getSchema($todayOpen, $todayClose) {
     }
   }
 
-  $schemaString = substr(date('D'),0,2) . ' ' . $todayOpen24 . '-' . $todayClose24;
+  $schemaString = "dayOfWeek='" . substr(date('D'),0,2) . "' openingHours='" . $todayOpen24 . "-" . $todayClose24 . "'";
 
   return $schemaString;
 
@@ -270,7 +273,9 @@ $ecklesWeek =
       <p class='hoursText'>202.242.6632 &bull; eckles@gwu.edu</p>
     </div>
   </div>" . getWeek('eckles','10') . "</div>";
+
 return $ecklesWeek;
+
 }
 
 /**
