@@ -1,5 +1,9 @@
 <?php
 
+/** 
+* Get the options set in the admin configuration. 
+*/ 
+
 // Gets the Closed radio option from the config settings.
 function closed_get_option(){
   $isClosed = variable_get('closed_radio_choice', 'default');
@@ -12,7 +16,9 @@ function open24_get_option(){
   return $show24Default;  
 }
 
-/* Get the open hours for the day, returns html for a group-specific Hours box. */
+/** Get the open hours for the day by group/org, 
+* returns html for a group-specific Hours box. 
+*/
 
 function getDay($group, $libval) {
 
@@ -80,8 +86,10 @@ function getDay($group, $libval) {
   return $todayString;
 }
 
-/* Refactor using getDay function for the json */
-/* Gelman Today building hours from WRLC API. */
+/** 
+* Get the open hours for the day for Gelman (uses getDay function), 
+* returns html customized for the main building Hours box. 
+*/
 
 function getDayGelman() {
 
@@ -101,6 +109,7 @@ function getDayGelman() {
 
 }
 
+// older gelman hours box function, remove but pull out schema as own function 
 function gelmanHoursAPI() {
 
   $weekDayNum = date('w');
@@ -204,7 +213,9 @@ function gelmanHoursAPI() {
 }
 
 
-/* Get the hours for all groups for the whole week. */
+/**
+* Get the hours for the whole week, returns html (7 day flexbox table). 
+*/
 
 function getWeek($group, $libval) {
 
@@ -289,6 +300,9 @@ function getWeek($group, $libval) {
 
 }
 
+
+/* Whole week view using getWeek() for single org/unit (Eckles). */
+
 function ecklesWeek() {
 $ecklesWeek = 
   "<div class='paddingBlock'>
@@ -303,9 +317,14 @@ $ecklesWeek =
 return $ecklesWeek;
 }
 
+/**
+* Get the week view using getWeek() for all units/orgs for the main Hours page. 
+* Returns html as a series of 7 day flexbox tables. 
+*/
+
 function massiveTable() {
 
-/* The schema.org values are only set for the first set of hours (main building hours) and are currently 'Mo-Su' which means 7 days a week without specifying the hours */
+// The schema.org values are only set for the first set of hours (main building hours) and are currently 'Mo-Su' which means 7 days a week without specifying the hours.
 
 $flexHTML = "<div class='paddingBlock'>
 <div class='headHMR equalHMRWrap eqWrap'>
@@ -386,7 +405,9 @@ getWeek('scrc','9') .
   return $flexHTML;
 }
 
-/* Creating blocks. */
+/** 
+* Create the Drupal blocks. 
+*/
 
  /**
  * Implements hook_block_info().
