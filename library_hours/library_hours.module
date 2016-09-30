@@ -87,7 +87,7 @@ function getDay($group, $libval) {
 }
 
 /** 
-* Get the open hours for the day for Gelman (uses getDay function), 
+* Get the open hours for the day for Gelman using getDay(), 
 * returns html customized for the main building Hours box. 
 */
 
@@ -109,47 +109,12 @@ function getDayGelman() {
 
 }
 
-// older gelman hours box function, remove but pull out schema as own function 
-function gelmanHoursAPI() {
+/**
+* Set the hours for schema.org values.
+*/
 
-  $weekDayNum = date('w');
-
-  $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1&daycount=1";
-
-  // Set cache file name and path.
-  $cacheFile = 'libraryHours-wrlc';
-  $path = '/tmp/' . $cacheFile . '.cache';
-
-  // Check to see if cached file is older than 15 minutes (900, units in seconds per UNIX/POSIX time), 
-  // if so update cache.
-  if ((!file_exists($path) || time() - filemtime($path) > 900) && $cache = fopen($path, 'w+'))
-  {
-      $wrlc_json = file_get_contents($API); // get json from scratch if old.
-      fwrite($cache, $wrlc_json); // write block to cache.
-      fclose($cache);
-  }
-  else
-  {
-      $wrlc_json = file_get_contents($path); // get block from cache file.
-  }
-
-  $jsondata = $wrlc_json;
-  $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
-  $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
-
-  $hoursAPI = $itemArray;
-
-  //$index = $weekDayNum;
-  $todayDay = $hoursAPI['library']['week'][0]['day1'];
-  $todayOpen = $hoursAPI['library']['week'][0]['open'];
-  $todayClose = $hoursAPI['library']['week'][0]['close'];
-  $todayClose1 = $todayClose;
-  if ($todayClose == "12:00AM") {
-    // clarifying output to avoid confusion
-    $todayClose = "midnight";
-  }
-
-  /* Set simple schema.org string for open hours. Move this to getDay function so that other Hours Box blocks can use it. */
+function getSchema() {
+/* Set simple schema.org string for open hours. Move this to getDay function so that other Hours Box blocks can use it. */
   /* Add leading 0 if needed. */
   if (strlen($todayOpen) == 6) {  
     $todayOpen24 = '0' . $todayOpen;
@@ -182,36 +147,9 @@ function gelmanHoursAPI() {
 
   $schemaString = substr(date('D'),0,2) . ' ' . $todayOpen24 . '-' . $todayClose24;
 
-  $theDate = new DateTime();
+  return $schemaString;
 
-  /* this is a custom set of conditions to check against, only if the options at the WRLC interface http://www.libraries.wrlc.org/admin/hours/ don't provide the right combination of dates/times/message */
-  include_once "library_hours_special.php";
-
-  if (isset($specialDay)) {
-    // check if var is set from included file above
-    $gelmanToday = $specialDay;
-  } 
-  elseif (isset($hoursAPI['library']['week'][0]['holiday'])) {
-    $gelmanToday = $hoursAPI['library']['week'][0]['message'];
-  }
-  elseif ($todayOpen == "closed" || closed_get_option() == 'default') {
-    $gelmanToday = "Gelman Library is closed today";
-  }
-  else {
-    if (open24_get_option() == 'default') {
-      $open24 = "<br /><span style='font-size:.9em;'>(24-hours for GW students)</span>";
-    }
-    else {
-      $open24 = '';
-    }
-    $gelmanToday = "Open " . $todayOpen . " to " . $todayClose . $open24;
-  }
-
-  $hoursString = "<div itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu'><span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span><p><span style='font-size:.9em; line-height:2em;'>" . $todayDay . " " . date_format($theDate, 'F jS') . "</span><br /><time itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</time></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
-
-  return $hoursString;
 }
-
 
 /**
 * Get the hours for the whole week, returns html (7 day flexbox table). 
@@ -403,6 +341,7 @@ getWeek('scrc','9') .
 "</div>";
 
   return $flexHTML;
+
 }
 
 /** 
