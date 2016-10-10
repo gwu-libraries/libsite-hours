@@ -84,7 +84,7 @@ function getDay($group, $libval) {
     }
   }
   else {
-    $todayString = "(hours are temporarily unavailable)";
+    $todayString = "<p>(hours are temporarily unavailable)</p>";
   }
   
   return $todayString;
