@@ -1,5 +1,9 @@
 <?php
 
+/** 
+* Get the options set in the admin configuration. 
+*/ 
+
 // Gets the Closed radio option from the config settings.
 function closed_get_option(){
   $isClosed = variable_get('closed_radio_choice', 'default');
@@ -12,7 +16,9 @@ function open24_get_option(){
   return $show24Default;  
 }
 
-/* Get the open hours for the day, returns html for a group-specific Hours box. */
+/** Get the open hours for the day by group/org, 
+* returns html for a group-specific Hours box. 
+*/
 
 function getDay($group, $libval) {
 
@@ -38,7 +44,7 @@ function getDay($group, $libval) {
   $jsondata = $wrlc_json;
   $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
 
-// Check for valid json.
+  // Check for valid json.
   $jsonCheck = json_decode($jsondatafixed);
   if (json_last_error() === JSON_ERROR_NONE) {
 
@@ -49,6 +55,9 @@ function getDay($group, $libval) {
     $todayDay = $hoursAPI['library']['week'][0]['day1'];
     $todayOpen = $hoursAPI['library']['week'][0]['open'];
     $todayClose = $hoursAPI['library']['week'][0]['close'];
+
+    $schema = getSchema($todayOpen, $todayClose); // gets schema.org values 
+
     if ($todayClose == "12:00AM") {
       // clarifying string output to avoid confusion
       $todayClose = "midnight";
@@ -71,17 +80,21 @@ function getDay($group, $libval) {
       $todayString = "<p>" . $hoursAPI['library']['week'][0]['message'] . "</p>";
     }
     else {
-      $todayString = "<p class='" . $group . "-hours'><span class='" . $group . "-hours-day'>" . $todayDay . "<span class='" . $group . "-hours-day-suffix'> Hours:</span></span> <span class='" . $group . "-hours-time'>" . $todayOpen . $joiner . $todayClose . "</span></p>";
+      $todayString = "<p itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu' class='" . $group . "-hours'><time " . $schema . "><span class='" . $group . "-hours-day'>" . $todayDay . "<span class='" . $group . "-hours-day-suffix'> Hours:</span></span> <span class='" . $group . "-hours-time'>" . $todayOpen . $joiner . $todayClose . "</span></time></p>";
     }
   }
   else {
-    $todayString = "(hours are temporarily unavailable)";
+    $todayString = "<p>(hours are temporarily unavailable)</p>";
   }
+  
   return $todayString;
+
 }
 
-/* Refactor using getDay function for the json */
-/* Gelman Today building hours from WRLC API. */
+/** 
+* Get the open hours for the day for Gelman using getDay(), 
+* returns html customized for the main building Hours box. 
+*/
 
 function getDayGelman() {
 
@@ -101,62 +114,35 @@ function getDayGelman() {
 
 }
 
-function gelmanHoursAPI() {
+/**
+* Set the hours for schema.org values for the current day.
+*/
 
-  $weekDayNum = date('w');
+function getSchema($todayOpen, $todayClose) {
 
-  $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1&daycount=1";
+  /* Set open time. Assumes all open times are before noon. */
 
-  // Set cache file name and path.
-  $cacheFile = 'libraryHours-wrlc';
-  $path = '/tmp/' . $cacheFile . '.cache';
-
-  // Check to see if cached file is older than 15 minutes (900, units in seconds per UNIX/POSIX time), 
-  // if so update cache.
-  if ((!file_exists($path) || time() - filemtime($path) > 900) && $cache = fopen($path, 'w+'))
-  {
-      $wrlc_json = file_get_contents($API); // get json from scratch if old.
-      fwrite($cache, $wrlc_json); // write block to cache.
-      fclose($cache);
-  }
-  else
-  {
-      $wrlc_json = file_get_contents($path); // get block from cache file.
-  }
-
-  $jsondata = $wrlc_json;
-  $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
-  $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
-
-  $hoursAPI = $itemArray;
-
-  //$index = $weekDayNum;
-  $todayDay = $hoursAPI['library']['week'][0]['day1'];
-  $todayOpen = $hoursAPI['library']['week'][0]['open'];
-  $todayClose = $hoursAPI['library']['week'][0]['close'];
-  $todayClose1 = $todayClose;
-  if ($todayClose == "12:00AM") {
-    // clarifying output to avoid confusion
-    $todayClose = "midnight";
-  }
-
-  /* Set simple schema.org string for open hours. Move this to getDay function so that other Hours Box blocks can use it. */
   /* Add leading 0 if needed. */
   if (strlen($todayOpen) == 6) {  
     $todayOpen24 = '0' . $todayOpen;
-  }
+  } 
   else {
     $todayOpen24 = $todayOpen;
   }
+
   /* Strip the AM or PM suffix. */
   $todayOpen24 = substr($todayOpen24,0,5);
+
+  /* Set close time. */
+
   /* Add leading 0 if needed. */
-  if (strlen($todayClose1) == 6) {
-    $todayClose24 = '0' . $todayClose1;
+  if (strlen($todayClose) == 6) {
+    $todayClose24 = '0' . $todayClose;
   }
   else {
-    $todayClose24 = $todayClose1;
+    $todayClose24 = $todayClose;
   }
+
   /* Strip the AM or PM suffix. */
   if ($todayClose24 == '12:00AM') {
     $todayClose24 = '24:00';
@@ -171,40 +157,15 @@ function gelmanHoursAPI() {
     }
   }
 
-  $schemaString = substr(date('D'),0,2) . ' ' . $todayOpen24 . '-' . $todayClose24;
+  $schemaString = "dayOfWeek='" . substr(date('D'),0,2) . "' openingHours='" . $todayOpen24 . "-" . $todayClose24 . "'";
 
-  $theDate = new DateTime();
+  return $schemaString;
 
-  /* this is a custom set of conditions to check against, only if the options at the WRLC interface http://www.libraries.wrlc.org/admin/hours/ don't provide the right combination of dates/times/message */
-  include_once "library_hours_special.php";
-
-  if (isset($specialDay)) {
-    // check if var is set from included file above
-    $gelmanToday = $specialDay;
-  } 
-  elseif (isset($hoursAPI['library']['week'][0]['holiday'])) {
-    $gelmanToday = $hoursAPI['library']['week'][0]['message'];
-  }
-  elseif ($todayOpen == "closed" || closed_get_option() == 'default') {
-    $gelmanToday = "Gelman Library is closed today";
-  }
-  else {
-    if (open24_get_option() == 'default') {
-      $open24 = "<br /><span style='font-size:.9em;'>(24-hours for GW students)</span>";
-    }
-    else {
-      $open24 = '';
-    }
-    $gelmanToday = "Open " . $todayOpen . " to " . $todayClose . $open24;
-  }
-
-  $hoursString = "<div itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu'><span class='sr-only' itemprop='name'>Estelle and Melvin Gelman Library</span><p><span style='font-size:.9em; line-height:2em;'>" . $todayDay . " " . date_format($theDate, 'F jS') . "</span><br /><time itemprop='openingHours' datetime='" . $schemaString . "'>"  . $gelmanToday. "</time></p><p class='library-hours-last'>See our <a href='/hours'>Hours</a> page for more</p></div>";
-
-  return $hoursString;
 }
 
-
-/* Get the hours for all groups for the whole week. */
+/**
+* Get the hours for the whole week, returns html (7 day flexbox table). 
+*/
 
 function getWeek($group, $libval) {
 
@@ -231,63 +192,75 @@ function getWeek($group, $libval) {
   $jsondata = $wrlc_json;
   $jsondatafixed = str_replace("},]}}" , "}]}}" , $jsondata);
   $jsondatafixed2 = str_replace("}{" , "},{" , $jsondatafixed);
-  $itemArray  = json_decode($jsondatafixed2, true); // Decode JSON to associative array.
 
-  $hoursAPI = $itemArray;
+  // Check for valid json.
+  $jsonCheck = json_decode($jsondatafixed);
+  if (json_last_error() === JSON_ERROR_NONE) {
 
-  /* Set the day strings. */
-  $day1Day = "TODAY <span class='sr-only'>" . $hoursAPI['library']['week'][0]['day1'] . "</span>";
-  $day2Day = "Tomorrow <span class='sr-only'>" . $hoursAPI['library']['week'][1]['day2'] . "</span>"; 
-  //$day2Day = $hoursAPI['library']['week'][1]['day2'];
-  $day3Day = $hoursAPI['library']['week'][2]['day3'];
-  $day4Day = $hoursAPI['library']['week'][3]['day4'];
-  $day5Day = $hoursAPI['library']['week'][4]['day5'];
-  $day6Day = $hoursAPI['library']['week'][5]['day6'];
-  $day7Day = $hoursAPI['library']['week'][6]['day7'];
+    $itemArray  = json_decode($jsondatafixed2, true); // Decode JSON to associative array.
 
-  /* Loop through and get open and close times (with substitutions for Closed, Appointment and Midnight), sets day1Hours etc vara. */
-  $joiner = "<span class='hours-joiner'> - </span>";
+    $hoursAPI = $itemArray;
 
-  for($i = 1; $i <= 7; $i++) {
-    $var = 'day' . $i . 'Hours';
-    $dayVar = ($i - 1);
-    if ($hoursAPI['library']['week'][$dayVar]['open'] == 'closed') {
-      $$var = "(closed)";
-    }
-    elseif ($hoursAPI['library']['week'][$dayVar]['open'] == 'by appointment' && $libval == 9) {
-      $$var = "(<a href='/scrc/access'>by appointment</a>)";
-    }
-    elseif ($hoursAPI['library']['week'][$dayVar]['open'] == 'by appointment') {
-      $$var = "(by appointment)";
-    }
-    elseif (isset($hoursAPI['library']['week'][$dayVar]['holiday'])) {
-      $$var = "Closed for " . $hoursAPI['library']['week'][$dayVar]['holiday'];
-    }
-    else {
-      if ($hoursAPI['library']['week'][$dayVar]['close'] == '12:00AM') {
-        $closeTime = "midnight";
+    /* Set the day strings. */
+    $day1Day = "TODAY <span class='sr-only'>" . $hoursAPI['library']['week'][0]['day1'] . "</span>";
+    $day2Day = "Tomorrow <span class='sr-only'>" . $hoursAPI['library']['week'][1]['day2'] . "</span>"; 
+    //$day2Day = $hoursAPI['library']['week'][1]['day2'];
+    $day3Day = $hoursAPI['library']['week'][2]['day3'];
+    $day4Day = $hoursAPI['library']['week'][3]['day4'];
+    $day5Day = $hoursAPI['library']['week'][4]['day5'];
+    $day6Day = $hoursAPI['library']['week'][5]['day6'];
+    $day7Day = $hoursAPI['library']['week'][6]['day7'];
+
+    /* Loop through and get open and close times (with substitutions for Closed, Appointment and Midnight), sets day1Hours etc vara. */
+    $joiner = "<span class='hours-joiner'> - </span>";
+
+    for($i = 1; $i <= 7; $i++) {
+      $var = 'day' . $i . 'Hours';
+      $dayVar = ($i - 1);
+      if ($hoursAPI['library']['week'][$dayVar]['open'] == 'closed') {
+        $$var = "(closed)";
+      }
+      elseif ($hoursAPI['library']['week'][$dayVar]['open'] == 'by appointment' && $libval == 9) {
+        $$var = "(<a href='/scrc/access'>by appointment</a>)";
+      }
+      elseif ($hoursAPI['library']['week'][$dayVar]['open'] == 'by appointment') {
+        $$var = "(by appointment)";
+      }
+      elseif (isset($hoursAPI['library']['week'][$dayVar]['holiday'])) {
+        $$var = "Closed for " . $hoursAPI['library']['week'][$dayVar]['holiday'];
       }
       else {
-        $closeTime = $hoursAPI['library']['week'][$dayVar]['close'];
+        if ($hoursAPI['library']['week'][$dayVar]['close'] == '12:00AM') {
+          $closeTime = "midnight";
+        }
+        else {
+          $closeTime = $hoursAPI['library']['week'][$dayVar]['close'];
+        }
+        $$var = $hoursAPI['library']['week'][$dayVar]['open'] . $joiner . $closeTime;
       }
-      $$var = $hoursAPI['library']['week'][$dayVar]['open'] . $joiner . $closeTime;
     }
-  }
 
-  $flexHTML = "
-    <div class='equalHMRWrap eqWrap'>
-      <div class='equalHMR eq'><span class='hoursToday'>" . $day1Day . "</span><br>" . $day1Hours . "</div>
-      <div class='equalHMR eq'><span class='hoursDay'>" . $day2Day . "</span><br>" . $day2Hours . "</div>
-      <div class='equalHMR eq'><span class='hoursDay'>" . $day3Day . "</span><br>" . $day3Hours . "</div>
-      <div class='equalHMR eq'><span class='hoursDay'>" . $day4Day . "</span><br>" . $day4Hours . "</div>
-      <div class='equalHMR eq'><span class='hoursDay'>" . $day5Day . "</span><br>" . $day5Hours . "</div>
-      <div class='equalHMR eq'><span class='hoursDay'>" . $day6Day . "</span><br>" . $day6Hours . "</div>
-      <div class='equalHMR eq'><span class='hoursDay'>" . $day7Day . "</span><br>" . $day7Hours . "</div>
-    </div>";
+    $flexHTML = "
+      <div class='equalHMRWrap eqWrap'>
+        <div class='equalHMR eq'><span class='hoursToday'>" . $day1Day . "</span><br>" . $day1Hours . "</div>
+        <div class='equalHMR eq'><span class='hoursDay'>" . $day2Day . "</span><br>" . $day2Hours . "</div>
+        <div class='equalHMR eq'><span class='hoursDay'>" . $day3Day . "</span><br>" . $day3Hours . "</div>
+        <div class='equalHMR eq'><span class='hoursDay'>" . $day4Day . "</span><br>" . $day4Hours . "</div>
+        <div class='equalHMR eq'><span class='hoursDay'>" . $day5Day . "</span><br>" . $day5Hours . "</div>
+        <div class='equalHMR eq'><span class='hoursDay'>" . $day6Day . "</span><br>" . $day6Hours . "</div>
+        <div class='equalHMR eq'><span class='hoursDay'>" . $day7Day . "</span><br>" . $day7Hours . "</div>
+      </div>";
+  }
+  else {
+    $flexHTML = "(hours are temporarily unavailable)";
+  }
 
   return $flexHTML;
 
 }
+
+
+/* Whole week view using getWeek() for single org/unit (Eckles). */
 
 function ecklesWeek() {
 $ecklesWeek = 
@@ -300,12 +273,19 @@ $ecklesWeek =
       <p class='hoursText'>202.242.6632 &bull; eckles@gwu.edu</p>
     </div>
   </div>" . getWeek('eckles','10') . "</div>";
+
 return $ecklesWeek;
+
 }
+
+/**
+* Get the week view using getWeek() for all units/orgs for the main Hours page. 
+* Returns html as a series of 7 day flexbox tables. 
+*/
 
 function massiveTable() {
 
-/* The schema.org values are only set for the first set of hours (main building hours) and are currently 'Mo-Su' which means 7 days a week without specifying the hours */
+// The schema.org values are only set for the first set of hours (main building hours) and are currently 'Mo-Su' which means 7 days a week without specifying the hours.
 
 $flexHTML = "<div class='paddingBlock'>
 <div class='headHMR equalHMRWrap eqWrap'>
@@ -384,9 +364,12 @@ getWeek('scrc','9') .
 "</div>";
 
   return $flexHTML;
+
 }
 
-/* Creating blocks. */
+/** 
+* Create the Drupal blocks. 
+*/
 
  /**
  * Implements hook_block_info().

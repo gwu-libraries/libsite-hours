@@ -1,6 +1,6 @@
 name = Library Hours
-description = Creates blocks with Hours for Gelman Library main building and SCRC 
-version = "7.x-1.0-beta1"
+description = Creates blocks containing building hours for GW Libraries 
+version = "7.x-1.0-beta2"
 core = "7.x"
 package = GW Libraries
 stylesheets[all][] = library_hours.css
