@@ -299,7 +299,6 @@ function gelmanWeek() {
     /* Set the day strings. */
     $day1Day = "TODAY <span class='sr-only'>" . $hoursAPI['library']['week'][0]['day1'] . "</span>";
     $day2Day = "Tomorrow <span class='sr-only'>" . $hoursAPI['library']['week'][1]['day2'] . "</span>";
-    //$day2Day = $hoursAPI['library']['week'][1]['day2'];
     $day3Day = $hoursAPI['library']['week'][2]['day3'];
     $day4Day = $hoursAPI['library']['week'][3]['day4'];
     $day5Day = $hoursAPI['library']['week'][4]['day5'];
@@ -322,7 +321,10 @@ function gelmanWeek() {
         $$var = "(by appointment)";
       }
       elseif (isset($hoursAPI['library']['week'][$dayVar]['holiday'])) {
-        $$var = "Closed for " . $hoursAPI['library']['week'][$dayVar]['holiday'];
+        $$var = "(closed)";
+      }
+      elseif (open24_get_option() == 'default') {
+        $$var = "24 hours";
       }
       else {
         if ($hoursAPI['library']['week'][$dayVar]['close'] == '12:00AM') {
@@ -333,6 +335,14 @@ function gelmanWeek() {
         }
         $$var = $hoursAPI['library']['week'][$dayVar]['open'] . $joiner . $closeTime;
       }
+    }
+
+    // check admin settings for special closure
+    if (closed_get_option() == 'off') {
+      $day1Hours = $day1Hours;
+    }
+    else {
+      $day1Hours = "(closed)";
     }
 
     $headerHours = "
@@ -354,12 +364,12 @@ function gelmanWeek() {
       </tr>
       <tr>
         <td>" . $day1Hours . "</td>
-        <td>" . $day1Hours . "</td>
-        <td>" . $day1Hours . "</td>
-        <td>" . $day1Hours . "</td>
-        <td>" . $day1Hours . "</td>
-        <td>" . $day1Hours . "</td>
-        <td>" . $day1Hours . "</td>
+        <td>" . $day2Hours . "</td>
+        <td>" . $day3Hours . "</td>
+        <td>" . $day4Hours . "</td>
+        <td>" . $day5Hours . "</td>
+        <td>" . $day6Hours . "</td>
+        <td>" . $day7Hours . "</td>
       </tr>
       <tr>
         <td colspan='7'>
