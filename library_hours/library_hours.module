@@ -259,6 +259,128 @@ function getWeek($group, $libval) {
 
 }
 
+function gelmanWeek() {
+
+  $group = 'gelman';
+  $libval = '1';
+
+  // Get 7 days from API.
+  $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=" . $libval . "&daycount=7";
+
+  // Set cache file name and path.
+  $cacheFile = $group . 'Hours-wrlc-week';
+  $path = '/tmp/' . $cacheFile . '.cache';
+
+  // Check to see if cached file is older than 15 minutes (900, units in seconds per UNIX/POSIX time), 
+  // if so update cache.
+  if ((!file_exists($path) || time() - filemtime($path) > 900) && $cache = fopen($path, 'w+'))
+  {
+      $wrlc_json = file_get_contents($API); // get json from scratch if old.
+      fwrite($cache, $wrlc_json); // write block to cache.
+      fclose($cache);
+  }
+  else
+  {
+      $wrlc_json = file_get_contents($path); // get block from cache file.
+  }
+
+  $jsondata = $wrlc_json;
+  $jsondatafixed = str_replace("},]}}" , "}]}}" , $jsondata);
+  $jsondatafixed2 = str_replace("}{" , "},{" , $jsondatafixed);
+
+  // Check for valid json.
+  $jsonCheck = json_decode($jsondatafixed);
+  if (json_last_error() === JSON_ERROR_NONE) {
+
+    $itemArray  = json_decode($jsondatafixed2, true); // Decode JSON to associative array.
+
+    $hoursAPI = $itemArray;
+
+    /* Set the day strings. */
+    $day1Day = "TODAY <span class='sr-only'>" . $hoursAPI['library']['week'][0]['day1'] . "</span>";
+    $day2Day = "Tomorrow <span class='sr-only'>" . $hoursAPI['library']['week'][1]['day2'] . "</span>";
+    //$day2Day = $hoursAPI['library']['week'][1]['day2'];
+    $day3Day = $hoursAPI['library']['week'][2]['day3'];
+    $day4Day = $hoursAPI['library']['week'][3]['day4'];
+    $day5Day = $hoursAPI['library']['week'][4]['day5'];
+    $day6Day = $hoursAPI['library']['week'][5]['day6'];
+    $day7Day = $hoursAPI['library']['week'][6]['day7'];
+
+    /* Loop through and get open and close times (with substitutions for Closed, Appointment and Midnight), sets day1Hours etc vara. */
+    $joiner = "<span class='hours-joiner'> - </span>";
+
+    for($i = 1; $i <= 7; $i++) {
+      $var = 'day' . $i . 'Hours';
+      $dayVar = ($i - 1);
+      if ($hoursAPI['library']['week'][$dayVar]['open'] == 'closed') {
+        $$var = "(closed)";
+      }
+      elseif ($hoursAPI['library']['week'][$dayVar]['open'] == 'by appointment' && $libval == 9) {
+        $$var = "(<a href='/scrc/access'>by appointment</a>)";
+      }
+      elseif ($hoursAPI['library']['week'][$dayVar]['open'] == 'by appointment') {
+        $$var = "(by appointment)";
+      }
+      elseif (isset($hoursAPI['library']['week'][$dayVar]['holiday'])) {
+        $$var = "Closed for " . $hoursAPI['library']['week'][$dayVar]['holiday'];
+      }
+      else {
+        if ($hoursAPI['library']['week'][$dayVar]['close'] == '12:00AM') {
+          $closeTime = "midnight";
+        }
+        else {
+          $closeTime = $hoursAPI['library']['week'][$dayVar]['close'];
+        }
+        $$var = $hoursAPI['library']['week'][$dayVar]['open'] . $joiner . $closeTime;
+      }
+    }
+
+    $headerHours = "
+  <div class='container'>
+    <table>
+      <tr>
+        <td colspan='7'>
+        Hours for GWorld Holders
+        </td>
+      </tr>
+      <tr>
+        <td>" . $day1Day . "</td>
+        <td>" . $day2Day . "</td>
+        <td>" . $day3Day . "</td>
+        <td>" . $day4Day . "</td>
+        <td>" . $day5Day . "</td>
+        <td>" . $day6Day . "</td>
+        <td>" . $day7Day . "</td>
+      </tr>
+      <tr>
+        <td>" . $day1Hours . "</td>
+        <td>" . $day1Hours . "</td>
+        <td>" . $day1Hours . "</td>
+        <td>" . $day1Hours . "</td>
+        <td>" . $day1Hours . "</td>
+        <td>" . $day1Hours . "</td>
+        <td>" . $day1Hours . "</td>
+      </tr>
+      <tr>
+        <td colspan='7'>
+        <a href='/hours/visitors'>Visitor Hours</a> &bull; <a href='/hours'>Complete Hours Information</a> &bull; <a href='/hours/closures'>Holidays and Closures</a>
+        </td>
+      <tr>
+    </table>
+    <div class='handheld'>
+      <div class='handheld-hours'>GELMAN: Open 24 hours</div>
+      <div class='handheld-hours-links'><a href='/hours'>Complete Hours Information</a></div>
+    </div>
+  </div>";
+  }
+  else {
+    $headerHours = "<div class='container'>(hours are temporarily unavailable)</div>";
+  }
+
+  return $headerHours;
+
+}
+
 
 /* Whole week view using getWeek() for single org/unit (Eckles). */
 
@@ -394,7 +516,9 @@ function library_hours_block_info() {
       $blocks['library_hours_eckles_week'] = array(
      'info' => t("Eckles Library Hours (week)"),
    );
-
+      $blocks['library_hours_gelman_week'] = array(
+     'info' => t("Gelman Library Hours (week)"),
+   );
    return $blocks;
 }
 
@@ -435,7 +559,11 @@ function library_hours_block_info() {
        $block['title'] = t('Eckles Library Open Hours');
        $block['content'] = $the_block;
        break;
-
+     case 'library_hours_gelman_week':
+       $the_block = gelmanWeek();
+       $block['title'] = t('');
+       $block['content'] = $the_block;
+       break;
      }
 
  return $block;
