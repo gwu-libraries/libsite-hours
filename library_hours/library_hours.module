@@ -350,7 +350,7 @@ function gelmanWeek() {
     <table>
       <tr>
         <td colspan='7'>
-        Hours for GWorld Holders
+        <i class='fa fa-clock-o' aria-hidden='true'></i> Hours for GWorld Holders
         </td>
       </tr>
       <tr>
@@ -378,7 +378,7 @@ function gelmanWeek() {
       <tr>
     </table>
     <div class='handheld'>
-      <div class='handheld-hours'>GELMAN: Open 24 hours</div>
+      <div class='handheld-hours'><i class='fa fa-clock-o' aria-hidden='true'></i> GELMAN: " . $day1Hours . "</div>
       <div class='handheld-hours-links'><a href='/hours'>Complete Hours Information</a></div>
     </div>
   </div>";
