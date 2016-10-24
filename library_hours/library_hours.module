@@ -343,7 +343,7 @@ B
       }
     }
 
-    // check admin settings for special closure
+    // Check admin settings for special closure.
     if (closed_get_option() == 'off') {
       $day1Hours = $day1Hours;
     }
@@ -351,12 +351,19 @@ B
       $day1Hours = "(closed)";
     }
 
+    // Set schema (will pull from getSchema() once that is changed to output week values).
+    if (open24_get_option() == 'default') {                                                                                                            $schema = "<time itemprop='openingHours' datetime='Mo,Su'></time>";
+    }
+    else {
+      $schema = "";
+    } 
+
     $headerHours = "
   <div class='container' itemscope itemtype='http://schema.org/Library'>
     <table>
       <tr>
         <td colspan='7'>
-        <time itemprop="openingHours" datetime="Mo,Su"></time>
+        " . $schema . "
         <i class='fa fa-clock-o' aria-hidden='true'></i> Hours for GWorld Holders
         </td>
       </tr>
