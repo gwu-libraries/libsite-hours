@@ -337,7 +337,6 @@ function gelmanWeek() {
         }
         else {
           $closeTime = $hoursAPI['library']['week'][$dayVar]['close'];
-B
         }
         $$var = $hoursAPI['library']['week'][$dayVar]['open'] . $joiner . $closeTime;
       }
