@@ -56,6 +56,7 @@ function getDay($group, $libval) {
     $todayOpen = $hoursAPI['library']['week'][0]['open'];
     $todayClose = $hoursAPI['library']['week'][0]['close'];
 
+    // this needs to be changed to show full week: schema should show whole week, not daily
     $schema = getSchema($todayOpen, $todayClose); // gets schema.org values 
 
     if ($todayClose == "12:00AM") {
@@ -259,6 +260,10 @@ function getWeek($group, $libval) {
 
 }
 
+/** 
+* Get Gelman week for display in header block.
+*/
+
 function gelmanWeek() {
 
   $group = 'gelman';
@@ -332,6 +337,7 @@ function gelmanWeek() {
         }
         else {
           $closeTime = $hoursAPI['library']['week'][$dayVar]['close'];
+B
         }
         $$var = $hoursAPI['library']['week'][$dayVar]['open'] . $joiner . $closeTime;
       }
@@ -346,10 +352,11 @@ function gelmanWeek() {
     }
 
     $headerHours = "
-  <div class='container'>
+  <div class='container' itemscope itemtype='http://schema.org/Library'>
     <table>
       <tr>
         <td colspan='7'>
+        <time itemprop="openingHours" datetime="Mo,Su"></time>
         <i class='fa fa-clock-o' aria-hidden='true'></i> Hours for GWorld Holders
         </td>
       </tr>
@@ -392,7 +399,9 @@ function gelmanWeek() {
 }
 
 
-/* Whole week view using getWeek() for single org/unit (Eckles). */
+/** 
+* Get week view using getWeek() for single org/unit (Eckles). 
+*/
 
 function ecklesWeek() {
 $ecklesWeek = 
