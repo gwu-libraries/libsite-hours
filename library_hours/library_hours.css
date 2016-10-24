@@ -167,6 +167,16 @@
 
 /* MEDIA QUERIES */
 
+@media screen and (max-width:965px) {
+  #topheader-container #header-hours {
+    margin-right: .5em;
+    display: inline-block;
+    overflow: hidden;
+    max-width: 62%;
+    white-space: nowrap;
+  }
+}
+
 @media screen and (max-width:950px) {
   .equalHMR { width: 11%; }
 }
@@ -183,10 +193,23 @@
 @media screen and (max-width:750px) {
   .equalHMR { width: 10%; }
 }
+
+@media screen and (max-width:720px) {
+  #header-hours table { margin-bottom: 0; }
+  #header-hours table tr:first-child { display: none; }
+  #header-hours .container { padding: 7px 0 0 !important; }
+  #header-hours table { display: none; }
+  #header-hours .handheld { display: inline-block }
+}
+
 @media screen and (max-width:640px) {
   .equalHMR { width: 21%; }
   .eq { padding: 6px; }
   .eq:nth-child(5) { border-left: 1px solid #ccc; }
   .paddingBlock h3 { margin-top: 0.5em; }
+}
+
+@media screen and (max-width:360px) {
+  #topheader-container #header-hours { max-width: 50%; }
 }
 
