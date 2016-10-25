@@ -195,6 +195,7 @@
 }
 
 @media screen and (max-width:720px) {
+  #topheader-container #header-hours { height: 50px; }
   #header-hours table { margin-bottom: 0; }
   #header-hours table tr:first-child { display: none; }
   #header-hours .container { padding: 7px 0 0 !important; }
