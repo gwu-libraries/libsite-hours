@@ -6,21 +6,6 @@
   font-size: .7em;
   }
   #header-hours .handheld { display: none; }
-  @media screen and (max-width:720px) {
-    #header-hours .handheld {
-      display: inline-block;
-      margin-right: 4px;
-    }
-    #header-hours .handheld > * {
-      color: #fff;
-      display: block;
-    }
-    #header-hours .handheld-hours { font-size: 1.4em; margin-top: 4px; }
-    #header-hours .handheld-hours-links { font-size: 1.2em; margin-top: 6px; text-align: right; }
-    #header-hours .handheld-hours-links a { color: #fff; text-decoration: none; font-style: italic; }
-    #header-hours .handheld-hours-links a:hover { text-decoration: underline; }
-
-  }
   #header-hours table {
   border-spacing: 0;
   float: right;
@@ -34,13 +19,13 @@
   }
   #header-hours table tr:first-child {
   background-color: #005581;
-  color: /*#ffcB2e*/ #fff /*#ffeebb*/;
+  color: #fff;
   }
   #header-hours table tr:first-child td {
   padding-left: 0;
   font-size: 1.1em;
   }
- #header-hours table tr:nth-child(2) {
+  #header-hours table tr:nth-child(2) {
   background-color: /*#ffcB2e*/ #fff /*#ffeebb*/;
   color: #005581;
   }
@@ -48,8 +33,7 @@
   color: #fff /*#ffeebb*/;
   }
   #header-hours table tr:nth-child(4) td {
-  /*background-color: #005581 !important;*/
-  color: #fff /*#ffeebb*/ !important;
+  color: #fff !important;
   text-align: right;
   padding-right: 0;
   padding-top: .4em;
@@ -201,6 +185,18 @@
   #header-hours .container { padding: 7px 0 0 !important; }
   #header-hours table { display: none; }
   #header-hours .handheld { display: inline-block }
+  #header-hours .handheld {
+    display: inline-block;
+    margin-right: 4px;
+  }
+  #header-hours .handheld > * {
+    color: #fff;
+    display: block;
+  }
+  #header-hours .handheld-hours { font-size: 1.4em; margin-top: 4px; }
+  #header-hours .handheld-hours-links { font-size: 1.2em; margin-top: 6px; text-align: right; }
+  #header-hours .handheld-hours-links a { color: #fff; text-decoration: none; font-style: italic; }
+  #header-hours .handheld-hours-links a:hover { text-decoration: underline; }
 }
 
 @media screen and (max-width:640px) {
