@@ -1,7 +1,7 @@
 Libsite-Hours
 =============
 
-Drupal 7 Module for Library hours of operation.
+Drupal 7 Module for Library hours of operation (or any academic organization).
 
 Hours Week: displays hours for all of our library units with public hours in a "today forward" format (today + 6 days) including a version for the header.
 
