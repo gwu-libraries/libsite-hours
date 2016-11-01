@@ -1,67 +1,65 @@
 /* Header hours block (week view) from gelmanWeek(). */
 
-  #header-hours {
+#header-hours {
   float: right;
   font-family: helvetica, arial;
   font-size: .7em;
-  }
-  #header-hours .handheld { display: none; }
-  #header-hours table {
+}
+#header-hours .handheld { display: none; }
+#header-hours table {
   border-spacing: 0;
   float: right;
-  }
-  #header-hours table td {
+}
+#header-hours table td {
   padding: .3em .4em;
   margin: 0;
   border-left: 4px solid #005581;
   max-width: 52px;
   white-space: initial;
-  }
-  #header-hours table tr:first-child {
+}
+#header-hours table tr:first-child {
   background-color: #005581;
   color: #fff;
-  }
-  #header-hours table tr:first-child td {
+}
+#header-hours table tr:first-child td {
   padding-left: 0;
   font-size: 1.1em;
-  }
-  #header-hours table tr:nth-child(2) {
-  background-color: /*#ffcB2e*/ #fff /*#ffeebb*/;
+}
+#header-hours table tr:nth-child(2) {
+  background-color: #fff;
   color: #005581;
-  }
-  #header-hours table tr:nth-child(3) {
-  color: #fff /*#ffeebb*/;
-  }
-  #header-hours table tr:nth-child(4) td {
+}
+#header-hours table tr:nth-child(3) {
+  color: #fff;
+}
+#header-hours table tr:nth-child(4) td {
   color: #fff !important;
   text-align: right;
   padding-right: 0;
   padding-top: .4em;
   font-size: 1.1em;
   padding-bottom: 0;
-  }
-  #header-hours table tr:nth-child(4) td a {
-  color: #fff /*#ffeebb*/;
+}
+#header-hours table tr:nth-child(4) td a {
+  color: #fff;
   text-decoration: none;
-  }
-  #header-hours table tr:nth-child(4) td a:hover {
+}
+#header-hours table tr:nth-child(4) td a:hover {
   text-decoration: underline;
-  }
-  #header-hours table tr:nth-child(2) td:first-child, table tr:nth-child(3) td:first-child {
-  background-color: #fff /*#ffeebb*/;
+}
+#header-hours table tr:nth-child(2) td:first-child, #header-hours table tr:nth-child(3) td:first-child {
+  background-color: #fff;
   color: #005581;
   padding-left: .6em;
   font-weight: bold;
-  }
-  #header-hours table tr:first-child td:first-child {
-  /*border-bottom-right-radius: 0px;*/
-  }
-  #header-hours table tr:nth-child(3) td:first-child {
-  /*border-top-right-radius: 0px;*/
-  }
-  #header-hours .container {
+}
+#header-hours table tr:first-child td:first-child {
+}
+#header-hours table tr:nth-child(3) td:first-child {
+}
+#header-hours .container {
   padding:7px 0;
-  }
+}
 
 /* Styling for Gelman hours box (today's hours) block. */
 
@@ -69,7 +67,6 @@
 .hoursText { margin-bottom: 0.6em; }
 .hoursToday { font-weight: bold; }
 .hoursDay { font-weight: bold; }
-
 .gelman-hours { 
   margin-top: 1em;
   margin-bottom: .2em; 
@@ -86,62 +83,54 @@
 /* Styling for main Hours page block. */
 
 .equalHMRWrap {
-        /*justify-content: space-between;*/
-        flex-wrap: wrap;
+  /*justify-content: space-between;*/
+  flex-wrap: wrap;
 }
 .eqWrap {
-        display: flex;
+  display: flex;
 }
 .eq {
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-left: 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-left: 0;
 }
 .headHMR .eq {
   padding-bottom: 0;  
   border: none;
 }
-
 .headTitleHMR.eq { padding-left: 0; }
-
 .eq:first-child {
   background: #005581;
   border-left: 1px solid #ccc;
   color: #fff;
   border: 1px solid #005581;
 }
-
 .headHMR .eq:first-child {
   color: #333;
   background: #fff;
   border: none;
 }
-
 .eq:nth-of-type(odd) {
-        /*background: yellow;*/
+  /*background: yellow;*/
 }
-
 .eq:nth-of-type(even) {
-        /*background: lightblue;*/
+  /*background: lightblue;*/
 }
 .paddingBlock {
-        padding: 0;
+  padding: 0;
 }
 .paddingBlock h3 { 
   font-weight: bold; 
   margin: 0; 
 }
-
 .equalHMR {
   width: 12%;
   margin-bottom: 2%;
 }
-
 .headHMR .headTitleHMR {
   min-width: 30%;
   margin-bottom: 0;
 } 
-
 .headHMR .headTextHMR {
   min-width: 56%;
   margin-bottom: 0;
@@ -174,6 +163,7 @@
     padding-top: 1px;
   }
 }
+
 @media screen and (max-width:750px) {
   .equalHMR { width: 10%; }
 }
