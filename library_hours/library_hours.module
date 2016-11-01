@@ -218,7 +218,11 @@ function getWeek($group, $libval) {
     for($i = 1; $i <= 7; $i++) {
       $var = 'day' . $i . 'Hours';
       $dayVar = ($i - 1);
+      $buildingClosed = closed_get_option();
       if ($hoursAPI['library']['week'][$dayVar]['open'] == 'closed') {
+        $$var = "(closed)";
+      }
+      elseif ($buildingClosed == 'default' && $dayVar == 0) {
         $$var = "(closed)";
       }
       elseif ($hoursAPI['library']['week'][$dayVar]['open'] == 'by appointment' && $libval == 9) {
