@@ -9,7 +9,7 @@ Hours Box: displays open/closed hours for the current day for the main library b
 
 API json is cached every fifteen minutes.
 
-Hours are pulled from WRLC's hours API developed by Joel Shields. The admin UI can be accessed here for consortium members: http://www.libraries.wrlc.org/admin/hours/. You can see a sample of the json output here: https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1
+Hours are pulled from WRLC's hours API developed by Joel Shields. The admin UI can be accessed here for consortium members: https://www.libraries.wrlc.org/admin/hours/ (IP restricted to member campuses). You can see a sample of the json output here: https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=1
  
 Customize for Your Institution
 ------------------------------
