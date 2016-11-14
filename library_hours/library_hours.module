@@ -314,7 +314,7 @@ function gelmanWeek() {
     $day6Day = $hoursAPI['library']['week'][5]['day6'];
     $day7Day = $hoursAPI['library']['week'][6]['day7'];
 
-    /* Loop through and get open and close times (with substitutions for Closed, Appointment and Midnight), sets day1Hours etc vara. */
+    /* Loop through and get open and close times (with substitutions for Closed, Appointment and Midnight), sets day1Hours etc vars. */
     $joiner = "<span class='hours-joiner'> - </span>";
 
     for($i = 1; $i <= 7; $i++) {
@@ -355,7 +355,7 @@ function gelmanWeek() {
     }
 
     // Set schema (will pull from getSchema() once that is changed to output week values).
-    if (open24_get_option() == 'default') {                                                                                                            $schema = "<time itemprop='openingHours' datetime='Mo,Su'></time>";
+    if (open24_get_option() == 'default') {                                           $schema = "<time itemprop='openingHours' datetime='Mo,Su'></time>";
     }
     else {
       $schema = "";
