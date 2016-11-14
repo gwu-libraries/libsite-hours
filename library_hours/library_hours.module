@@ -512,7 +512,19 @@ getWeek('grc','8') .
   </div>
 </div>" .
 getWeek('scrc','9') .
-"</div>";
+"<div class='headHMR equalHMRWrap eqWrap'>
+  <div class='headTitleHMR eq'>
+    <h3>National Churchill Library & Center</h3>
+  </div>
+  <div class='headTextHMR eq'>
+    <p class='hoursText'>First Floor</p>
+  </div>
+</div>" .
+getWeek('nclc','11') .
+"</div>"
+
+
+;
 
   return $flexHTML;
 
