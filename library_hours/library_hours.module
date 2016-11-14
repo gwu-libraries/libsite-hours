@@ -401,7 +401,7 @@ function gelmanWeek() {
   </div>";
   }
   else {
-    $headerHours = "<div class='container'>(hours are temporarily unavailable)</div>";
+    $headerHours = "<div class='container header-hours-error'>(hours are temporarily unavailable)</div>";
   }
 
   return $headerHours;
@@ -560,6 +560,9 @@ function library_hours_block_info() {
       $blocks['library_hours_gelman_week'] = array(
      'info' => t("Gelman Library Hours (week)"),
    );
+      $blocks['library_hours_nclc_today'] = array(
+     'info' => t("Today's NCLC Hours"),
+   );
    return $blocks;
 }
 
@@ -603,6 +606,11 @@ function library_hours_block_info() {
      case 'library_hours_gelman_week':
        $the_block = gelmanWeek();
        $block['title'] = t('');
+       $block['content'] = $the_block;
+       break;
+     case 'library_hours_nclc_today':
+       $the_block = getDay('nclc', 11);
+       $block['title'] = t('NCLC Hours');
        $block['content'] = $the_block;
        break;
      }
