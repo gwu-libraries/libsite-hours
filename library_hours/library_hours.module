@@ -277,7 +277,7 @@ function gelmanWeek() {
   $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=" . $libval . "&daycount=7";
 
   // Set cache file name and path.
-  $cacheFile = $group . 'Hours-wrlc-week';
+  $cacheFile = $group . 'HeaderHours-wrlc-week';
   $path = '/tmp/' . $cacheFile . '.cache';
 
   // Check to see if cached file is older than 15 minutes (900, units in seconds per UNIX/POSIX time), 
@@ -332,9 +332,22 @@ function gelmanWeek() {
       elseif (isset($hoursAPI['library']['week'][$dayVar]['holiday'])) {
         $$var = "(closed)";
       }
-      elseif (open24_get_option() == 'default') {
+      elseif (open24_get_option() == 'default' && $hoursAPI['library']['week'][$dayVar]['close'] == '12:00AM') {
         $$var = "24 hours";
       }
+      // quick hack to resolve special day schedules like day before Thanksgiving and reduced weekend hours after
+      // first check if day is set to close before midnight (which *usually* means special hours)
+      elseif (open24_get_option() == 'default' && $hoursAPI['library']['week'][$dayVar]['close'] != '12:00AM') {
+        // now check if previous day closed at midnight (which *probably* indicates it was a "24 hours" schedule)
+        if ($hoursAPI['library']['week'][($dayVar -1)]['close'] == "12:00AM") {
+          $$var = "closing at " . $hoursAPI['library']['week'][$dayVar]['close'];
+        }
+        // else show open and close hours from API (this could be better integrated to drop you into the final 'else' instead of duplicating it here)
+        else {
+          $$var = $hoursAPI['library']['week'][$dayVar]['open'] . $joiner . $hoursAPI['library']['week'][$dayVar]['close'];
+        }
+      }
+
       else {
         if ($hoursAPI['library']['week'][$dayVar]['close'] == '12:00AM') {
           $closeTime = "midnight";
@@ -367,7 +380,7 @@ function gelmanWeek() {
       <tr>
         <td colspan='7'>
         " . $schema . "
-        <i class='fa fa-clock-o' aria-hidden='true'></i> Hours for GWorld Holders
+        <i class='fa fa-clock-o' aria-hidden='true'></i> Gelman Hours for GWorld Holders
         </td>
       </tr>
       <tr>
@@ -407,7 +420,6 @@ function gelmanWeek() {
   return $headerHours;
 
 }
-
 
 /** 
 * Get week view using getWeek() for single org/unit (Eckles). 
@@ -521,10 +533,7 @@ getWeek('scrc','9') .
   </div>
 </div>" .
 getWeek('nclc','11') .
-"</div>"
-
-
-;
+"</div>";
 
   return $flexHTML;
 
