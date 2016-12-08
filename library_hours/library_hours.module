@@ -570,7 +570,7 @@ function library_hours_block_info() {
      'info' => t("Gelman Library Hours (week)"),
    );
       $blocks['library_hours_nclc_today'] = array(
-     'info' => t("NCLC Public Hours"),
+     'info' => t("Today's NCLC Hours"),
    );
    return $blocks;
 }
@@ -584,6 +584,7 @@ function library_hours_block_info() {
    switch ($delta) {
      case 'library_hours_gelman_today':
        $the_block = getDayGelman();
+
        $block['title'] = t('Building Hours');
        $block['content'] = $the_block;
        break;
