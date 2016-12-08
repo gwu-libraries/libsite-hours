@@ -570,7 +570,7 @@ function library_hours_block_info() {
      'info' => t("Gelman Library Hours (week)"),
    );
       $blocks['library_hours_nclc_today'] = array(
-     'info' => t("Today's NCLC Hours"),
+     'info' => t("NCLC Public Hours"),
    );
    return $blocks;
 }
