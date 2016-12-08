@@ -620,7 +620,7 @@ function library_hours_block_info() {
        break;
      case 'library_hours_nclc_today':
        $the_block = getDay('nclc', 11);
-       $block['title'] = t('NCLC Hours');
+       $block['title'] = t('NCLC Public Hours');
        $block['content'] = $the_block;
        break;
      }
