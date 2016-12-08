@@ -529,7 +529,7 @@ getWeek('scrc','9') .
     <h3>National Churchill Library & Center</h3>
   </div>
   <div class='headTextHMR eq'>
-    <p class='hoursText'>First Floor</p>
+    <p class='hoursText'>Suite 101 &bull; NCLC is available to GW students, faculty, and staff any time the library is open</p>
   </div>
 </div>" .
 getWeek('nclc','11') .
@@ -545,7 +545,7 @@ getWeek('nclc','11') .
 
  /**
  * Implements hook_block_info().
- */
+*/
 function library_hours_block_info() {
    $blocks = array();
    $blocks['library_hours_gelman_today'] = array(
