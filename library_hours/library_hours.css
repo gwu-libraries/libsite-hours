@@ -6,7 +6,7 @@
   font-size: .7em;
 }
 #header-hours .handheld { display: none; }
-#header-hours .header-hours-error { margin-top: 1em; color: #fff; }
+#header-hours .header-hours-error { margin-top: 1em; color: #005581; }
 #header-hours table {
   border-spacing: 0;
   float: right;
@@ -14,27 +14,27 @@
 #header-hours table td {
   padding: .3em .4em;
   margin: 0;
-  border-left: 4px solid #005581;
+  border-left: 4px solid #fff;
   max-width: 52px;
   white-space: initial;
 }
 #header-hours table tr:first-child {
-  background-color: #005581;
-  color: #fff;
+  background-color: #fff;
+  color: #005581;
 }
 #header-hours table tr:first-child td {
   padding-left: 0;
   font-size: 1.1em;
 }
 #header-hours table tr:nth-child(2) {
-  background-color: #fff;
-  color: #005581;
-}
-#header-hours table tr:nth-child(3) {
+  background-color: #005581;
   color: #fff;
 }
+#header-hours table tr:nth-child(3) {
+  color: #005581;
+}
 #header-hours table tr:nth-child(4) td {
-  color: #fff !important;
+  color: #005581 !important;
   text-align: right;
   padding-right: 0;
   padding-top: .4em;
@@ -42,15 +42,15 @@
   padding-bottom: 0;
 }
 #header-hours table tr:nth-child(4) td a {
-  color: #fff;
+  color: #005581;
   text-decoration: none;
 }
 #header-hours table tr:nth-child(4) td a:hover {
   text-decoration: underline;
 }
 #header-hours table tr:nth-child(2) td:first-child, #header-hours table tr:nth-child(3) td:first-child {
-  background-color: #fff;
-  color: #005581;
+  background-color: #005581;
+  color: #fff;
   padding-left: .6em;
   font-weight: bold;
 }
@@ -101,14 +101,14 @@
 }
 .headTitleHMR.eq { padding-left: 0; }
 .eq:first-child {
-  background: #005581;
+  background: #fff;
   border-left: 1px solid #ccc;
-  color: #fff;
-  border: 1px solid #005581;
+  color: #005581;
+  border: 1px solid #fff;
 }
 .headHMR .eq:first-child {
   color: #333;
-  background: #fff;
+  background: #005581;
   border: none;
 }
 .eq:nth-of-type(odd) {
@@ -181,12 +181,12 @@
     margin-right: 4px;
   }
   #header-hours .handheld > * {
-    color: #fff;
+    color: #005581;
     display: block;
   }
   #header-hours .handheld-hours { font-size: 1.4em; margin-top: 4px; }
   #header-hours .handheld-hours-links { font-size: 1.2em; margin-top: 6px; text-align: right; }
-  #header-hours .handheld-hours-links a { color: #fff; text-decoration: none; font-style: italic; }
+  #header-hours .handheld-hours-links a { color: #005581; text-decoration: none; font-style: italic; }
   #header-hours .handheld-hours-links a:hover { text-decoration: underline; }
 }
 
