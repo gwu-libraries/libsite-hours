@@ -7,7 +7,7 @@ $spec1dayname = 'Thursday';
 $spec1month = '12';
 $spec1open = '7:11AM';
 $spec1close = '10:11PM';
-$spec1string = 'closing at 10:00PM TEST';
+$spec1string = 'closing at 10:00PM';
 
 $spec2day = '40';
 $spec2dayname = 'Thursday';
