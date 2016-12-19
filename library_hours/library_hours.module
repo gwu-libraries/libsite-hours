@@ -24,6 +24,9 @@ function getDay($group, $libval) {
 
   $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=" . $libval . "&daycount=1";
 
+  // set var for building closure (from admin config).
+  $buildingClosed = closed_get_option();
+
   // Set cache file name and path.
   $cacheFile = $group . 'Hours-wrlc-day';
   $path = '/tmp/' . $cacheFile . '.cache';
@@ -44,9 +47,9 @@ function getDay($group, $libval) {
   $jsondata = $wrlc_json;
   $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
 
-  // Check for valid json.
+  // Check for valid json and building closure status (default = closed).
   $jsonCheck = json_decode($jsondatafixed);
-  if (json_last_error() === JSON_ERROR_NONE) {
+  if (json_last_error() === JSON_ERROR_NONE and $buildingClosed != "default") {
 
     $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
 
@@ -76,13 +79,15 @@ function getDay($group, $libval) {
     if ($todayDay == "by appointment") {
       $todayOpen = "(by appointent)";
     }
-
     if (isset($hoursAPI['library']['week'][0]['holiday'])) {
       $todayString = "<p>" . $hoursAPI['library']['week'][0]['message'] . "</p>";
     }
     else {
       $todayString = "<p itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu' class='" . $group . "-hours'><time " . $schema . "><span class='" . $group . "-hours-day'>" . $todayDay . "<span class='" . $group . "-hours-day-suffix'> Hours:</span></span> <span class='" . $group . "-hours-time'>" . $todayOpen . $joiner . $todayClose . "</span></time></p>";
     }
+  }
+  elseif ($buildingClosed == "default") {
+    $todayString = "<p>The Gelman Library is closed today<p>";
   }
   else {
     $todayString = "<p>(hours are temporarily unavailable)</p>";
@@ -93,6 +98,7 @@ function getDay($group, $libval) {
 }
 
 /** 
+* (no longer used, replaced by the 'week view' box  in the header).
 * Get the open hours for the day for Gelman using getDay(), 
 * returns html customized for the main building Hours box. 
 */
