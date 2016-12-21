@@ -63,13 +63,13 @@ function getDay($group, $libval) {
     $todayClose = $hoursAPI['library']['week'][0]['close'];
 
 
-    // Temporary hack: pending a fix to the Special Dates table in the API. To use this the $special var should = 'yes', but the close time will show the building lcose time which may not be what you want (later than org/unit close time).
+    // Temporary hack: pending a fix to the Special Dates table in the API. To use this the $special var in special_date.php file should = 'yes'. This only affects the main Gelman Building hours ($libval == 1).
 
     include_once 'special_dates.php';
     $todayNum = date('d');
     $todayMon = date('m');
 
-    if ($special == 'not using this see comment above') {
+    if ($special == 'yes' && $libval == 1) {
 
 	    if ($todayNum == $spec1day && $todayMon == $spec1month) {
 	      // $todayOpen = $spec1open;
@@ -292,7 +292,7 @@ function getWeek($group, $libval) {
     $todayNum = date('d');
     $todayMon = date('m');
 
-    if ($special == 'yes') {
+    if ($special == 'yes' && $libval == 1) {
 
           for($i = 1; $i <= 7; $i++) {
             $var = 'day' . $i . 'Hours';
