@@ -1,5 +1,8 @@
 <?php
 
+  // vars to be used for temp fix of broken Special Dates table in API
+  // include_once 'special_dates.php';
+
 /** 
 * Get the options set in the admin configuration. 
 */ 
@@ -24,6 +27,9 @@ function getDay($group, $libval) {
 
   $API = "https://api.wrlc.org/hours/copy-json.php?lib=gw&libid=" . $libval . "&daycount=1";
 
+  // set var for building closure (from admin config).
+  $buildingClosed = closed_get_option();
+
   // Set cache file name and path.
   $cacheFile = $group . 'Hours-wrlc-day';
   $path = '/tmp/' . $cacheFile . '.cache';
@@ -44,9 +50,9 @@ function getDay($group, $libval) {
   $jsondata = $wrlc_json;
   $jsondatafixed = str_replace("},]}}","}]}}" , $jsondata);
 
-  // Check for valid json.
+  // Check for valid json and building closure status (default = closed).
   $jsonCheck = json_decode($jsondatafixed);
-  if (json_last_error() === JSON_ERROR_NONE) {
+  if (json_last_error() === JSON_ERROR_NONE and $buildingClosed != "default") {
 
     $itemArray  = json_decode($jsondatafixed, true); // Decode JSON to associative array.
 
@@ -55,6 +61,38 @@ function getDay($group, $libval) {
     $todayDay = $hoursAPI['library']['week'][0]['day1'];
     $todayOpen = $hoursAPI['library']['week'][0]['open'];
     $todayClose = $hoursAPI['library']['week'][0]['close'];
+
+
+    // Temporary hack: pending a fix to the Special Dates table in the API. To use this the $special var in special_date.php file should = 'yes'. This only affects the main Gelman Building hours ($libval == 1).
+
+    include_once 'special_dates.php';
+    $todayNum = date('d');
+    $todayMon = date('m');
+
+    if ($special == 'yes' && $libval == 1) {
+
+	    if ($todayNum == $spec1day && $todayMon == $spec1month) {
+	      // $todayOpen = $spec1open;
+	      $todayClose = $spec1close;
+	    }
+	    elseif ($todayNum == $spec2day && $todayMon == $spec2month) {
+	      // $todayOpen = $spec2open;
+	      $todayClose = $spec2close;
+	    }
+	    elseif ($todayNum == $spec3day && $todayMon == $spec3month) {
+	      // $todayOpen = $spec2open;
+	      $todayClose = $spec3close;
+	    }
+	    elseif ($todayNum == $spec4day && $todayMon == $spec4month) {
+	      // $todayOpen = $spec2open;
+	      $todayClose = $spec4close;
+	    }
+
+    }
+
+    // end temp hack
+
+
 
     // this needs to be changed to show full week: schema should show whole week, not daily
     $schema = getSchema($todayOpen, $todayClose); // gets schema.org values 
@@ -76,13 +114,15 @@ function getDay($group, $libval) {
     if ($todayDay == "by appointment") {
       $todayOpen = "(by appointent)";
     }
-
     if (isset($hoursAPI['library']['week'][0]['holiday'])) {
       $todayString = "<p>" . $hoursAPI['library']['week'][0]['message'] . "</p>";
     }
     else {
       $todayString = "<p itemscope itemtype='http://schema.org/Library' itemid='http://library.gwu.edu' class='" . $group . "-hours'><time " . $schema . "><span class='" . $group . "-hours-day'>" . $todayDay . "<span class='" . $group . "-hours-day-suffix'> Hours:</span></span> <span class='" . $group . "-hours-time'>" . $todayOpen . $joiner . $todayClose . "</span></time></p>";
     }
+  }
+  elseif ($buildingClosed == "default") {
+    $todayString = "<p>The Gelman Library is closed today<p>";
   }
   else {
     $todayString = "<p>(hours are temporarily unavailable)</p>";
@@ -93,6 +133,7 @@ function getDay($group, $libval) {
 }
 
 /** 
+* (no longer used, replaced by the 'week view' box  in the header).
 * Get the open hours for the day for Gelman using getDay(), 
 * returns html customized for the main building Hours box. 
 */
@@ -245,6 +286,41 @@ function getWeek($group, $libval) {
       }
     }
 
+    // Temporary hack to fix broken Special Dats table in API.
+
+    include 'special_dates.php';
+    $todayNum = date('d');
+    $todayMon = date('m');
+
+    if ($special == 'yes' && $libval == 1) {
+
+          for($i = 1; $i <= 7; $i++) {
+            $var = 'day' . $i . 'Hours';
+            $dayVar = ($i -1);
+            if (($todayNum + $dayVar) == $spec1day && $todayMon == $spec1month) {
+              // $todayOpen = $spec1open;
+              $$var = $spec1string;
+            }
+            elseif (($todayNum + $dayVar) == $spec2day && $todayMon == $spec2month) {
+              // $todayOpen = $spec1open;
+              $$var = $spec2string;
+            }
+            elseif (($todayNum + $dayVar) == $spec3day && $todayMon == $spec3month) {
+              // $todayOpen = $spec1open;
+              $$var = $spec3string;
+            }
+            elseif (($todayNum + $dayVar) == $spec4day && $todayMon == $spec4month) {
+              // $todayOpen = $spec1open;
+              $$var = $spec4string;
+            }
+
+          }
+
+    }
+
+    // end temp hack
+
+
     $flexHTML = "
       <div class='equalHMRWrap eqWrap'>
         <div class='equalHMR eq'><span class='hoursToday'>" . $day1Day . "</span><br>" . $day1Hours . "</div>
@@ -367,12 +443,50 @@ function gelmanWeek() {
       $day1Hours = "(closed)";
     }
 
+    // Temporary hack to fix broken Special Dats table in API.
+
+    include 'special_dates.php';
+    $todayNum = date('d');
+    $todayMon = date('m');
+
+    if ($special == 'yes') {
+
+          for($i = 1; $i <= 7; $i++) {
+            $var = 'day' . $i . 'Hours';
+            $dayVar = ($i -1);
+            if (($todayNum + $dayVar) == $spec1day && $todayMon == $spec1month) {
+              // $todayOpen = $spec1open;
+              $$var = $spec1string;
+            }
+            elseif (($todayNum + $dayVar) == $spec2day && $todayMon == $spec2month) {
+              // $todayOpen = $spec1open;
+              $$var = $spec2string;
+            }
+            elseif (($todayNum + $dayVar) == $spec3day && $todayMon == $spec3month) {
+              // $todayOpen = $spec1open;
+              $$var = $spec3string;
+            }
+            elseif (($todayNum + $dayVar) == $spec4day && $todayMon == $spec4month) {
+              // $todayOpen = $spec1open;
+              $$var = $spec4string;
+            }
+
+          }
+
+    }
+
+    // end temp hack
+
+
     // Set schema (will pull from getSchema() once that is changed to output week values).
-    if (open24_get_option() == 'default') {                                           $schema = "<time itemprop='openingHours' datetime='Mo,Su'></time>";
+    if (open24_get_option() == 'default') {  
+      $schema = "<time itemprop='openingHours' datetime='Mo,Su'></time>";
     }
     else {
       $schema = "";
     } 
+
+    // $day2Hours = 'var ' . ($todayNum +1) . ' = ' . $spec2day . ' and ' . $todayMon . ' = ' . $spec2month; 
 
     $headerHours = "
   <div class='container' itemscope itemtype='http://schema.org/Library'>

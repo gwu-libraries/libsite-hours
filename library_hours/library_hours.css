@@ -83,56 +83,56 @@
 
 /* Styling for main Hours page block. */
 
-.equalHMRWrap {
+#block-library_hours-library_hours_all .equalHMRWrap {
   /*justify-content: space-between;*/
   flex-wrap: wrap;
 }
-.eqWrap {
+#block-library_hours-library_hours_all .eqWrap {
   display: flex;
 }
-.eq {
+#block-library_hours-library_hours_all .eq {
   padding: 10px;
   border: 1px solid #ccc;
   border-left: 0;
 }
-.headHMR .eq {
+#block-library_hours-library_hours_all .headHMR .eq {
   padding-bottom: 0;  
   border: none;
 }
-.headTitleHMR.eq { padding-left: 0; }
-.eq:first-child {
+#block-library_hours-library_hours_all .headTitleHMR.eq { padding-left: 0; }
+#block-library_hours-library_hours_all .eq:first-child {
   background: #fff;
   border-left: 1px solid #ccc;
   color: #005581;
   border: 1px solid #fff;
 }
-.headHMR .eq:first-child {
+#block-library_hours-library_hours_all .headHMR .eq:first-child {
   color: #333;
   background: #005581;
   border: none;
 }
-.eq:nth-of-type(odd) {
+#block-library_hours-library_hours_all .eq:nth-of-type(odd) {
   /*background: yellow;*/
 }
-.eq:nth-of-type(even) {
+#block-library_hours-library_hours_all .eq:nth-of-type(even) {
   /*background: lightblue;*/
 }
-.paddingBlock {
+#block-library_hours-library_hours_all .paddingBlock {
   padding: 0;
 }
-.paddingBlock h3 { 
+#block-library_hours-library_hours_all .paddingBlock h3 { 
   font-weight: bold; 
   margin: 0; 
 }
-.equalHMR {
+#block-library_hours-library_hours_all .equalHMR {
   width: 12%;
   margin-bottom: 2%;
 }
-.headHMR .headTitleHMR {
+#block-library_hours-library_hours_all .headHMR .headTitleHMR {
   min-width: 30%;
   margin-bottom: 0;
 } 
-.headHMR .headTextHMR {
+#block-library_hours-library_hours_all .headHMR .headTextHMR {
   min-width: 56%;
   margin-bottom: 0;
 }
@@ -152,21 +152,21 @@
 }
 
 @media screen and (max-width:950px) {
-  .equalHMR { width: 11%; }
+  #block-library_hours-library_hours_all .equalHMR { width: 11%; }
 }
 
 @media screen and (max-width:850px) {
-  .headHMR .headTitleHMR {
+  #block-library_hours-library_hours_all .headHMR .headTitleHMR {
     width: 90%;
   }
-  .headHMR .headTextHMR {
+  #block-library_hours-library_hours_all .headHMR .headTextHMR {
     padding-left: 0;
     padding-top: 1px;
   }
 }
 
 @media screen and (max-width:750px) {
-  .equalHMR { width: 10%; }
+  #block-library_hours-library_hours_all .equalHMR { width: 10%; }
 }
 
 @media screen and (max-width:720px) {
@@ -191,10 +191,10 @@
 }
 
 @media screen and (max-width:640px) {
-  .equalHMR { width: 21%; }
-  .eq { padding: 6px; }
-  .eq:nth-child(5) { border-left: 1px solid #ccc; }
-  .paddingBlock h3 { margin-top: 0.5em; }
+  #block-library_hours-library_hours_all .equalHMR { width: 21%; }
+  #block-library_hours-library_hours_all .eq { padding: 6px; }
+  #block-library_hours-library_hours_all .eq:nth-child(5) { border-left: 1px solid #ccc; }
+  #block-library_hours-library_hours_all .paddingBlock h3 { margin-top: 0.5em; }
 }
 
 @media screen and (max-width:360px) {
