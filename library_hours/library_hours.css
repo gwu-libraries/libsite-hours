@@ -101,14 +101,14 @@
 }
 #block-library_hours-library_hours_all .headTitleHMR.eq { padding-left: 0; }
 #block-library_hours-library_hours_all .eq:first-child {
-  background: #fff;
+  color: #fff;
   border-left: 1px solid #ccc;
-  color: #005581;
+  background: #005581;
   border: 1px solid #fff;
 }
 #block-library_hours-library_hours_all .headHMR .eq:first-child {
   color: #333;
-  background: #005581;
+  background: #fff;
   border: none;
 }
 #block-library_hours-library_hours_all .eq:nth-of-type(odd) {
