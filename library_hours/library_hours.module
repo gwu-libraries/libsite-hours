@@ -607,7 +607,7 @@ getWeek('write','4') .
     <h3>Tech Commons</h3>
   </div>
   <div class='headTextHMR eq'>
-    <p class='hoursText'>Lower Level B03 &bull; 202.994.7041</p>
+    <p class='hoursText'>Lower Level B03 &bull; <a href='https://it.gwu.edu/tech-commons' target='_blank'>it.gwu.edu/tech-commons</a></p>
   </div>
 </div>" .
 getWeek('commons','5') .
