@@ -1,7 +1,7 @@
 Libsite-Hours
 =============
 
-Drupal 7 Module for Library hours of operation (or any academic organization).
+Drupal 7 Module for Library hours of operation (or any academic organization). Place the library_hours folder in your `sites/all/modules` directory.
 
 Hours Week: displays hours for all of our library units with public hours in a "today forward" format (today + 6 days) including a version for the header.
 
