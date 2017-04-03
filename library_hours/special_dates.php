@@ -1,8 +1,13 @@
 <?php
-// set $special =  'yes' to override hours with these values. Module logic checks against up to 4 special dates below. Set unused dates to something that won't match, like $spec4day = '40'.
-$special = 'yes';
+/* Set $special =  'yes' to override hours with these values. 
+*  Module logic checks against up to 4 special dates below.
+*/
+$special = 'no';
+/* $spec1day = day of month.
+*  Set unused dates to something that won't match, like $spec4day = '40'.
+*/
 
-$spec1day = '22';
+$spec1day = '40';
 $spec1dayname = 'Thursday';
 $spec1month = '12';
 $spec1open = '7:11AM';
