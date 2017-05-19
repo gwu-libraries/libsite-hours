@@ -604,15 +604,6 @@ getWeek('ask','3') .
 getWeek('write','4') .
 "<div class='headHMR equalHMRWrap eqWrap'>
   <div class='headTitleHMR eq'>
-    <h3>Tech Commons</h3>
-  </div>
-  <div class='headTextHMR eq'>
-    <p class='hoursText'>Lower Level B03 &bull; <a href='https://it.gwu.edu/tech-commons' target='_blank'>it.gwu.edu/tech-commons</a></p>
-  </div>
-</div>" .
-getWeek('commons','5') .
-"<div class='headHMR equalHMRWrap eqWrap'>
-  <div class='headTitleHMR eq'>
     <h3>National Security Archive</h3>
   </div>
   <div class='headTextHMR eq'>
