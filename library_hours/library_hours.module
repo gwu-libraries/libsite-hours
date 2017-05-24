@@ -589,7 +589,7 @@ getWeek('circ','2') .
     <h3>Ask Us Desk <strong>**</strong></h3>
   </div>
   <div class='headTextHMR eq'>
-    <p class='hoursText'>202.994.6048 &bull; refdesk@gwu.edu</p>
+    <p class='hoursText'>202.994.6048 &bull; askus@gwu.edu</p>
   </div>
 </div>" .
 getWeek('ask','3') .
